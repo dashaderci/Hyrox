@@ -3,15 +3,14 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
-  <title>Hyrox Trainer</title>
+  <title>Biohack + Hyrox</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <style>
     *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
-    body{background:#fff;font-family:'DM Sans',system-ui,sans-serif;overscroll-behavior:none;-webkit-font-smoothing:antialiased}
-    #root{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
-    input,select,textarea{font-family:'DM Sans',system-ui,sans-serif}
+    body{background:#fff;font-family:"DM Sans",system-ui,sans-serif;overscroll-behavior:none;-webkit-font-smoothing:antialiased}
+    input,select,textarea{font-family:"DM Sans",system-ui,sans-serif;-webkit-appearance:none}
+    input::placeholder,textarea::placeholder{color:#C7C7CC}
     ::-webkit-scrollbar{display:none}
   </style>
 </head>
@@ -25,96 +24,35 @@ var _excluded = ["name"];
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
 function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
-function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 var _React = React,
   useState = _React.useState,
   useEffect = _React.useEffect,
-  useMemo = _React.useMemo;
+  useMemo = _React.useMemo,
+  useRef = _React.useRef;
 
-// ── SIMPLE BAR CHART (no external deps) ─────────────────────────
-function SimpleBarChart(_ref) {
-  var data = _ref.data,
-    dataKey = _ref.dataKey,
-    xKey = _ref.xKey,
-    _ref$color = _ref.color,
-    color = _ref$color === void 0 ? '#FF375F' : _ref$color,
-    _ref$height = _ref.height,
-    height = _ref$height === void 0 ? 160 : _ref$height;
-  if (!data || data.length === 0) return null;
-  var max = Math.max.apply(Math, _toConsumableArray(data.map(function (d) {
-    return d[dataKey] || 0;
-  }))) || 1;
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'flex-end',
-      gap: 6,
-      height: height,
-      padding: '0 4px'
-    }
-  }, data.map(function (d, i) {
-    var pct = (d[dataKey] || 0) / max;
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 4,
-        height: '100%',
-        justifyContent: 'flex-end'
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 9,
-        color: '#86868B',
-        fontFamily: 'DM Mono, monospace'
-      }
-    }, d[dataKey] || 0), /*#__PURE__*/React.createElement("div", {
-      style: {
-        width: '100%',
-        borderRadius: '6px 6px 0 0',
-        background: "linear-gradient(180deg, ".concat(color, ", #FF6B9D)"),
-        height: "".concat(Math.max(pct * (height - 40), 4), "px"),
-        transition: 'height .3s'
-      }
-    }), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 9,
-        color: '#86868B',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        maxWidth: '100%',
-        textAlign: 'center'
-      }
-    }, d[xKey]));
-  }));
-}
-
-// ── SVG ICONS ────────────────────────────────────────────────────
-function Ic(_ref2) {
-  var paths = _ref2.paths,
-    _ref2$size = _ref2.size,
-    size = _ref2$size === void 0 ? 20 : _ref2$size,
-    _ref2$stroke = _ref2.stroke,
-    stroke = _ref2$stroke === void 0 ? 'currentColor' : _ref2$stroke,
-    _ref2$sw = _ref2.sw,
-    sw = _ref2$sw === void 0 ? 1.8 : _ref2$sw,
-    style = _ref2.style;
+// ── ICONS ────────────────────────────────────────────────────────
+function Ic(_ref) {
+  var paths = _ref.paths,
+    _ref$size = _ref.size,
+    size = _ref$size === void 0 ? 20 : _ref$size,
+    _ref$stroke = _ref.stroke,
+    stroke = _ref$stroke === void 0 ? 'currentColor' : _ref$stroke,
+    _ref$sw = _ref.sw,
+    sw = _ref$sw === void 0 ? 1.8 : _ref$sw,
+    style = _ref.style;
   return /*#__PURE__*/React.createElement("svg", {
     width: size,
     height: size,
@@ -133,39 +71,29 @@ function Ic(_ref2) {
   }));
 }
 var ICONS = {
-  Sparkles: function Sparkles(p) {
-    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
-      paths: ["m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z", "M5 3v4", "M19 17v4", "M3 5h4", "M17 19h4"]
-    }));
-  },
-  Calendar: function Calendar(p) {
+  Today: function Today(p) {
     return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
       paths: ["M8 2v4", "M16 2v4", "M3 10h18", "M21 8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8z"]
     }));
   },
-  Activity: function Activity(p) {
+  Plan: function Plan(p) {
     return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
-      paths: ["M22 12h-4l-3 9L9 3l-3 9H2"]
+      paths: ["M9 11l3 3L22 4", "M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"]
     }));
   },
-  BarChart3: function BarChart3(p) {
+  Food: function Food(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M15 11h.01", "M11 15h.01", "M16 16h.01", "m2 16 20-8-8 20-4-8z"]
+    }));
+  },
+  Stats: function Stats(p) {
     return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
       paths: ["M3 3v18h18", "M18 17V9", "M13 17V5", "M8 17v-3"]
     }));
   },
-  BookOpen: function BookOpen(p) {
+  AI: function AI(p) {
     return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
-      paths: ["M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z", "M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"]
-    }));
-  },
-  Flame: function Flame(p) {
-    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
-      paths: ["M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"]
-    }));
-  },
-  Plus: function Plus(p) {
-    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
-      paths: ["M5 12h14", "M12 5v14"]
+      paths: ["m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z", "M5 3v4", "M19 17v4", "M3 5h4", "M17 19h4"]
     }));
   },
   Check: function Check(p) {
@@ -173,59 +101,29 @@ var ICONS = {
       paths: ["M20 6 9 17l-5-5"]
     }));
   },
+  Plus: function Plus(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M5 12h14", "M12 5v14"]
+    }));
+  },
   X: function X(p) {
     return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
       paths: ["M18 6 6 18", "M6 6l12 12"]
     }));
   },
-  ChevronDown: function ChevronDown(p) {
+  Trash: function Trash(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M3 6h18", "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"]
+    }));
+  },
+  ChevDown: function ChevDown(p) {
     return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
       paths: ["m6 9 6 6 6-6"]
     }));
   },
-  Trash2: function Trash2(p) {
+  Send: function Send(p) {
     return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
-      paths: ["M3 6h18", "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2", "M10 11v6", "M14 11v6"]
-    }));
-  },
-  Trophy: function Trophy(p) {
-    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
-      paths: ["M6 9H4.5a2.5 2.5 0 0 1 0-5H6", "M18 9h1.5a2.5 2.5 0 0 0 0-5H18", "M4 22h16", "M10 14.66V17a2 2 0 0 1-2 2h8a2 2 0 0 1-2-2v-2.34", "M18 2H6v7a6 6 0 0 0 12 0V2Z"]
-    }));
-  },
-  Clock: function Clock(p) {
-    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
-      paths: ["M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z", "M12 6v6l4 2"]
-    }));
-  },
-  TrendingUp: function TrendingUp(p) {
-    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
-      paths: ["M22 7 13.5 15.5l-5-5L2 17", "M16 7h6v6"]
-    }));
-  },
-  Zap: function Zap(p) {
-    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
-      paths: ["M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"]
-    }));
-  },
-  Target: function Target(p) {
-    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
-      paths: ["M12 12m-10 0a10 10 0 1 0 20 0a10 10 0 1 0-20 0", "M12 12m-6 0a6 6 0 1 0 12 0a6 6 0 1 0-12 0", "M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0"]
-    }));
-  },
-  Heart: function Heart(p) {
-    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
-      paths: ["M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"]
-    }));
-  },
-  Coffee: function Coffee(p) {
-    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
-      paths: ["M10 2v2", "M14 2v2", "M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 0 1 4 4v3a2 2 0 0 1-2 2h-1"]
-    }));
-  },
-  Droplet: function Droplet(p) {
-    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
-      paths: ["M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"]
+      paths: ["M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"]
     }));
   },
   Pencil: function Pencil(p) {
@@ -237,229 +135,1222 @@ var ICONS = {
     return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
       paths: ["M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8", "M3 3v5h5"]
     }));
+  },
+  Settings: function Settings(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z", "M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0-6 0"]
+    }));
+  },
+  Clock: function Clock(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z", "M12 6v6l4 2"]
+    }));
+  },
+  Sparkles: function Sparkles(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"]
+    }));
   }
 };
-function Icon(_ref3) {
-  var name = _ref3.name,
-    p = _objectWithoutProperties(_ref3, _excluded);
+function Icon(_ref2) {
+  var name = _ref2.name,
+    p = _objectWithoutProperties(_ref2, _excluded);
   var C = ICONS[name];
-  return C ? /*#__PURE__*/React.createElement(C, p) : null;
+  return C ? React.createElement(C, p) : null;
 }
 
-// ── DATA ─────────────────────────────────────────────────────────
-var PROGRAM = [].concat(_toConsumableArray(Array.from({
-  length: 4
-}, function (_, i) {
-  return {
-    week: i + 1,
-    phase: 'Фундамент',
-    phaseNum: 1,
-    focus: 'База + техника станций',
-    days: [{
-      day: 'ПН',
-      type: 'hyrox',
-      title: 'Hyrox техника A',
-      detail: '3 станции × 3 раунда: SkiErg 250м • Wall balls 15 • Farmers 50м (12кг). Отдых 90с между.',
-      duration: 50
-    }, {
-      day: 'ВТ',
-      type: 'run',
-      title: 'Бег Zone 2',
-      detail: "".concat(30 + i * 5, " \u043C\u0438\u043D \u0432 \u0440\u0430\u0437\u0433\u043E\u0432\u043E\u0440\u043D\u043E\u043C \u0442\u0435\u043C\u043F\u0435. \u041F\u0443\u043B\u044C\u0441 130-145."),
-      duration: 30 + i * 5
-    }, {
-      day: 'СР',
-      type: 'strength',
-      title: 'Сила: нижняя + кор',
-      detail: 'Приседания 4×8 • Выпады 3×10/нога • Румынская тяга 3×10 • Планка 3×45с',
-      duration: 45
-    }, {
-      day: 'ЧТ',
-      type: 'pilates',
-      title: 'Пилатес / мобильность',
-      detail: 'Кор, ягодицы, гибкость. Фокус на ТВА и тазобедренные.',
-      duration: 45
-    }, {
-      day: 'ПТ',
-      type: 'hyrox',
-      title: 'Hyrox техника B',
-      detail: '3 станции × 3 раунда: Гребля 250м • Burpee broad jump 10 • Сэндбэг выпады 20м (8кг)',
-      duration: 50
-    }, {
-      day: 'СБ',
-      type: i % 2 === 0 ? 'tennis' : 'run',
-      title: i % 2 === 0 ? 'Теннис' : 'Длинный бег',
-      detail: i % 2 === 0 ? 'Игра 60-90 мин.' : "\u041B\u0451\u0433\u043A\u0438\u0439 \u0431\u0435\u0433 ".concat(40 + i * 5, " \u043C\u0438\u043D."),
-      duration: i % 2 === 0 ? 75 : 40 + i * 5
-    }, {
-      day: 'ВС',
-      type: 'rest',
-      title: 'Отдых',
-      detail: 'Сон, прогулка, растяжка.',
-      duration: 0
-    }]
-  };
-})), _toConsumableArray(Array.from({
-  length: 5
-}, function (_, i) {
-  return {
-    week: i + 5,
-    phase: 'Объём',
-    phaseNum: 2,
-    focus: 'Компромиссный бег + объём',
-    days: [{
-      day: 'ПН',
-      type: 'hyrox',
-      title: 'Compromised run',
-      detail: "4 \xD7 (400\u043C \u0431\u0435\u0433 + \u0441\u0442\u0430\u043D\u0446\u0438\u044F). Wall balls 20 / SkiErg 200\u043C / Burpees 10 / Farmers 50\u043C.",
-      duration: 55
-    }, {
-      day: 'ВТ',
-      type: 'run',
-      title: 'Интервалы',
-      detail: "".concat(6 + i, " \xD7 400\u043C \u0432 \u0431\u044B\u0441\u0442\u0440\u043E\u043C \u0442\u0435\u043C\u043F\u0435, \u043E\u0442\u0434\u044B\u0445 90\u0441."),
-      duration: 45
-    }, {
-      day: 'СР',
-      type: 'strength',
-      title: 'Сила фулбоди',
-      detail: 'Приседания 4×6 • Жим стоя 4×8 • Тяга 4×8 • Болгарские выпады 3×8',
-      duration: 55
-    }, {
-      day: 'ЧТ',
-      type: 'pilates',
-      title: 'Пилатес',
-      detail: 'Кор и стабильность таза.',
-      duration: 45
-    }, {
-      day: 'ПТ',
-      type: 'hyrox',
-      title: 'Hyrox 6 станций',
-      detail: '2 раунда: SkiErg 500м • Sled push • Sled pull • Burpees 10 • Гребля 500м • Wall balls 25',
-      duration: 60
-    }, {
-      day: 'СБ',
-      type: i % 2 === 0 ? 'run' : 'tennis',
-      title: i % 2 === 0 ? 'Длинный бег' : 'Теннис',
-      detail: i % 2 === 0 ? "".concat(50 + i * 5, " \u043C\u0438\u043D \u043B\u0451\u0433\u043A\u043E.") : 'Игра 60-90 мин.',
-      duration: i % 2 === 0 ? 50 + i * 5 : 75
-    }, {
-      day: 'ВС',
-      type: 'rest',
-      title: 'Отдых',
-      detail: 'Сон 8+ часов. Foam roller.',
-      duration: 0
-    }]
-  };
-})), _toConsumableArray(Array.from({
-  length: 5
-}, function (_, i) {
-  return {
-    week: i + 10,
-    phase: 'Специфика',
-    phaseNum: 3,
-    focus: 'Brick + соревновательный темп',
-    days: [{
-      day: 'ПН',
-      type: 'hyrox',
-      title: 'Brick workout',
-      detail: "4 \xD7 (800\u043C \u0431\u0435\u0433 + \u0441\u0442\u0430\u043D\u0446\u0438\u044F). Wall balls 30 / \u0413\u0440\u0435\u0431\u043B\u044F 400\u043C / SkiErg 400\u043C",
-      duration: 65
-    }, {
-      day: 'ВТ',
-      type: 'run',
-      title: 'Темповый бег',
-      detail: '10 мин разминка • 25-30 мин в темпе • 5 мин заминка',
-      duration: 45
-    }, {
-      day: 'СР',
-      type: 'strength',
-      title: 'Сила компаунд',
-      detail: 'Становая 4×5 • Жим 4×6 • Тяга 4×8',
-      duration: 60
-    }, {
-      day: 'ЧТ',
-      type: 'pilates',
-      title: 'Пилатес',
-      detail: 'Восстановительная сессия + кор.',
-      duration: 45
-    }, {
-      day: 'ПТ',
-      type: 'hyrox',
-      title: 'Mini Hyrox',
-      detail: '4 раунда × (400м + одна станция). Без отдыха.',
-      duration: 50
-    }, {
-      day: 'СБ',
-      type: i % 2 === 0 ? 'run' : 'tennis',
-      title: i % 2 === 0 ? 'Долгий лёгкий бег' : 'Теннис',
-      detail: i % 2 === 0 ? "".concat(55 + i * 3, " \u043C\u0438\u043D Zone 2.") : 'Игра в удовольствие.',
-      duration: i % 2 === 0 ? 55 + i * 3 : 75
-    }, {
-      day: 'ВС',
-      type: 'rest',
-      title: 'Отдых',
-      detail: 'Полное восстановление.',
-      duration: 0
-    }]
-  };
-})), _toConsumableArray(Array.from({
-  length: 4
-}, function (_, i) {
-  return {
-    week: i + 15,
-    phase: 'Пик',
-    phaseNum: 4,
-    focus: 'Half-Hyrox симуляции',
-    days: [{
-      day: 'ПН',
-      type: 'simulation',
-      title: 'Half Hyrox',
-      detail: '4 раунда: 1000м бег → станция в порядке гонки. Боевые веса.',
-      duration: 75
-    }, {
-      day: 'ВТ',
-      type: 'run',
-      title: 'Интервалы 800',
-      detail: '6 × 800м, отдых 2 мин.',
-      duration: 50
-    }, {
-      day: 'СР',
-      type: 'strength',
-      title: 'Сила (поддержка)',
-      detail: 'Приседания 3×5 • Тяга 3×5 • Жим 3×6.',
-      duration: 45
-    }, {
-      day: 'ЧТ',
-      type: 'pilates',
-      title: 'Восстановление',
-      detail: 'Лёгкий пилатес + foam roller.',
-      duration: 40
-    }, {
-      day: 'ПТ',
-      type: 'simulation',
-      title: 'Mini Hyrox боевой',
-      detail: '4 раунда: 1000м + станция с реальными весами.',
-      duration: 65
-    }, {
-      day: 'СБ',
-      type: 'run',
-      title: 'Long + ускорения',
-      detail: '40 мин лёгко + 6 × 100м ускорений.',
-      duration: 50
-    }, {
-      day: 'ВС',
-      type: 'rest',
-      title: 'Отдых',
-      detail: 'Полное восстановление.',
-      duration: 0
-    }]
-  };
-})), [{
+// ── CONSTANTS ────────────────────────────────────────────────────
+var P = '#FF375F';
+var todayISO = function todayISO() {
+  return new Date().toISOString().split('T')[0];
+};
+var fmtDate = function fmtDate(iso) {
+  if (!iso) return '';
+  var d = iso.length > 10 ? new Date(iso) : new Date(iso + 'T12:00:00');
+  return d.toLocaleDateString('ru-RU', {
+    day: 'numeric',
+    month: 'short'
+  });
+};
+var fmtLong = function fmtLong(iso) {
+  if (!iso) return '';
+  var d = iso.length > 10 ? new Date(iso) : new Date(iso + 'T12:00:00');
+  return d.toLocaleDateString('ru-RU', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long'
+  });
+};
+var addDays = function addDays(isoDate, n) {
+  var d = new Date(isoDate + 'T12:00:00');
+  d.setDate(d.getDate() + n);
+  return d.toISOString().split('T')[0];
+};
+var daysBetween = function daysBetween(d1, d2) {
+  return Math.floor((new Date(d2) - new Date(d1)) / 86400000);
+};
+var WHOOP_FIELDS = [{
+  key: 'recovery',
+  label: 'Recovery',
+  unit: '%',
+  color: '#34C759'
+}, {
+  key: 'hrv',
+  label: 'HRV',
+  unit: 'ms',
+  color: '#007AFF'
+}, {
+  key: 'rhr',
+  label: 'Rest HR',
+  unit: 'bpm',
+  color: P
+}, {
+  key: 'sleepScore',
+  label: 'Sleep %',
+  unit: '%',
+  color: '#AF52DE'
+}, {
+  key: 'sleepDuration',
+  label: 'Сон ч',
+  unit: 'h',
+  color: '#5856D6'
+}, {
+  key: 'strain',
+  label: 'Strain',
+  unit: '/21',
+  color: '#FF9500'
+}];
+var PROTOCOLS = [{
+  key: 'sauna',
+  label: 'Сауна',
+  emoji: '🧖'
+}, {
+  key: 'iceBath',
+  label: 'Ice Bath',
+  emoji: '🧊'
+}, {
+  key: 'creatine',
+  label: 'Креатин',
+  emoji: '💊'
+}, {
+  key: 'magnesium',
+  label: 'Магний',
+  emoji: '🌙'
+}, {
+  key: 'omega3',
+  label: 'Омега-3',
+  emoji: '🐟'
+}, {
+  key: 'electrolytes',
+  label: 'Электролиты',
+  emoji: '⚡'
+}, {
+  key: 'mouthTape',
+  label: 'Mouth Tape',
+  emoji: '😶'
+}, {
+  key: 'sleepCold',
+  label: 'Сон в холоде',
+  emoji: '❄️'
+}, {
+  key: 'sunlight',
+  label: 'Солнце утром',
+  emoji: '☀️'
+}, {
+  key: 'coldShower',
+  label: 'Хол. душ',
+  emoji: '🚿'
+}, {
+  key: 'meditation',
+  label: 'Медитация',
+  emoji: '🧠'
+}, {
+  key: 'noAlcohol',
+  label: 'Без алкоголя',
+  emoji: '🚫'
+}, {
+  key: 'coffeBefore12',
+  label: 'Кофе до 12:00',
+  emoji: '☕'
+}, {
+  key: 'nmn',
+  label: 'NMN',
+  emoji: '🔬'
+}, {
+  key: 'glycine',
+  label: 'Глицин',
+  emoji: '🤍'
+}, {
+  key: 'stretching',
+  label: 'Растяжка',
+  emoji: '🧘'
+}, {
+  key: 'skincare',
+  label: 'Skincare',
+  emoji: '✨'
+}, {
+  key: 'reading',
+  label: 'Чтение',
+  emoji: '📚'
+}, {
+  key: 'hyperbaric',
+  label: 'Hyperbaric',
+  emoji: '🫧'
+}, {
+  key: 'redLight',
+  label: 'Red Light',
+  emoji: '🔴'
+}];
+var TYPE_META = {
+  hyrox: {
+    label: 'Hyrox',
+    color: '#FF375F',
+    soft: '#FFE5EC'
+  },
+  run: {
+    label: 'Бег',
+    color: '#FF6B9D',
+    soft: '#FFE9F1'
+  },
+  tennis: {
+    label: 'Теннис',
+    color: '#FF9F7A',
+    soft: '#FFEEE5'
+  },
+  pilates: {
+    label: 'Пилатес',
+    color: '#C77DFF',
+    soft: '#F5E5FF'
+  },
+  strength: {
+    label: 'Сила',
+    color: '#FF5C8A',
+    soft: '#FFE3EC'
+  },
+  swim: {
+    label: 'Плавание',
+    color: '#007AFF',
+    soft: '#E5F0FF'
+  },
+  rest: {
+    label: 'Отдых',
+    color: '#A0A0A8',
+    soft: '#F2F2F7'
+  }
+};
+var HYROX_EXERCISES = [{
+  key: 'skierg',
+  name: 'SkiErg',
+  emoji: '🎿',
+  fields: [{
+    k: 'distance',
+    l: 'Метры',
+    ph: '1000'
+  }, {
+    k: 'time',
+    l: 'Время',
+    ph: '5:12'
+  }]
+}, {
+  key: 'sled_push',
+  name: 'Sled Push',
+  emoji: '🛷',
+  fields: [{
+    k: 'distance',
+    l: 'Метры',
+    ph: '50'
+  }, {
+    k: 'weight',
+    l: 'Вес кг',
+    ph: '102'
+  }, {
+    k: 'time',
+    l: 'Время',
+    ph: '2:30'
+  }]
+}, {
+  key: 'sled_pull',
+  name: 'Sled Pull',
+  emoji: '🪢',
+  fields: [{
+    k: 'distance',
+    l: 'Метры',
+    ph: '50'
+  }, {
+    k: 'weight',
+    l: 'Вес кг',
+    ph: '78'
+  }, {
+    k: 'time',
+    l: 'Время',
+    ph: '3:00'
+  }]
+}, {
+  key: 'burpees',
+  name: 'Burpee B.Jumps',
+  emoji: '🤸',
+  fields: [{
+    k: 'distance',
+    l: 'Метры',
+    ph: '80'
+  }, {
+    k: 'time',
+    l: 'Время',
+    ph: '5:00'
+  }]
+}, {
+  key: 'rower',
+  name: 'Гребля',
+  emoji: '🚣',
+  fields: [{
+    k: 'distance',
+    l: 'Метры',
+    ph: '1000'
+  }, {
+    k: 'time',
+    l: 'Время',
+    ph: '4:30'
+  }]
+}, {
+  key: 'farmers',
+  name: 'Farmers Carry',
+  emoji: '💪',
+  fields: [{
+    k: 'distance',
+    l: 'Метры',
+    ph: '200'
+  }, {
+    k: 'weight',
+    l: 'Вес кг',
+    ph: '16'
+  }, {
+    k: 'time',
+    l: 'Время',
+    ph: '2:00'
+  }]
+}, {
+  key: 'sandbag',
+  name: 'Sandbag Lunges',
+  emoji: '🎒',
+  fields: [{
+    k: 'distance',
+    l: 'Метры',
+    ph: '100'
+  }, {
+    k: 'weight',
+    l: 'Вес кг',
+    ph: '10'
+  }, {
+    k: 'time',
+    l: 'Время',
+    ph: '4:00'
+  }]
+}, {
+  key: 'wallballs',
+  name: 'Wall Balls',
+  emoji: '🏐',
+  fields: [{
+    k: 'reps',
+    l: 'Повторения',
+    ph: '100'
+  }, {
+    k: 'weight',
+    l: 'Вес кг',
+    ph: '4'
+  }, {
+    k: 'time',
+    l: 'Время',
+    ph: '5:30'
+  }]
+}, {
+  key: 'run',
+  name: 'Бег 1000м',
+  emoji: '🏃',
+  fields: [{
+    k: 'time',
+    l: 'Время',
+    ph: '5:00'
+  }]
+}];
+var DEFAULT_GOALS = {
+  calories: 1500,
+  protein: 120,
+  carbs: 150,
+  fat: 60
+};
+var NUT_FIELDS = [{
+  key: 'calories',
+  label: 'Калории',
+  unit: 'ккал',
+  color: '#FF375F'
+}, {
+  key: 'protein',
+  label: 'Белок',
+  unit: 'г',
+  color: '#007AFF'
+}, {
+  key: 'carbs',
+  label: 'Углеводы',
+  unit: 'г',
+  color: '#FF9500'
+}, {
+  key: 'fat',
+  label: 'Жиры',
+  unit: 'г',
+  color: '#34C759'
+}];
+
+// Program
+var PROGRAM = [{
+  week: 1,
+  phase: 'Фундамент',
+  phaseNum: 1,
+  days: [{
+    day: 'ПН',
+    type: 'hyrox',
+    title: 'Hyrox техника A',
+    detail: '3 станции × 3 раунда: SkiErg 250м • Wall balls 15 • Farmers 50м (12кг)',
+    duration: 50
+  }, {
+    day: 'ВТ',
+    type: 'run',
+    title: 'Бег Zone 2',
+    detail: '30 мин, пульс 130-145.',
+    duration: 30
+  }, {
+    day: 'СР',
+    type: 'strength',
+    title: 'Сила: нижняя + кор',
+    detail: 'Приседания 4×8 • Выпады 3×10 • Румынская тяга 3×10 • Планка 3×45с',
+    duration: 45
+  }, {
+    day: 'ЧТ',
+    type: 'pilates',
+    title: 'Пилатес',
+    detail: 'Кор, ягодицы, гибкость.',
+    duration: 45
+  }, {
+    day: 'ПТ',
+    type: 'hyrox',
+    title: 'Hyrox техника B',
+    detail: '3 станции × 3 раунда: Гребля 250м • Burpees 10 • Sandbag 20м',
+    duration: 50
+  }, {
+    day: 'СБ',
+    type: 'tennis',
+    title: 'Теннис',
+    detail: 'Игра 60-90 мин.',
+    duration: 75
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Сон, прогулка, растяжка.',
+    duration: 0
+  }]
+}, {
+  week: 2,
+  phase: 'Фундамент',
+  phaseNum: 1,
+  days: [{
+    day: 'ПН',
+    type: 'hyrox',
+    title: 'Hyrox техника A',
+    detail: '3 станции × 3 раунда: SkiErg 300м • Wall balls 18 • Farmers 50м',
+    duration: 50
+  }, {
+    day: 'ВТ',
+    type: 'run',
+    title: 'Бег Zone 2',
+    detail: '35 мин, пульс 130-145.',
+    duration: 35
+  }, {
+    day: 'СР',
+    type: 'strength',
+    title: 'Сила: нижняя + кор',
+    detail: 'Приседания 4×8 • Выпады 3×12 • Румынская тяга 3×10',
+    duration: 45
+  }, {
+    day: 'ЧТ',
+    type: 'pilates',
+    title: 'Пилатес',
+    detail: 'Кор и тазобедренные.',
+    duration: 45
+  }, {
+    day: 'ПТ',
+    type: 'hyrox',
+    title: 'Hyrox техника B',
+    detail: '3 × 3: Гребля 300м • Burpees 12 • Sandbag 25м',
+    duration: 50
+  }, {
+    day: 'СБ',
+    type: 'run',
+    title: 'Длинный бег',
+    detail: '40 мин лёгко.',
+    duration: 40
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Восстановление.',
+    duration: 0
+  }]
+}, {
+  week: 3,
+  phase: 'Фундамент',
+  phaseNum: 1,
+  days: [{
+    day: 'ПН',
+    type: 'hyrox',
+    title: 'Hyrox 4 станции',
+    detail: '4 станции × 2 раунда: SkiErg 300м • Sled push 25м • Wall balls 15 • Гребля 300м',
+    duration: 55
+  }, {
+    day: 'ВТ',
+    type: 'run',
+    title: 'Бег Zone 2',
+    detail: '35 мин, пульс 130-145.',
+    duration: 35
+  }, {
+    day: 'СР',
+    type: 'strength',
+    title: 'Сила фулбоди',
+    detail: 'Приседания 4×8 • Жим стоя 3×10 • Тяга 3×10 • Планка',
+    duration: 50
+  }, {
+    day: 'ЧТ',
+    type: 'pilates',
+    title: 'Пилатес',
+    detail: 'Кор, гибкость.',
+    duration: 45
+  }, {
+    day: 'ПТ',
+    type: 'hyrox',
+    title: 'Compromised run',
+    detail: '3 × (400м бег + станция)',
+    duration: 50
+  }, {
+    day: 'СБ',
+    type: 'tennis',
+    title: 'Теннис',
+    detail: 'Игра 60-90 мин.',
+    duration: 75
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Восстановление.',
+    duration: 0
+  }]
+}, {
+  week: 4,
+  phase: 'Фундамент',
+  phaseNum: 1,
+  days: [{
+    day: 'ПН',
+    type: 'hyrox',
+    title: 'Hyrox техника A',
+    detail: '4 станции × 3 раунда.',
+    duration: 55
+  }, {
+    day: 'ВТ',
+    type: 'run',
+    title: 'Бег Zone 2',
+    detail: '40 мин, пульс 130-145.',
+    duration: 40
+  }, {
+    day: 'СР',
+    type: 'strength',
+    title: 'Сила: нижняя + кор',
+    detail: 'Приседания 4×8 • Выпады 3×10 • Планка',
+    duration: 45
+  }, {
+    day: 'ЧТ',
+    type: 'pilates',
+    title: 'Пилатес',
+    detail: 'Восстановительная.',
+    duration: 45
+  }, {
+    day: 'ПТ',
+    type: 'hyrox',
+    title: 'Hyrox техника B',
+    detail: '4 × 3: Гребля • Burpees • Sandbag • Farmers',
+    duration: 55
+  }, {
+    day: 'СБ',
+    type: 'run',
+    title: 'Длинный бег',
+    detail: '45 мин лёгко.',
+    duration: 45
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Восстановление.',
+    duration: 0
+  }]
+}, {
+  week: 5,
+  phase: 'Объём',
+  phaseNum: 2,
+  days: [{
+    day: 'ПН',
+    type: 'hyrox',
+    title: 'Compromised run',
+    detail: '4 × (400м бег + станция). Wall balls 20 / SkiErg 200м / Burpees 10.',
+    duration: 55
+  }, {
+    day: 'ВТ',
+    type: 'run',
+    title: 'Интервалы',
+    detail: '6 × 400м, отдых 90с.',
+    duration: 45
+  }, {
+    day: 'СР',
+    type: 'strength',
+    title: 'Сила фулбоди',
+    detail: 'Приседания 4×6 • Жим 4×8 • Тяга 4×8 • Подтягивания',
+    duration: 55
+  }, {
+    day: 'ЧТ',
+    type: 'pilates',
+    title: 'Пилатес',
+    detail: 'Кор и стабильность таза.',
+    duration: 45
+  }, {
+    day: 'ПТ',
+    type: 'hyrox',
+    title: 'Hyrox 6 станций',
+    detail: '2 раунда: SkiErg 500м • Sled push • Sled pull • Burpees • Гребля 500м • Wall balls 25',
+    duration: 60
+  }, {
+    day: 'СБ',
+    type: 'run',
+    title: 'Длинный бег',
+    detail: '50 мин лёгко.',
+    duration: 50
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Сон 8+ часов.',
+    duration: 0
+  }]
+}, {
+  week: 6,
+  phase: 'Объём',
+  phaseNum: 2,
+  days: [{
+    day: 'ПН',
+    type: 'hyrox',
+    title: 'Compromised run',
+    detail: '4 × (400м + станция). Чередуй упражнения.',
+    duration: 55
+  }, {
+    day: 'ВТ',
+    type: 'run',
+    title: 'Интервалы',
+    detail: '7 × 400м, отдых 90с.',
+    duration: 45
+  }, {
+    day: 'СР',
+    type: 'strength',
+    title: 'Сила фулбоди',
+    detail: 'Приседания 4×6 • Жим 4×8 • Тяга 4×8',
+    duration: 55
+  }, {
+    day: 'ЧТ',
+    type: 'pilates',
+    title: 'Пилатес',
+    detail: 'Кор и ягодицы.',
+    duration: 45
+  }, {
+    day: 'ПТ',
+    type: 'hyrox',
+    title: 'Hyrox 6 станций',
+    detail: '2 раунда с боевыми весами.',
+    duration: 65
+  }, {
+    day: 'СБ',
+    type: 'tennis',
+    title: 'Теннис',
+    detail: 'Игра 60-90 мин.',
+    duration: 75
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Восстановление.',
+    duration: 0
+  }]
+}, {
+  week: 7,
+  phase: 'Объём',
+  phaseNum: 2,
+  days: [{
+    day: 'ПН',
+    type: 'hyrox',
+    title: 'Compromised run',
+    detail: '5 × (400м + станция).',
+    duration: 60
+  }, {
+    day: 'ВТ',
+    type: 'run',
+    title: 'Интервалы',
+    detail: '7 × 400м, отдых 90с.',
+    duration: 45
+  }, {
+    day: 'СР',
+    type: 'strength',
+    title: 'Сила фулбоди',
+    detail: 'Увеличь веса. 4×6 основные движения.',
+    duration: 55
+  }, {
+    day: 'ЧТ',
+    type: 'pilates',
+    title: 'Пилатес',
+    detail: 'Задняя цепь и кор.',
+    duration: 45
+  }, {
+    day: 'ПТ',
+    type: 'hyrox',
+    title: 'Hyrox 7 станций',
+    detail: '2 раунда + Farmers carry.',
+    duration: 65
+  }, {
+    day: 'СБ',
+    type: 'run',
+    title: 'Длинный бег',
+    detail: '55 мин лёгко.',
+    duration: 55
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Восстановление.',
+    duration: 0
+  }]
+}, {
+  week: 8,
+  phase: 'Объём',
+  phaseNum: 2,
+  days: [{
+    day: 'ПН',
+    type: 'hyrox',
+    title: 'Compromised run',
+    detail: '5 × (400м + станция).',
+    duration: 60
+  }, {
+    day: 'ВТ',
+    type: 'run',
+    title: 'Интервалы',
+    detail: '8 × 400м, отдых 90с.',
+    duration: 48
+  }, {
+    day: 'СР',
+    type: 'strength',
+    title: 'Сила фулбоди',
+    detail: '4×6 компаунд + подтягивания 4×макс.',
+    duration: 55
+  }, {
+    day: 'ЧТ',
+    type: 'pilates',
+    title: 'Пилатес',
+    detail: 'Восстановление + кор.',
+    duration: 45
+  }, {
+    day: 'ПТ',
+    type: 'hyrox',
+    title: 'Hyrox 8 станций',
+    detail: 'Почти полная гонка, 2 раунда.',
+    duration: 70
+  }, {
+    day: 'СБ',
+    type: 'tennis',
+    title: 'Теннис',
+    detail: 'Игра 60-90 мин.',
+    duration: 75
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Сон 8+ часов.',
+    duration: 0
+  }]
+}, {
+  week: 9,
+  phase: 'Объём',
+  phaseNum: 2,
+  days: [{
+    day: 'ПН',
+    type: 'hyrox',
+    title: 'Compromised run',
+    detail: '5 × (400м + станция).',
+    duration: 60
+  }, {
+    day: 'ВТ',
+    type: 'run',
+    title: 'Интервалы',
+    detail: '8 × 400м, отдых 90с.',
+    duration: 48
+  }, {
+    day: 'СР',
+    type: 'strength',
+    title: 'Сила фулбоди',
+    detail: '4×6 + изоляция слабых мест.',
+    duration: 55
+  }, {
+    day: 'ЧТ',
+    type: 'pilates',
+    title: 'Пилатес',
+    detail: 'Кор и стабильность.',
+    duration: 45
+  }, {
+    day: 'ПТ',
+    type: 'hyrox',
+    title: 'Hyrox симуляция',
+    detail: 'Полный прогон 4 станций + бег.',
+    duration: 70
+  }, {
+    day: 'СБ',
+    type: 'run',
+    title: 'Длинный бег',
+    detail: '60 мин Zone 2.',
+    duration: 60
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Восстановление.',
+    duration: 0
+  }]
+}, {
+  week: 10,
+  phase: 'Специфика',
+  phaseNum: 3,
+  days: [{
+    day: 'ПН',
+    type: 'hyrox',
+    title: 'Brick workout',
+    detail: '4 × (800м + станция). Wall balls 30 / Гребля 400м / SkiErg 400м',
+    duration: 65
+  }, {
+    day: 'ВТ',
+    type: 'run',
+    title: 'Темповый бег',
+    detail: '10 мин разминка • 25 мин темп • 5 мин заминка',
+    duration: 45
+  }, {
+    day: 'СР',
+    type: 'strength',
+    title: 'Сила компаунд',
+    detail: 'Становая 4×5 • Жим 4×6 • Тяга 4×8',
+    duration: 60
+  }, {
+    day: 'ЧТ',
+    type: 'pilates',
+    title: 'Пилатес',
+    detail: 'Восстановительная.',
+    duration: 45
+  }, {
+    day: 'ПТ',
+    type: 'hyrox',
+    title: 'Mini Hyrox',
+    detail: '4 раунда × (400м + станция). Без отдыха.',
+    duration: 50
+  }, {
+    day: 'СБ',
+    type: 'tennis',
+    title: 'Теннис',
+    detail: 'Игра.',
+    duration: 75
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Полное восстановление.',
+    duration: 0
+  }]
+}, {
+  week: 11,
+  phase: 'Специфика',
+  phaseNum: 3,
+  days: [{
+    day: 'ПН',
+    type: 'hyrox',
+    title: 'Brick workout',
+    detail: '4 × (800м + станция).',
+    duration: 65
+  }, {
+    day: 'ВТ',
+    type: 'run',
+    title: 'Темповый бег',
+    detail: '10+25+5 мин.',
+    duration: 45
+  }, {
+    day: 'СР',
+    type: 'strength',
+    title: 'Сила компаунд',
+    detail: 'Становая 4×5 • Приседания 4×5 • Жим 4×6.',
+    duration: 60
+  }, {
+    day: 'ЧТ',
+    type: 'pilates',
+    title: 'Пилатес',
+    detail: 'Кор и задняя цепь.',
+    duration: 45
+  }, {
+    day: 'ПТ',
+    type: 'hyrox',
+    title: 'Mini Hyrox +',
+    detail: '5 раундов × (400м + станция).',
+    duration: 60
+  }, {
+    day: 'СБ',
+    type: 'run',
+    title: 'Долгий лёгкий бег',
+    detail: '58 мин Zone 2.',
+    duration: 58
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Восстановление.',
+    duration: 0
+  }]
+}, {
+  week: 12,
+  phase: 'Специфика',
+  phaseNum: 3,
+  days: [{
+    day: 'ПН',
+    type: 'hyrox',
+    title: 'Brick workout',
+    detail: '4 × (1000м + станция).',
+    duration: 70
+  }, {
+    day: 'ВТ',
+    type: 'run',
+    title: 'Темповый бег',
+    detail: '10+30+5 мин.',
+    duration: 48
+  }, {
+    day: 'СР',
+    type: 'strength',
+    title: 'Сила компаунд',
+    detail: 'Тяжёлые 4×5 все движения.',
+    duration: 60
+  }, {
+    day: 'ЧТ',
+    type: 'pilates',
+    title: 'Пилатес',
+    detail: 'Восстановительная.',
+    duration: 45
+  }, {
+    day: 'ПТ',
+    type: 'hyrox',
+    title: 'Mini Hyrox боевой',
+    detail: '5 × (400м + станция) с боевыми весами.',
+    duration: 65
+  }, {
+    day: 'СБ',
+    type: 'tennis',
+    title: 'Теннис',
+    detail: 'Игра.',
+    duration: 75
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Восстановление.',
+    duration: 0
+  }]
+}, {
+  week: 13,
+  phase: 'Специфика',
+  phaseNum: 3,
+  days: [{
+    day: 'ПН',
+    type: 'hyrox',
+    title: 'Brick workout',
+    detail: '4 × (1000м + станция).',
+    duration: 70
+  }, {
+    day: 'ВТ',
+    type: 'run',
+    title: 'Темповый бег',
+    detail: '10+30+5 мин.',
+    duration: 48
+  }, {
+    day: 'СР',
+    type: 'strength',
+    title: 'Сила',
+    detail: 'Поддерживающая тренировка.',
+    duration: 55
+  }, {
+    day: 'ЧТ',
+    type: 'pilates',
+    title: 'Пилатес',
+    detail: 'Кор.',
+    duration: 45
+  }, {
+    day: 'ПТ',
+    type: 'hyrox',
+    title: 'Half Hyrox',
+    detail: '4 станции в порядке гонки + бег.',
+    duration: 65
+  }, {
+    day: 'СБ',
+    type: 'run',
+    title: 'Долгий лёгкий бег',
+    detail: '61 мин Zone 2.',
+    duration: 61
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Полное восстановление.',
+    duration: 0
+  }]
+}, {
+  week: 14,
+  phase: 'Специфика',
+  phaseNum: 3,
+  days: [{
+    day: 'ПН',
+    type: 'hyrox',
+    title: 'Full Hyrox симуляция',
+    detail: '8 станций в порядке гонки, лёгкий темп.',
+    duration: 80
+  }, {
+    day: 'ВТ',
+    type: 'run',
+    title: 'Темповый бег',
+    detail: '40 мин в среднем темпе.',
+    duration: 40
+  }, {
+    day: 'СР',
+    type: 'strength',
+    title: 'Сила',
+    detail: 'Поддерживающая. 3×5.',
+    duration: 50
+  }, {
+    day: 'ЧТ',
+    type: 'pilates',
+    title: 'Пилатес',
+    detail: 'Восстановление.',
+    duration: 45
+  }, {
+    day: 'ПТ',
+    type: 'hyrox',
+    title: 'Станции — слабые места',
+    detail: 'Прокачай то, что хуже всего.',
+    duration: 55
+  }, {
+    day: 'СБ',
+    type: 'tennis',
+    title: 'Теннис',
+    detail: 'Игра.',
+    duration: 75
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Восстановление.',
+    duration: 0
+  }]
+}, {
+  week: 15,
+  phase: 'Пик',
+  phaseNum: 4,
+  days: [{
+    day: 'ПН',
+    type: 'hyrox',
+    title: 'Half Hyrox боевой',
+    detail: '4 раунда: 1000м + станция. Боевые веса.',
+    duration: 75
+  }, {
+    day: 'ВТ',
+    type: 'run',
+    title: 'Интервалы 800',
+    detail: '6 × 800м, отдых 2 мин.',
+    duration: 50
+  }, {
+    day: 'СР',
+    type: 'strength',
+    title: 'Сила (поддержка)',
+    detail: '3×5 всё. Меньше объём.',
+    duration: 45
+  }, {
+    day: 'ЧТ',
+    type: 'pilates',
+    title: 'Восстановление',
+    detail: 'Лёгкий пилатес + foam roller.',
+    duration: 40
+  }, {
+    day: 'ПТ',
+    type: 'hyrox',
+    title: 'Mini Hyrox боевой',
+    detail: '4 раунда: 1000м + станция.',
+    duration: 65
+  }, {
+    day: 'СБ',
+    type: 'run',
+    title: 'Long + ускорения',
+    detail: '40 мин лёгко + 6 × 100м.',
+    duration: 50
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Восстановление.',
+    duration: 0
+  }]
+}, {
+  week: 16,
+  phase: 'Пик',
+  phaseNum: 4,
+  days: [{
+    day: 'ПН',
+    type: 'hyrox',
+    title: 'Full симуляция',
+    detail: 'Все 8 станций в боевом темпе.',
+    duration: 80
+  }, {
+    day: 'ВТ',
+    type: 'run',
+    title: 'Интервалы 800',
+    detail: '6 × 800м.',
+    duration: 50
+  }, {
+    day: 'СР',
+    type: 'strength',
+    title: 'Сила',
+    detail: '3×5. Поддержка.',
+    duration: 45
+  }, {
+    day: 'ЧТ',
+    type: 'pilates',
+    title: 'Восстановление',
+    detail: 'Foam roller + растяжка.',
+    duration: 40
+  }, {
+    day: 'ПТ',
+    type: 'hyrox',
+    title: 'Слабые станции',
+    detail: 'Прокачай Wall balls и Sled.',
+    duration: 55
+  }, {
+    day: 'СБ',
+    type: 'run',
+    title: 'Long + ускорения',
+    detail: '45 мин + ускорения.',
+    duration: 50
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Восстановление.',
+    duration: 0
+  }]
+}, {
+  week: 17,
+  phase: 'Пик',
+  phaseNum: 4,
+  days: [{
+    day: 'ПН',
+    type: 'hyrox',
+    title: 'Half Hyrox',
+    detail: '4 раунда боевых.',
+    duration: 75
+  }, {
+    day: 'ВТ',
+    type: 'run',
+    title: 'Интервалы',
+    detail: '5 × 800м.',
+    duration: 45
+  }, {
+    day: 'СР',
+    type: 'strength',
+    title: 'Сила',
+    detail: '3×5. Лёгкая.',
+    duration: 45
+  }, {
+    day: 'ЧТ',
+    type: 'pilates',
+    title: 'Восстановление',
+    detail: 'Мобильность.',
+    duration: 40
+  }, {
+    day: 'ПТ',
+    type: 'hyrox',
+    title: 'Тест персональных рекордов',
+    detail: 'Замерь время каждой станции.',
+    duration: 65
+  }, {
+    day: 'СБ',
+    type: 'run',
+    title: 'Длинный бег',
+    detail: '40 мин лёгко.',
+    duration: 40
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Восстановление.',
+    duration: 0
+  }]
+}, {
+  week: 18,
+  phase: 'Пик',
+  phaseNum: 4,
+  days: [{
+    day: 'ПН',
+    type: 'hyrox',
+    title: 'Full Hyrox симуляция',
+    detail: 'Полный прогон в боевом темпе.',
+    duration: 80
+  }, {
+    day: 'ВТ',
+    type: 'run',
+    title: 'Темповый бег',
+    detail: '30 мин в темпе цели.',
+    duration: 40
+  }, {
+    day: 'СР',
+    type: 'strength',
+    title: 'Сила',
+    detail: '3×5. Последняя тяжёлая.',
+    duration: 45
+  }, {
+    day: 'ЧТ',
+    type: 'pilates',
+    title: 'Восстановление',
+    detail: 'Лёгкий пилатес.',
+    duration: 40
+  }, {
+    day: 'ПТ',
+    type: 'hyrox',
+    title: 'Лёгкие станции',
+    detail: 'Техника, не интенсивность.',
+    duration: 45
+  }, {
+    day: 'СБ',
+    type: 'run',
+    title: 'Лёгкий бег',
+    detail: '30 мин.',
+    duration: 30
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Восстановление.',
+    duration: 0
+  }]
+}, {
   week: 19,
   phase: 'Подводка',
   phaseNum: 5,
-  focus: 'Снижение объёма',
   days: [{
     day: 'ПН',
     type: 'hyrox',
@@ -476,25 +1367,25 @@ var PROGRAM = [].concat(_toConsumableArray(Array.from({
     day: 'СР',
     type: 'strength',
     title: 'Лёгкая сила',
-    detail: 'Приседания 3×5 (60%) • Жим 3×5.',
+    detail: '3×5 (60%). Активация.',
     duration: 30
   }, {
     day: 'ЧТ',
     type: 'rest',
     title: 'Отдых',
-    detail: 'Полный день отдыха.',
+    detail: 'Полный отдых.',
     duration: 0
   }, {
     day: 'ПТ',
     type: 'hyrox',
     title: 'Тест станций',
-    detail: 'Замерь личники: SkiErg 1000м • Wall balls 50.',
+    detail: 'Замерь SkiErg 1000м • Wall balls 50.',
     duration: 40
   }, {
     day: 'СБ',
     type: 'run',
     title: 'Лёгкий бег',
-    detail: '20 мин + 4 × 50м ускорений.',
+    detail: '20 мин + ускорения.',
     duration: 25
   }, {
     day: 'ВС',
@@ -507,7 +1398,6 @@ var PROGRAM = [].concat(_toConsumableArray(Array.from({
   week: 20,
   phase: 'Подводка',
   phaseNum: 5,
-  focus: 'Гоночная неделя',
   days: [{
     day: 'ПН',
     type: 'run',
@@ -536,288 +1426,22 @@ var PROGRAM = [].concat(_toConsumableArray(Array.from({
     day: 'ПТ',
     type: 'run',
     title: 'Активация',
-    detail: '15 мин + 4 × 100м ускорений.',
+    detail: '15 мин + ускорения.',
     duration: 20
   }, {
     day: 'СБ',
-    type: 'simulation',
+    type: 'hyrox',
     title: '🏁 Гонка Hyrox',
-    detail: 'Дай всё, на что способна. Удачи!',
+    detail: 'Дай всё. Удачи!',
     duration: 90
   }, {
     day: 'ВС',
     type: 'rest',
     title: 'Восстановление',
-    detail: 'Празднуй. Гордись собой.',
+    detail: 'Празднуй. Гордись.',
     duration: 0
   }]
-}]);
-var STATIONS = [{
-  name: 'SkiErg',
-  distance: '1000 м',
-  weight: '—',
-  tip: 'Тяга из бёдер и кора, руки тянут в конце. Дыхание ритмичное.',
-  mistake: 'Тянуть только руками — забьются плечи к 3-й станции.',
-  target: '4:30–5:30'
-}, {
-  name: 'Sled Push',
-  distance: '50 м',
-  weight: '102 кг',
-  tip: 'Низкая позиция, толкай ногами. Прямая линия от пятки до головы.',
-  mistake: 'Слишком высокая стойка — нет рычага.',
-  target: '2:00–3:00'
-}, {
-  name: 'Sled Pull',
-  distance: '50 м',
-  weight: '78 кг',
-  tip: 'Тяни рывком + шаг назад. Кор напряжён.',
-  mistake: 'Игнорировать ноги.',
-  target: '2:30–3:30'
-}, {
-  name: 'Burpee Broad Jumps',
-  distance: '80 м',
-  weight: '—',
-  tip: 'Длинный прыжок важнее быстрого бёрпи.',
-  mistake: 'Прыгать вверх вместо в длину.',
-  target: '4:00–5:30'
-}, {
-  name: 'Rower',
-  distance: '1000 м',
-  weight: '—',
-  tip: '1-2-3: ноги→корпус→руки. Damper 5–6.',
-  mistake: 'Тянуть руками рано.',
-  target: '4:00–4:45'
-}, {
-  name: 'Farmers Carry',
-  distance: '200 м',
-  weight: '16 кг × 2',
-  tip: 'Плечи назад, кор напряжён, мелкие шаги.',
-  mistake: 'Сгорбленная спина.',
-  target: '1:30–2:30'
-}, {
-  name: 'Sandbag Lunges',
-  distance: '100 м',
-  weight: '10 кг',
-  tip: 'Колено мягко касается пола. Выпрямляйся полностью.',
-  mistake: 'Неполная амплитуда — судьи дисквалифицируют.',
-  target: '3:30–5:00'
-}, {
-  name: 'Wall Balls',
-  distance: '100 повт.',
-  weight: '4 кг / 2.74 м',
-  tip: 'Используй ноги — это присед с броском.',
-  mistake: 'Бросать руками — забьёшь плечи.',
-  target: '4:30–6:30'
 }];
-var TIPS = [{
-  icon: 'Droplet',
-  title: 'Гидратация',
-  text: 'Минимум 2.5л в день. Электролиты перед тяжёлыми тренировками.'
-}, {
-  icon: 'Coffee',
-  title: 'Сон',
-  text: 'Меньше 7 часов = минус 10–20% результатов. Сон — самый дешёвый стероид.'
-}, {
-  icon: 'Heart',
-  title: 'Восстановление',
-  text: 'Один полный выходной в неделю обязателен. Тело адаптируется в отдыхе.'
-}, {
-  icon: 'Zap',
-  title: 'Питание',
-  text: 'Углеводы за 2–3 часа до тренировки. Белок + углеводы в течение 30 мин после.'
-}, {
-  icon: 'Target',
-  title: 'Wall balls — главный враг',
-  text: 'Последняя станция. Тренируй её в конце сессий.'
-}, {
-  icon: 'Flame',
-  title: 'Транзиции',
-  text: 'На гонке теряется 3–5 мин на переходах. Заходи в станцию уже двигаясь.'
-}, {
-  icon: 'TrendingUp',
-  title: 'Прогрессия',
-  text: 'Hyrox = выносливость + техника. 100 идеальных wall balls важнее большого веса.'
-}, {
-  icon: 'Activity',
-  title: 'Compromised running',
-  text: 'Бег после станции — другой бег. Тренируй его 2× в неделю.'
-}];
-var EXERCISES = {
-  skierg: {
-    name: 'SkiErg',
-    fields: ['distance', 'time'],
-    emoji: '🎿'
-  },
-  sled_push: {
-    name: 'Sled Push',
-    fields: ['distance', 'weight', 'time'],
-    emoji: '🛷'
-  },
-  sled_pull: {
-    name: 'Sled Pull',
-    fields: ['distance', 'weight', 'time'],
-    emoji: '🪢'
-  },
-  burpees: {
-    name: 'Burpee Broad Jumps',
-    fields: ['distance', 'reps', 'time'],
-    emoji: '🤸'
-  },
-  rower: {
-    name: 'Гребля',
-    fields: ['distance', 'time'],
-    emoji: '🚣'
-  },
-  farmers: {
-    name: 'Farmers Carry',
-    fields: ['distance', 'weight', 'time'],
-    emoji: '💪'
-  },
-  sandbag: {
-    name: 'Sandbag Lunges',
-    fields: ['distance', 'weight', 'time'],
-    emoji: '🎒'
-  },
-  wallballs: {
-    name: 'Wall Balls',
-    fields: ['reps', 'weight', 'time'],
-    emoji: '🏐'
-  },
-  run: {
-    name: 'Бег',
-    fields: ['distance', 'time'],
-    emoji: '🏃'
-  },
-  squat: {
-    name: 'Приседания',
-    fields: ['reps', 'weight'],
-    emoji: '🦵'
-  },
-  deadlift: {
-    name: 'Тяга',
-    fields: ['reps', 'weight'],
-    emoji: '🏋️'
-  },
-  press: {
-    name: 'Жим',
-    fields: ['reps', 'weight'],
-    emoji: '💥'
-  },
-  pullup: {
-    name: 'Подтягивания',
-    fields: ['reps'],
-    emoji: '🆙'
-  },
-  plank: {
-    name: 'Планка',
-    fields: ['time'],
-    emoji: '➖'
-  },
-  custom: {
-    name: 'Своё',
-    fields: ['reps', 'distance', 'weight', 'time'],
-    emoji: '✨'
-  }
-};
-var FIELD_META = {
-  distance: {
-    label: 'метры',
-    placeholder: '250',
-    type: 'number',
-    inputMode: 'numeric'
-  },
-  reps: {
-    label: 'повторения',
-    placeholder: '30',
-    type: 'number',
-    inputMode: 'numeric'
-  },
-  weight: {
-    label: 'вес, кг',
-    placeholder: '4',
-    type: 'number',
-    inputMode: 'decimal'
-  },
-  time: {
-    label: 'время',
-    placeholder: '5:12',
-    type: 'text',
-    inputMode: 'text'
-  }
-};
-var TYPE_META = {
-  hyrox: {
-    label: 'Hyrox',
-    color: '#FF375F',
-    soft: '#FFE5EC',
-    icon: 'Flame'
-  },
-  run: {
-    label: 'Бег',
-    color: '#FF6B9D',
-    soft: '#FFE9F1',
-    icon: 'Activity'
-  },
-  tennis: {
-    label: 'Теннис',
-    color: '#FF9F7A',
-    soft: '#FFEEE5',
-    icon: 'Target'
-  },
-  pilates: {
-    label: 'Пилатес',
-    color: '#C77DFF',
-    soft: '#F5E5FF',
-    icon: 'Heart'
-  },
-  strength: {
-    label: 'Сила',
-    color: '#FF5C8A',
-    soft: '#FFE3EC',
-    icon: 'Zap'
-  },
-  simulation: {
-    label: 'Симуляция',
-    color: '#FF375F',
-    soft: '#FFE5EC',
-    icon: 'Trophy'
-  },
-  rest: {
-    label: 'Отдых',
-    color: '#A0A0A8',
-    soft: '#F2F2F7',
-    icon: 'Coffee'
-  }
-};
-var S = function S(x) {
-  return x;
-};
-var todayISO = function todayISO() {
-  return new Date().toISOString().split('T')[0];
-};
-var fmtDate = function fmtDate(iso) {
-  return new Date(iso).toLocaleDateString('ru-RU', {
-    day: 'numeric',
-    month: 'short'
-  });
-};
-var fmtLong = function fmtLong(iso) {
-  return new Date(iso).toLocaleDateString('ru-RU', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long'
-  });
-};
-var daysBetween = function daysBetween(d1, d2) {
-  return Math.floor((new Date(d2) - new Date(d1)) / 86400000);
-};
-var getCWD = function getCWD(start) {
-  var days = daysBetween(start, todayISO());
-  return {
-    week: Math.min(Math.floor(days / 7) + 1, 20),
-    dayIdx: (days % 7 + 7) % 7
-  };
-};
 var getDay = function getDay(week, di, ov) {
   var base = PROGRAM[week - 1] && PROGRAM[week - 1].days[di];
   if (!base) return null;
@@ -826,112 +1450,317 @@ var getDay = function getDay(week, di, ov) {
     _ov: true
   }) : base;
 };
-var fmtEx = function fmtEx(ex) {
-  var p = [];
-  if (ex.distance) p.push(ex.distance + ' м');
-  if (ex.reps) p.push(ex.reps + ' раз');
-  if (ex.weight) p.push(ex.weight + ' кг');
-  if (ex.time) p.push(ex.time);
-  return p.join(' · ');
-};
-var SK = 'hyrox-v3';
-var load = function load() {
-  try {
-    var r = localStorage.getItem(SK);
-    return r ? JSON.parse(r) : null;
-  } catch (e) {
-    return null;
-  }
-};
-var save = function save(d) {
-  try {
-    localStorage.setItem(SK, JSON.stringify(d));
-  } catch (e) {}
+var getCWD = function getCWD(start) {
+  var days = daysBetween(start, todayISO());
+  return {
+    week: Math.min(Math.floor(days / 7) + 1, 20),
+    dayIdx: (days % 7 + 7) % 7
+  };
 };
 
-// ── SHARED UI ────────────────────────────────────────────────────
-var C = {
-  pink: '#FF375F',
-  bg: '#fff',
-  card: {
-    background: '#fff',
-    borderRadius: 24,
-    boxShadow: '0 1px 2px rgba(0,0,0,.04),0 4px 24px rgba(255,55,95,.04)',
-    border: '1px solid rgba(0,0,0,.04)'
+// Storage
+var SK_HYROX = 'hyrox-v4';
+var SK_HEALTH = function SK_HEALTH(d) {
+  return 'bh:' + d;
+};
+var SK_NUT = function SK_NUT(d) {
+  return 'nut:' + d;
+};
+var SK_GOALS = 'nut-goals';
+var ls = {
+  get: function get(k) {
+    try {
+      var r = localStorage.getItem(k);
+      return r ? JSON.parse(r) : null;
+    } catch (e) {
+      return null;
+    }
   },
-  cardPink: {
-    background: 'linear-gradient(135deg,#FFF5F8,#FFEEF4)',
-    borderRadius: 24,
-    border: '1px solid rgba(255,55,95,.08)'
-  },
-  btn: {
-    background: 'linear-gradient(135deg,#FF375F,#FF5C8A)',
-    color: '#fff',
-    fontWeight: 600,
-    padding: '14px 0',
-    borderRadius: 18,
-    fontSize: 15,
-    width: '100%',
-    border: 'none',
-    cursor: 'pointer',
-    boxShadow: '0 8px 32px rgba(255,55,95,.18)'
+  set: function set(k, v) {
+    try {
+      localStorage.setItem(k, JSON.stringify(v));
+    } catch (e) {}
   }
 };
-function TypePicker(_ref4) {
-  var value = _ref4.value,
-    onChange = _ref4.onChange,
-    _ref4$includeRest = _ref4.includeRest,
-    includeRest = _ref4$includeRest === void 0 ? false : _ref4$includeRest;
+var getAllHealthDates = function getAllHealthDates() {
+  var dates = [];
+  for (var i = 0; i < localStorage.length; i++) {
+    var k = localStorage.key(i);
+    if (k && k.startsWith('bh:')) dates.push(k.replace('bh:', ''));
+  }
+  return dates.sort();
+};
+
+// Shared styles
+var card = {
+  background: '#fff',
+  borderRadius: 20,
+  boxShadow: '0 1px 3px rgba(0,0,0,.06)',
+  border: '1px solid rgba(0,0,0,.04)'
+};
+var cardPink = {
+  background: 'linear-gradient(135deg,#FFF5F8,#FFEEF4)',
+  borderRadius: 20,
+  border: '1px solid rgba(255,55,95,.1)'
+};
+var pinkBtn = {
+  background: 'linear-gradient(135deg,#FF375F,#FF5C8A)',
+  color: '#fff',
+  fontWeight: 600,
+  padding: '14px 0',
+  borderRadius: 16,
+  fontSize: 15,
+  width: '100%',
+  border: 'none',
+  cursor: 'pointer',
+  boxShadow: '0 6px 20px rgba(255,55,95,.2)',
+  fontFamily: 'inherit'
+};
+var inp = {
+  background: '#f5f5f7',
+  border: '1px solid #e5e5ea',
+  borderRadius: 12,
+  padding: '10px 12px',
+  fontSize: 14,
+  fontFamily: 'inherit',
+  color: '#1d1d1f',
+  width: '100%',
+  WebkitAppearance: 'none'
+};
+function Serif(_ref3) {
+  var children = _ref3.children,
+    size = _ref3.size,
+    italic = _ref3.italic,
+    color = _ref3.color;
+  return React.createElement('span', {
+    style: {
+      fontFamily: 'Instrument Serif, serif',
+      fontStyle: italic ? 'italic' : 'normal',
+      fontSize: size || 22,
+      color: color
+    }
+  }, children);
+}
+function Section(_ref4) {
+  var title = _ref4.title,
+    emoji = _ref4.emoji,
+    children = _ref4.children,
+    action = _ref4.action;
   return /*#__PURE__*/React.createElement("div", {
     style: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(3,1fr)',
-      gap: 8
+      marginBottom: 20
     }
-  }, Object.entries(TYPE_META).filter(function (_ref5) {
-    var _ref6 = _slicedToArray(_ref5, 1),
-      k = _ref6[0];
-    return includeRest || k !== 'rest';
-  }).map(function (_ref7) {
-    var _ref8 = _slicedToArray(_ref7, 2),
-      k = _ref8[0],
-      m = _ref8[1];
-    return /*#__PURE__*/React.createElement("button", {
-      key: k,
-      onClick: function onClick() {
-        return onChange(k);
-      },
-      style: {
-        padding: '10px 6px',
-        borderRadius: 14,
-        fontSize: 12,
-        fontWeight: 500,
-        border: 'none',
-        cursor: 'pointer',
-        background: value === k ? m.color : m.soft,
-        color: value === k ? '#fff' : m.color,
-        boxShadow: value === k ? '0 4px 12px ' + m.color + '40' : 'none'
-      }
-    }, m.label);
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      fontWeight: 600,
+      color: '#86868B',
+      letterSpacing: 0.5,
+      textTransform: 'uppercase'
+    }
+  }, emoji && /*#__PURE__*/React.createElement("span", {
+    style: {
+      marginRight: 6
+    }
+  }, emoji), title), action), children);
+}
+function MiniBar(_ref5) {
+  var value = _ref5.value,
+    max = _ref5.max,
+    color = _ref5.color;
+  var pct = Math.min(100, Math.max(0, value / max * 100));
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 4,
+      background: '#f2f2f7',
+      borderRadius: 3,
+      overflow: 'hidden',
+      marginTop: 4
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: '100%',
+      width: pct + '%',
+      background: color,
+      borderRadius: 3
+    }
   }));
 }
-function Fld(_ref9) {
-  var label = _ref9.label,
-    children = _ref9.children;
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+function SimpleLineChart(_ref6) {
+  var data = _ref6.data,
+    color = _ref6.color,
+    height = _ref6.height;
+  color = color || P;
+  height = height || 120;
+  if (!data || data.length < 2) return /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 11,
-      letterSpacing: '0.15em',
-      textTransform: 'uppercase',
-      color: '#86868B',
-      marginBottom: 6
+      textAlign: 'center',
+      padding: '30px 0',
+      color: '#C7C7CC',
+      fontSize: 13
     }
-  }, label), children);
+  }, "\u0414\u043E\u0431\u0430\u0432\u044C \u0431\u043E\u043B\u044C\u0448\u0435 \u0434\u0430\u043D\u043D\u044B\u0445");
+  var vals = data.map(function (d) {
+    return d.v;
+  }).filter(function (v) {
+    return v != null && !isNaN(v);
+  });
+  if (vals.length < 2) return /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: 'center',
+      padding: '30px 0',
+      color: '#C7C7CC',
+      fontSize: 13
+    }
+  }, "\u041C\u0430\u043B\u043E \u0434\u0430\u043D\u043D\u044B\u0445");
+  var min = Math.min.apply(null, vals),
+    max = Math.max.apply(null, vals);
+  var range = max - min || 1;
+  var W = 300,
+    H = height;
+  var pts = data.filter(function (d) {
+    return d.v != null && !isNaN(d.v);
+  });
+  var xS = W / (pts.length - 1);
+  var yFor = function yFor(v) {
+    return H - 18 - (v - min) / range * (H - 28);
+  };
+  var pathD = pts.map(function (d, i) {
+    return (i === 0 ? 'M' : 'L') + (i * xS).toFixed(1) + ',' + yFor(d.v).toFixed(1);
+  }).join(' ');
+  return /*#__PURE__*/React.createElement("svg", {
+    viewBox: '0 0 ' + W + ' ' + H,
+    style: {
+      width: '100%',
+      height: height,
+      overflow: 'visible'
+    }
+  }, /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("linearGradient", {
+    id: "lg2",
+    x1: "0",
+    y1: "0",
+    x2: "0",
+    y2: "1"
+  }, /*#__PURE__*/React.createElement("stop", {
+    offset: "0%",
+    stopColor: color,
+    stopOpacity: "0.15"
+  }), /*#__PURE__*/React.createElement("stop", {
+    offset: "100%",
+    stopColor: color,
+    stopOpacity: "0"
+  }))), /*#__PURE__*/React.createElement("path", {
+    d: pathD + ' L' + (pts.length - 1) * xS + ',' + H + ' L0,' + H + ' Z',
+    fill: "url(#lg2)"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: pathD,
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }), pts.map(function (d, i) {
+    return /*#__PURE__*/React.createElement("g", {
+      key: i
+    }, /*#__PURE__*/React.createElement("circle", {
+      cx: i * xS,
+      cy: yFor(d.v),
+      r: "3",
+      fill: color
+    }), (i === 0 || i === pts.length - 1) && /*#__PURE__*/React.createElement("text", {
+      x: Math.min(i * xS, W - 20),
+      y: H,
+      textAnchor: "middle",
+      fontSize: "8",
+      fill: "#86868B"
+    }, d.label));
+  }));
 }
-function Sheet(_ref0) {
-  var onClose = _ref0.onClose,
-    title = _ref0.title,
-    children = _ref0.children;
+
+// ── WORKOUT LOG FORM ─────────────────────────────────────────────
+function WorkoutLogForm(_ref7) {
+  var prefill = _ref7.prefill,
+    onSave = _ref7.onSave,
+    onClose = _ref7.onClose;
+  var _useState = useState(prefill && prefill.type || 'hyrox'),
+    _useState2 = _slicedToArray(_useState, 2),
+    type = _useState2[0],
+    setType = _useState2[1];
+  var _useState3 = useState(''),
+    _useState4 = _slicedToArray(_useState3, 2),
+    title = _useState4[0],
+    setTitle = _useState4[1];
+  var _useState5 = useState(''),
+    _useState6 = _slicedToArray(_useState5, 2),
+    duration = _useState6[0],
+    setDuration = _useState6[1];
+  var _useState7 = useState(''),
+    _useState8 = _slicedToArray(_useState7, 2),
+    notes = _useState8[0],
+    setNotes = _useState8[1];
+  var _useState9 = useState([]),
+    _useState0 = _slicedToArray(_useState9, 2),
+    exercises = _useState0[0],
+    setExercises = _useState0[1];
+  var _useState1 = useState(false),
+    _useState10 = _slicedToArray(_useState1, 2),
+    addingEx = _useState10[0],
+    setAddingEx = _useState10[1];
+  var _useState11 = useState(null),
+    _useState12 = _slicedToArray(_useState11, 2),
+    selEx = _useState12[0],
+    setSelEx = _useState12[1];
+  var _useState13 = useState({}),
+    _useState14 = _slicedToArray(_useState13, 2),
+    exVals = _useState14[0],
+    setExVals = _useState14[1];
+  // For run
+  var _useState15 = useState(''),
+    _useState16 = _slicedToArray(_useState15, 2),
+    runKm = _useState16[0],
+    setRunKm = _useState16[1];
+  var _useState17 = useState(''),
+    _useState18 = _slicedToArray(_useState17, 2),
+    runPace = _useState18[0],
+    setRunPace = _useState18[1];
+  var addExercise = function addExercise() {
+    if (!selEx) return;
+    var ex = {
+      key: selEx.key,
+      name: selEx.name,
+      emoji: selEx.emoji
+    };
+    selEx.fields.forEach(function (f) {
+      if (exVals[f.k]) ex[f.k] = exVals[f.k];
+    });
+    setExercises(function (p) {
+      return p.concat([ex]);
+    });
+    setSelEx(null);
+    setExVals({});
+    setAddingEx(false);
+  };
+  var save = function save() {
+    var w = {
+      type: type,
+      title: title || TYPE_META[type].label,
+      duration: duration ? +duration : null,
+      notes: notes
+    };
+    if (type === 'hyrox' || type === 'strength') w.exercises = exercises;
+    if (type === 'run') {
+      w.km = runKm ? +runKm : null;
+      w.pace = runPace;
+    }
+    onSave(w);
+  };
   return /*#__PURE__*/React.createElement("div", {
     style: {
       position: 'fixed',
@@ -939,7 +1768,7 @@ function Sheet(_ref0) {
       zIndex: 50,
       display: 'flex',
       alignItems: 'flex-end',
-      background: 'rgba(0,0,0,.45)',
+      background: 'rgba(0,0,0,.5)',
       backdropFilter: 'blur(8px)'
     },
     onClick: onClose
@@ -949,25 +1778,25 @@ function Sheet(_ref0) {
       maxHeight: '92vh',
       overflowY: 'auto',
       background: '#fff',
-      borderTopLeftRadius: 32,
-      borderTopRightRadius: 32
+      borderTopLeftRadius: 28,
+      borderTopRightRadius: 28
     },
     onClick: function onClick(e) {
-      return e.stopPropagation();
+      e.stopPropagation();
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      padding: '0 24px 32px'
+      padding: '12px 20px 32px'
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'center',
-      padding: '12px 0 4px'
+      marginBottom: 8
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      width: 40,
+      width: 36,
       height: 4,
       borderRadius: 2,
       background: '#e5e5ea'
@@ -975,89 +1804,454 @@ function Sheet(_ref0) {
   })), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
-      alignItems: 'center',
       justifyContent: 'space-between',
-      marginBottom: 20,
-      marginTop: 8
+      alignItems: 'center',
+      marginBottom: 20
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement(Serif, {
+    size: 26
+  }, "\u0437\u0430\u043B\u043E\u0433\u0438\u0440\u043E\u0432\u0430\u0442\u044C ", /*#__PURE__*/React.createElement("span", {
     style: {
-      fontFamily: 'Instrument Serif, serif',
-      fontSize: 28
+      fontStyle: 'italic',
+      color: P
     }
-  }, title), /*#__PURE__*/React.createElement("button", {
+  }, "\u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0443")), /*#__PURE__*/React.createElement("button", {
     onClick: onClose,
     style: {
-      width: 32,
-      height: 32,
+      width: 30,
+      height: 30,
       borderRadius: '50%',
       background: '#f5f5f7',
+      border: 'none',
+      cursor: 'pointer',
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
-      color: '#86868B',
-      border: 'none',
-      cursor: 'pointer'
+      justifyContent: 'center'
     }
   }, /*#__PURE__*/React.createElement(Icon, {
     name: "X",
-    size: 18
-  }))), children)));
+    size: 16,
+    stroke: "#86868B"
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: '#86868B',
+      textTransform: 'uppercase',
+      letterSpacing: '0.15em',
+      marginBottom: 8
+    }
+  }, "\u0422\u0438\u043F"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(3,1fr)',
+      gap: 6
+    }
+  }, Object.entries(TYPE_META).filter(function (e) {
+    return e[0] !== 'rest';
+  }).map(function (entry) {
+    var k = entry[0],
+      m = entry[1];
+    return /*#__PURE__*/React.createElement("button", {
+      key: k,
+      onClick: function onClick() {
+        setType(k);
+      },
+      style: {
+        padding: '9px 4px',
+        borderRadius: 12,
+        fontSize: 12,
+        fontWeight: 500,
+        border: 'none',
+        cursor: 'pointer',
+        background: type === k ? m.color : m.soft,
+        color: type === k ? '#fff' : m.color
+      }
+    }, m.label);
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 12
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    value: title,
+    onChange: function onChange(e) {
+      setTitle(e.target.value);
+    },
+    placeholder: "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435 (\u043D\u0435\u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E)",
+    style: inp
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 8,
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: '#86868B',
+      marginBottom: 5
+    }
+  }, "\u0414\u043B\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C \u043C\u0438\u043D"), /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    inputMode: "numeric",
+    value: duration,
+    onChange: function onChange(e) {
+      setDuration(e.target.value);
+    },
+    placeholder: "60",
+    style: inp
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: '#86868B',
+      marginBottom: 5
+    }
+  }, "\u0417\u0430\u043C\u0435\u0442\u043A\u0430"), /*#__PURE__*/React.createElement("input", {
+    value: notes,
+    onChange: function onChange(e) {
+      setNotes(e.target.value);
+    },
+    placeholder: "\u041A\u0430\u043A \u043F\u0440\u043E\u0448\u043B\u043E?",
+    style: inp
+  }))), type === 'run' && /*#__PURE__*/React.createElement("div", {
+    style: Object.assign({}, card, {
+      padding: 16,
+      marginBottom: 16
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 600,
+      marginBottom: 12
+    }
+  }, "\uD83C\uDFC3 \u041F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u044B \u0431\u0435\u0433\u0430"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: '#86868B',
+      marginBottom: 5
+    }
+  }, "\u041A\u0438\u043B\u043E\u043C\u0435\u0442\u0440\u044B"), /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    step: "0.1",
+    inputMode: "decimal",
+    value: runKm,
+    onChange: function onChange(e) {
+      setRunKm(e.target.value);
+    },
+    placeholder: "5.0",
+    style: inp
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: '#86868B',
+      marginBottom: 5
+    }
+  }, "\u0422\u0435\u043C\u043F \u043C\u0438\u043D/\u043A\u043C"), /*#__PURE__*/React.createElement("input", {
+    value: runPace,
+    onChange: function onChange(e) {
+      setRunPace(e.target.value);
+    },
+    placeholder: "6:30",
+    style: inp
+  })))), (type === 'hyrox' || type === 'strength') && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: '#86868B',
+      textTransform: 'uppercase',
+      letterSpacing: '0.15em',
+      marginBottom: 8
+    }
+  }, "\u0423\u043F\u0440\u0430\u0436\u043D\u0435\u043D\u0438\u044F"), exercises.map(function (ex, i) {
+    var vals = [];
+    if (ex.distance) vals.push(ex.distance + ' м');
+    if (ex.reps) vals.push(ex.reps + ' раз');
+    if (ex.weight) vals.push(ex.weight + ' кг');
+    if (ex.time) vals.push(ex.time);
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10,
+        padding: '10px 14px',
+        borderRadius: 16,
+        background: '#FFF5F8',
+        border: '1px solid rgba(255,55,95,.1)',
+        marginBottom: 6
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 18
+      }
+    }, ex.emoji), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        fontWeight: 500
+      }
+    }, ex.name), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: P,
+        fontFamily: 'DM Mono, monospace',
+        marginTop: 2
+      }
+    }, vals.join(' · '))), /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        setExercises(function (p) {
+          return p.filter(function (_, j) {
+            return j !== i;
+          });
+        });
+      },
+      style: {
+        color: '#C7C7CC',
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer',
+        padding: 4
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "X",
+      size: 15
+    })));
+  }), !addingEx ? /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      setAddingEx(true);
+    },
+    style: {
+      width: '100%',
+      padding: 12,
+      borderRadius: 16,
+      background: '#FFE5EC',
+      color: P,
+      fontSize: 13,
+      fontWeight: 500,
+      border: '1px dashed rgba(255,55,95,.3)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 6,
+      cursor: 'pointer'
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "Plus",
+    size: 15,
+    stroke: P
+  }), " \u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0443\u043F\u0440\u0430\u0436\u043D\u0435\u043D\u0438\u0435") : /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 14,
+      borderRadius: 16,
+      background: '#fafafa',
+      border: '1px solid rgba(0,0,0,.06)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: 6,
+      marginBottom: 12
+    }
+  }, HYROX_EXERCISES.map(function (ex) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: ex.key,
+      onClick: function onClick() {
+        setSelEx(ex);
+        setExVals({});
+      },
+      style: {
+        padding: '6px 12px',
+        borderRadius: 999,
+        fontSize: 11,
+        fontWeight: 500,
+        display: 'flex',
+        alignItems: 'center',
+        gap: 4,
+        border: 'none',
+        cursor: 'pointer',
+        background: selEx && selEx.key === ex.key ? P : '#fff',
+        color: selEx && selEx.key === ex.key ? '#fff' : '#1d1d1f',
+        boxShadow: '0 1px 3px rgba(0,0,0,.06)'
+      }
+    }, ex.emoji, " ", ex.name);
+  })), selEx && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 8,
+      marginBottom: 10
+    }
+  }, selEx.fields.map(function (f) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: f.k
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: '#86868B',
+        marginBottom: 4
+      }
+    }, f.l), /*#__PURE__*/React.createElement("input", {
+      placeholder: f.ph,
+      value: exVals[f.k] || '',
+      onChange: function onChange(e) {
+        var v = e.target.value;
+        setExVals(function (p) {
+          var o = Object.assign({}, p);
+          o[f.k] = v;
+          return o;
+        });
+      },
+      style: inp
+    }));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      setAddingEx(false);
+      setSelEx(null);
+      setExVals({});
+    },
+    style: {
+      flex: 1,
+      padding: 10,
+      borderRadius: 14,
+      background: '#f5f5f7',
+      color: '#86868B',
+      fontSize: 13,
+      fontWeight: 500,
+      border: 'none',
+      cursor: 'pointer'
+    }
+  }, "\u041E\u0442\u043C\u0435\u043D\u0430"), /*#__PURE__*/React.createElement("button", {
+    onClick: addExercise,
+    disabled: !selEx,
+    style: {
+      flex: 1,
+      padding: 10,
+      borderRadius: 14,
+      background: selEx ? 'linear-gradient(135deg,#FF375F,#FF5C8A)' : '#f5f5f7',
+      color: selEx ? '#fff' : '#86868B',
+      fontSize: 13,
+      fontWeight: 600,
+      border: 'none',
+      cursor: 'pointer'
+    }
+  }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C")))), /*#__PURE__*/React.createElement("button", {
+    onClick: save,
+    style: pinkBtn
+  }, "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0443"))));
 }
 
 // ── APP ──────────────────────────────────────────────────────────
 function App() {
-  var _useState = useState('today'),
-    _useState2 = _slicedToArray(_useState, 2),
-    tab = _useState2[0],
-    setTab = _useState2[1];
-  var _useState3 = useState({
+  var _useState19 = useState('today'),
+    _useState20 = _slicedToArray(_useState19, 2),
+    tab = _useState20[0],
+    setTab = _useState20[1];
+  var _useState21 = useState({
       startDate: todayISO(),
       workouts: [],
       ov: {}
     }),
-    _useState4 = _slicedToArray(_useState3, 2),
-    data = _useState4[0],
-    setData = _useState4[1];
-  var _useState5 = useState(false),
-    _useState6 = _slicedToArray(_useState5, 2),
-    ready = _useState6[0],
-    setReady = _useState6[1];
-  var _useState7 = useState(false),
-    _useState8 = _slicedToArray(_useState7, 2),
-    logOpen = _useState8[0],
-    setLogOpen = _useState8[1];
-  var _useState9 = useState(null),
-    _useState0 = _slicedToArray(_useState9, 2),
-    prefill = _useState0[0],
-    setPrefill = _useState0[1];
-  var _useState1 = useState(null),
-    _useState10 = _slicedToArray(_useState1, 2),
-    editDay = _useState10[0],
-    setEditDay = _useState10[1];
+    _useState22 = _slicedToArray(_useState21, 2),
+    hyrox = _useState22[0],
+    setHyrox = _useState22[1];
+  var _useState23 = useState(todayISO()),
+    _useState24 = _slicedToArray(_useState23, 2),
+    date = _useState24[0],
+    setDate = _useState24[1];
+  var _useState25 = useState({}),
+    _useState26 = _slicedToArray(_useState25, 2),
+    health = _useState26[0],
+    setHealth = _useState26[1];
+  var _useState27 = useState({}),
+    _useState28 = _slicedToArray(_useState27, 2),
+    nut = _useState28[0],
+    setNut = _useState28[1];
+  var _useState29 = useState(DEFAULT_GOALS),
+    _useState30 = _slicedToArray(_useState29, 2),
+    goals = _useState30[0],
+    setGoals = _useState30[1];
+  var _useState31 = useState(false),
+    _useState32 = _slicedToArray(_useState31, 2),
+    ready = _useState32[0],
+    setReady = _useState32[1];
+  var _useState33 = useState(false),
+    _useState34 = _slicedToArray(_useState33, 2),
+    logOpen = _useState34[0],
+    setLogOpen = _useState34[1];
+  var _useState35 = useState(null),
+    _useState36 = _slicedToArray(_useState35, 2),
+    logPrefill = _useState36[0],
+    setLogPrefill = _useState36[1];
   useEffect(function () {
-    var d = load();
-    if (d) setData(Object.assign({
+    var h = ls.get(SK_HYROX);
+    if (h) setHyrox(Object.assign({
       ov: {}
-    }, d));
+    }, h));
+    var g = ls.get(SK_GOALS);
+    if (g) setGoals(Object.assign({}, DEFAULT_GOALS, g));
     setReady(true);
   }, []);
   useEffect(function () {
-    if (ready) save(data);
-  }, [data, ready]);
-  var addW = function addW(w) {
-    setData(function (p) {
+    var h = ls.get(SK_HEALTH(date));
+    setHealth(h || {
+      whoop: {},
+      protocols: {},
+      water: '',
+      notes: '',
+      weight: ''
+    });
+    var n = ls.get(SK_NUT(date));
+    setNut(n || {});
+  }, [date]);
+  useEffect(function () {
+    if (ready) ls.set(SK_HYROX, hyrox);
+  }, [hyrox, ready]);
+  var saveHealthDay = function saveHealthDay(h) {
+    setHealth(h);
+    ls.set(SK_HEALTH(date), h);
+  };
+  var saveNutDay = function saveNutDay(n) {
+    setNut(n);
+    ls.set(SK_NUT(date), n);
+  };
+  var saveGoals = function saveGoals(g) {
+    setGoals(g);
+    ls.set(SK_GOALS, g);
+  };
+  var addWorkout = function addWorkout(w) {
+    setHyrox(function (p) {
       return Object.assign({}, p, {
         workouts: [Object.assign({}, w, {
-          id: Date.now() + ''
+          id: Date.now() + '',
+          date: date
         })].concat(_toConsumableArray(p.workouts))
       });
     });
-    setLogOpen(false);
-    setPrefill(null);
   };
-  var delW = function delW(id) {
-    return setData(function (p) {
+  var delWorkout = function delWorkout(id) {
+    setHyrox(function (p) {
       return Object.assign({}, p, {
         workouts: p.workouts.filter(function (w) {
           return w.id !== id;
@@ -1067,75 +2261,71 @@ function App() {
   };
   var saveOv = function saveOv(wk, di, ch) {
     var k = wk + '-' + di;
-    setData(function (p) {
+    setHyrox(function (p) {
       return Object.assign({}, p, {
         ov: Object.assign({}, p.ov, _defineProperty({}, k, ch))
       });
     });
-    setEditDay(null);
   };
   var resetOv = function resetOv(wk, di) {
     var k = wk + '-' + di;
-    setData(function (p) {
+    setHyrox(function (p) {
       var o = Object.assign({}, p.ov);
       delete o[k];
       return Object.assign({}, p, {
         ov: o
       });
     });
-    setEditDay(null);
   };
-  var cwd = getCWD(data.startDate);
+  var cwd = getCWD(hyrox.startDate);
   var week = cwd.week,
     dayIdx = cwd.dayIdx;
-  var curW = PROGRAM[week - 1];
-  var todayPlan = getDay(week, dayIdx, data.ov);
+  var todayPlan = getDay(week, dayIdx, hyrox.ov);
   var NAV = [{
     id: 'today',
-    icon: 'Sparkles',
+    icon: 'Today',
     label: 'Сегодня'
   }, {
     id: 'plan',
-    icon: 'Calendar',
+    icon: 'Plan',
     label: 'План'
   }, {
-    id: 'log',
-    icon: 'Activity',
-    label: 'Лог'
+    id: 'food',
+    icon: 'Food',
+    label: 'Питание'
   }, {
     id: 'stats',
-    icon: 'BarChart3',
+    icon: 'Stats',
     label: 'Стата'
   }, {
-    id: 'guide',
-    icon: 'BookOpen',
-    label: 'Гайд'
+    id: 'ai',
+    icon: 'AI',
+    label: 'AI'
   }];
   return /*#__PURE__*/React.createElement("div", {
     style: {
       minHeight: '100vh',
-      paddingBottom: 80,
+      paddingBottom: 90,
       background: 'radial-gradient(circle at 20% 0%,#FFF0F5,#fff 40%)',
-      color: '#1D1D1F',
-      position: 'relative',
-      overflow: 'hidden'
+      color: '#1D1D1F'
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      position: 'absolute',
+      position: 'fixed',
       top: 0,
       right: 0,
-      width: 280,
-      height: 280,
+      width: 200,
+      height: 200,
       borderRadius: '50%',
       background: 'radial-gradient(circle,#FFB6CB,transparent 70%)',
-      opacity: .3,
+      opacity: .2,
       filter: 'blur(40px)',
-      pointerEvents: 'none'
+      pointerEvents: 'none',
+      zIndex: 0
     }
   }), /*#__PURE__*/React.createElement("div", {
     style: {
-      padding: '48px 24px 8px',
+      padding: '44px 20px 12px',
       position: 'relative',
       zIndex: 1
     }
@@ -1148,109 +2338,117 @@ function App() {
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 11,
-      letterSpacing: '0.2em',
-      textTransform: 'uppercase',
       color: '#86868B',
-      marginBottom: 4
+      letterSpacing: '0.15em',
+      textTransform: 'uppercase',
+      marginBottom: 2
     }
-  }, curW && curW.phase), /*#__PURE__*/React.createElement("div", {
+  }, tab === 'today' ? fmtLong(date) : tab === 'plan' ? 'Неделя ' + week + ' / 20' : tab === 'food' ? 'Питание · ' + fmtDate(date) : tab === 'stats' ? 'Статистика' : 'AI коуч'), /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: 'Instrument Serif, serif',
-      fontSize: 44,
+      fontSize: 38,
       lineHeight: 1
     }
-  }, "hy", /*#__PURE__*/React.createElement("span", {
+  }, "bio", /*#__PURE__*/React.createElement("span", {
     style: {
       fontStyle: 'italic',
-      color: '#FF375F'
+      color: P
     }
-  }, "rox"))), /*#__PURE__*/React.createElement("div", {
+  }, "hack"))), tab === 'today' && /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    value: date,
+    onChange: function onChange(e) {
+      setDate(e.target.value);
+    },
     style: {
-      textAlign: 'right'
+      border: 'none',
+      background: '#f5f5f7',
+      borderRadius: 10,
+      padding: '7px 12px',
+      fontSize: 13,
+      fontFamily: 'inherit',
+      color: '#1d1d1f'
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }), tab === 'food' && /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    value: date,
+    onChange: function onChange(e) {
+      setDate(e.target.value);
+    },
     style: {
-      fontSize: 10,
-      letterSpacing: '0.2em',
-      textTransform: 'uppercase',
-      color: '#86868B'
+      border: 'none',
+      background: '#f5f5f7',
+      borderRadius: 10,
+      padding: '7px 12px',
+      fontSize: 13,
+      fontFamily: 'inherit',
+      color: '#1d1d1f'
     }
-  }, "\u041D\u0435\u0434\u0435\u043B\u044F"), /*#__PURE__*/React.createElement("div", {
+  }), (tab === 'plan' || tab === 'stats') && /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: 'Instrument Serif, serif',
-      fontSize: 28,
-      lineHeight: 1,
-      marginTop: 4
+      fontSize: 24,
+      color: P
     }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: '#FF375F'
-    }
-  }, week), /*#__PURE__*/React.createElement("span", {
+  }, week, /*#__PURE__*/React.createElement("span", {
     style: {
       color: '#d1d1d6',
-      fontSize: 18
+      fontSize: 16
     }
-  }, " / 20"))))), /*#__PURE__*/React.createElement("div", {
+  }, "/20")))), /*#__PURE__*/React.createElement("div", {
     style: {
+      padding: '0 20px',
       position: 'relative',
       zIndex: 1
     }
   }, tab === 'today' && /*#__PURE__*/React.createElement(TodayTab, {
-    plan: todayPlan,
+    date: date,
+    health: health,
+    onHealth: saveHealthDay,
+    todayPlan: todayPlan,
     week: week,
-    di: dayIdx,
-    workouts: data.workouts,
-    onLog: function onLog(p) {
-      setPrefill(p);
+    dayIdx: dayIdx,
+    workouts: hyrox.workouts,
+    onAddWorkout: addWorkout,
+    onDelWorkout: delWorkout,
+    onOpenLog: function onOpenLog(p) {
+      setLogPrefill(p);
       setLogOpen(true);
-    },
-    onEdit: function onEdit() {
-      return setEditDay({
-        week: week,
-        di: dayIdx
-      });
     }
   }), tab === 'plan' && /*#__PURE__*/React.createElement(PlanTab, {
     curWeek: week,
-    workouts: data.workouts,
-    start: data.startDate,
-    ov: data.ov,
-    onEdit: function onEdit(w, di) {
-      return setEditDay({
-        week: w,
-        di: di
-      });
-    }
-  }), tab === 'log' && /*#__PURE__*/React.createElement(LogTab, {
-    workouts: data.workouts,
-    onDel: delW,
-    onAdd: function onAdd() {
-      return setLogOpen(true);
-    }
+    workouts: hyrox.workouts,
+    start: hyrox.startDate,
+    ov: hyrox.ov,
+    onSaveOv: saveOv,
+    onResetOv: resetOv
+  }), tab === 'food' && /*#__PURE__*/React.createElement(FoodTab, {
+    date: date,
+    nut: nut,
+    health: health,
+    onNut: saveNutDay,
+    onHealth: saveHealthDay,
+    goals: goals,
+    onSaveGoals: saveGoals
   }), tab === 'stats' && /*#__PURE__*/React.createElement(StatsTab, {
-    workouts: data.workouts,
-    start: data.startDate
-  }), tab === 'guide' && /*#__PURE__*/React.createElement(GuideTab, null)), logOpen && /*#__PURE__*/React.createElement(LogForm, {
-    prefill: prefill,
-    onSave: addW,
+    workouts: hyrox.workouts,
+    start: hyrox.startDate
+  }), tab === 'ai' && /*#__PURE__*/React.createElement(AITab, {
+    date: date,
+    health: health,
+    nut: nut,
+    goals: goals,
+    workouts: hyrox.workouts
+  })), logOpen && /*#__PURE__*/React.createElement(WorkoutLogForm, {
+    prefill: logPrefill,
+    onSave: function onSave(w) {
+      addWorkout(w);
+      setLogOpen(false);
+      setLogPrefill(null);
+    },
     onClose: function onClose() {
       setLogOpen(false);
-      setPrefill(null);
-    }
-  }), editDay && /*#__PURE__*/React.createElement(EditModal, {
-    week: editDay.week,
-    di: editDay.di,
-    cur: getDay(editDay.week, editDay.di, data.ov),
-    isOv: !!(data.ov && data.ov[editDay.week + '-' + editDay.di]),
-    onSave: function onSave(ch) {
-      return saveOv(editDay.week, editDay.di, ch);
-    },
-    onReset: function onReset() {
-      return resetOv(editDay.week, editDay.di);
-    },
-    onClose: function onClose() {
-      return setEditDay(null);
+      setLogPrefill(null);
     }
   }), /*#__PURE__*/React.createElement("nav", {
     style: {
@@ -1259,7 +2457,7 @@ function App() {
       left: 0,
       right: 0,
       zIndex: 20,
-      background: 'rgba(255,255,255,0.85)',
+      background: 'rgba(255,255,255,.9)',
       borderTop: '1px solid rgba(0,0,0,.06)',
       backdropFilter: 'blur(20px)'
     }
@@ -1267,16 +2465,16 @@ function App() {
     style: {
       display: 'grid',
       gridTemplateColumns: 'repeat(5,1fr)',
-      maxWidth: 480,
+      maxWidth: 500,
       margin: '0 auto',
       paddingTop: 8,
-      paddingBottom: 16
+      paddingBottom: 'max(14px,env(safe-area-inset-bottom))'
     }
   }, NAV.map(function (t) {
     return /*#__PURE__*/React.createElement("button", {
       key: t.id,
       onClick: function onClick() {
-        return setTab(t.id);
+        setTab(t.id);
       },
       style: {
         display: 'flex',
@@ -1291,368 +2489,854 @@ function App() {
     }, /*#__PURE__*/React.createElement(Icon, {
       name: t.icon,
       size: 20,
-      stroke: tab === t.id ? '#FF375F' : '#86868B',
+      stroke: tab === t.id ? P : '#86868B',
       sw: tab === t.id ? 2.2 : 1.8
     }), /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 10,
+        fontSize: 9,
         fontWeight: 500,
-        color: tab === t.id ? '#FF375F' : '#86868B'
+        color: tab === t.id ? P : '#86868B'
       }
     }, t.label));
   }))));
 }
 
-// ── TODAY ────────────────────────────────────────────────────────
-function TodayTab(_ref1) {
-  var plan = _ref1.plan,
-    week = _ref1.week,
-    di = _ref1.di,
-    workouts = _ref1.workouts,
-    onLog = _ref1.onLog,
-    onEdit = _ref1.onEdit;
-  var today = todayISO();
-  var logged = workouts.find(function (w) {
-    return w.date === today;
+// ── TODAY TAB ────────────────────────────────────────────────────
+function TodayTab(_ref8) {
+  var date = _ref8.date,
+    health = _ref8.health,
+    onHealth = _ref8.onHealth,
+    todayPlan = _ref8.todayPlan,
+    week = _ref8.week,
+    dayIdx = _ref8.dayIdx,
+    workouts = _ref8.workouts,
+    onAddWorkout = _ref8.onAddWorkout,
+    onDelWorkout = _ref8.onDelWorkout,
+    onOpenLog = _ref8.onOpenLog;
+  var todayWorkouts = workouts.filter(function (w) {
+    return w.date === date;
   });
-  var ws = new Date();
-  ws.setDate(ws.getDate() - ws.getDay() + (ws.getDay() === 0 ? -6 : 1));
-  var wsISO = ws.toISOString().split('T')[0];
-  var wkCnt = workouts.filter(function (w) {
-    return w.date >= wsISO;
-  }).length;
-  var tip = useMemo(function () {
-    return TIPS[Math.floor(Math.random() * TIPS.length)];
-  }, []);
-  if (!plan) return /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '40px 24px',
-      textAlign: 'center',
-      color: '#86868B'
-    }
-  }, "\u041F\u0440\u043E\u0433\u0440\u0430\u043C\u043C\u0430 \u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u0430 \u2728");
-  var m = TYPE_META[plan.type];
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '4px 24px 0',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 16
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: 'Instrument Serif, serif',
-      fontStyle: 'italic',
-      fontSize: 17,
-      color: '#86868B',
-      textTransform: 'capitalize'
-    }
-  }, fmtLong(today)), /*#__PURE__*/React.createElement("div", {
-    style: C.cardPink
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: 24,
+  var updW = function updW(k, v) {
+    onHealth(Object.assign({}, health, {
+      whoop: Object.assign({}, health.whoop, _defineProperty({}, k, v))
+    }));
+  };
+  var toggleProto = function toggleProto(key) {
+    onHealth(Object.assign({}, health, {
+      protocols: Object.assign({}, health.protocols, _defineProperty({}, key, !(health.protocols && health.protocols[key])))
+    }));
+  };
+  var rec = parseFloat(health.whoop && health.whoop.recovery || 0);
+  var recColor = rec >= 67 ? '#34C759' : rec >= 34 ? '#FF9500' : rec > 0 ? P : '#C7C7CC';
+  return /*#__PURE__*/React.createElement("div", null, health.whoop && health.whoop.recovery && /*#__PURE__*/React.createElement("div", {
+    style: Object.assign({}, cardPink, {
+      padding: 20,
+      marginBottom: 20,
       position: 'relative',
       overflow: 'hidden'
-    }
+    })
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       position: 'absolute',
-      top: -60,
-      right: -60,
-      width: 140,
-      height: 140,
+      top: -40,
+      right: -40,
+      width: 120,
+      height: 120,
       borderRadius: '50%',
-      background: m.color,
-      opacity: .35,
+      background: recColor,
+      opacity: .2,
       filter: 'blur(30px)'
     }
   }), /*#__PURE__*/React.createElement("div", {
     style: {
-      position: 'relative'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'space-between',
-      marginBottom: 16
+      justifyContent: 'space-between'
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 6,
-      padding: '4px 12px',
-      borderRadius: 999,
-      background: 'rgba(255,255,255,.75)',
-      border: '1px solid ' + m.color + '25',
-      fontSize: 11,
-      fontWeight: 500,
-      color: m.color
+      fontSize: 10,
+      color: '#86868B',
+      textTransform: 'uppercase',
+      letterSpacing: '0.15em',
+      marginBottom: 4
     }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      width: 6,
-      height: 6,
-      borderRadius: '50%',
-      background: m.color,
-      display: 'inline-block'
-    }
-  }), m.label, plan._ov && /*#__PURE__*/React.createElement("span", {
-    style: {
-      opacity: .7
-    }
-  }, " \xB7 \u0438\u0437\u043C\u0435\u043D\u0435\u043D\u043E")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 10
-    }
-  }, logged && /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 12,
-      fontWeight: 500,
-      color: '#34C759',
-      display: 'flex',
-      alignItems: 'center',
-      gap: 3
-    }
-  }, /*#__PURE__*/React.createElement(Icon, {
-    name: "Check",
-    size: 14,
-    stroke: "#34C759"
-  }), "\u0441\u0434\u0435\u043B\u0430\u043D\u043E"), /*#__PURE__*/React.createElement("button", {
-    onClick: onEdit,
-    style: {
-      width: 28,
-      height: 28,
-      borderRadius: '50%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: '#FF375F',
-      background: 'none',
-      border: 'none',
-      cursor: 'pointer'
-    }
-  }, /*#__PURE__*/React.createElement(Icon, {
-    name: "Pencil",
-    size: 14
-  })))), /*#__PURE__*/React.createElement("div", {
+  }, "Recovery"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: 'Instrument Serif, serif',
-      fontSize: 32,
-      lineHeight: 1.05
+      fontSize: 56,
+      lineHeight: 1,
+      color: recColor
     }
-  }, plan.title), /*#__PURE__*/React.createElement("div", {
+  }, health.whoop.recovery, /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 14,
-      color: '#6e6e73',
-      lineHeight: 1.6,
-      marginTop: 10
-    }
-  }, plan.detail), plan.duration > 0 && /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 6,
-      marginTop: 14,
-      fontSize: 12,
+      fontSize: 22,
       color: '#86868B'
     }
-  }, /*#__PURE__*/React.createElement(Icon, {
-    name: "Clock",
-    size: 14
-  }), "~", plan.duration, " \u043C\u0438\u043D"), plan.type !== 'rest' && !logged && /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return onLog({
-        type: plan.type,
-        title: plan.title
-      });
-    },
-    style: Object.assign({}, C.btn, {
-      marginTop: 20
-    })
-  }, "\u0417\u0430\u043B\u043E\u0433\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0443")))), /*#__PURE__*/React.createElement("div", {
-    style: Object.assign({}, C.card, {
-      padding: 20
+  }, "%"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: 'right'
+    }
+  }, health.whoop.hrv && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: '#86868B',
+      textTransform: 'uppercase'
+    }
+  }, "HRV"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: 'DM Mono, monospace',
+      fontSize: 24,
+      color: '#007AFF'
+    }
+  }, health.whoop.hrv, " ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      color: '#86868B'
+    }
+  }, "ms"))), health.whoop.rhr && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: '#86868B',
+      textTransform: 'uppercase'
+    }
+  }, "\u041F\u0443\u043B\u044C\u0441 \u043F\u043E\u043A\u043E\u044F"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: 'DM Mono, monospace',
+      fontSize: 24,
+      color: P
+    }
+  }, health.whoop.rhr, " ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      color: '#86868B'
+    }
+  }, "bpm")))))), /*#__PURE__*/React.createElement(Section, {
+    title: "WHOOP",
+    emoji: "\u231A"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: Object.assign({}, card, {
+      overflow: 'hidden'
     })
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginBottom: 16
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr 1fr',
+      gap: 1,
+      background: '#f5f5f7'
     }
-  }, /*#__PURE__*/React.createElement("span", {
+  }, WHOOP_FIELDS.map(function (f) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: f.key,
+      style: {
+        background: '#fff',
+        padding: '12px 12px'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: '#86868B',
+        marginBottom: 4,
+        fontWeight: 500,
+        textTransform: 'uppercase',
+        letterSpacing: '0.1em'
+      }
+    }, f.label), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        alignItems: 'baseline',
+        gap: 2
+      }
+    }, /*#__PURE__*/React.createElement("input", {
+      type: "number",
+      inputMode: "decimal",
+      value: health.whoop && health.whoop[f.key] || '',
+      onChange: function onChange(e) {
+        updW(f.key, e.target.value);
+      },
+      placeholder: "\u2014",
+      style: {
+        border: 'none',
+        outline: 'none',
+        fontSize: 20,
+        fontFamily: 'DM Mono, monospace',
+        fontWeight: 600,
+        color: f.color,
+        width: '100%',
+        background: 'none'
+      }
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 9,
+        color: '#C7C7CC',
+        flexShrink: 0
+      }
+    }, f.unit)));
+  }), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontFamily: 'Instrument Serif, serif',
-      fontStyle: 'italic',
-      fontSize: 17
+      background: '#fff',
+      padding: '12px 12px'
     }
-  }, "\u044D\u0442\u0430 \u043D\u0435\u0434\u0435\u043B\u044F"), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontFamily: 'Instrument Serif, serif',
-      fontSize: 22,
-      color: '#FF375F'
-    }
-  }, wkCnt), /*#__PURE__*/React.createElement("span", {
-    style: {
+      fontSize: 9,
       color: '#86868B',
+      marginBottom: 4,
+      fontWeight: 500,
+      textTransform: 'uppercase'
+    }
+  }, "\u0412\u0435\u0441"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'baseline',
+      gap: 2
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    step: "0.1",
+    inputMode: "decimal",
+    value: health.weight || '',
+    onChange: function onChange(e) {
+      onHealth(Object.assign({}, health, {
+        weight: e.target.value
+      }));
+    },
+    placeholder: "\u2014",
+    style: {
+      border: 'none',
+      outline: 'none',
+      fontSize: 20,
+      fontFamily: 'DM Mono, monospace',
+      fontWeight: 600,
+      color: '#FF9500',
+      width: '100%',
+      background: 'none'
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 9,
+      color: '#C7C7CC'
+    }
+  }, "\u043A\u0433"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: '#fff',
+      padding: '12px 12px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: '#86868B',
+      marginBottom: 4,
+      fontWeight: 500,
+      textTransform: 'uppercase'
+    }
+  }, "\u0412\u043E\u0434\u0430"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'baseline',
+      gap: 2
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    step: "0.1",
+    inputMode: "decimal",
+    value: health.water || '',
+    onChange: function onChange(e) {
+      onHealth(Object.assign({}, health, {
+        water: e.target.value
+      }));
+    },
+    placeholder: "\u2014",
+    style: {
+      border: 'none',
+      outline: 'none',
+      fontSize: 20,
+      fontFamily: 'DM Mono, monospace',
+      fontWeight: 600,
+      color: '#007AFF',
+      width: '100%',
+      background: 'none'
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 9,
+      color: '#C7C7CC'
+    }
+  }, "\u043B")))))), /*#__PURE__*/React.createElement(Section, {
+    title: "\u0422\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0438",
+    emoji: "\uD83C\uDFCB\uFE0F",
+    action: /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        onOpenLog(todayPlan ? {
+          type: todayPlan.type,
+          title: todayPlan.title
+        } : null);
+      },
+      style: {
+        padding: '5px 14px',
+        borderRadius: 20,
+        fontSize: 12,
+        fontWeight: 600,
+        background: 'linear-gradient(135deg,#FF375F,#FF5C8A)',
+        color: '#fff',
+        border: 'none',
+        cursor: 'pointer',
+        boxShadow: '0 4px 12px rgba(255,55,95,.2)'
+      }
+    }, "+ \u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C")
+  }, /*#__PURE__*/React.createElement("div", {
+    style: Object.assign({}, card, {
+      overflow: 'hidden'
+    })
+  }, todayWorkouts.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 20,
+      textAlign: 'center',
+      color: '#C7C7CC',
       fontSize: 13
     }
-  }, " / 6"))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      gap: 6
-    }
-  }, [0, 1, 2, 3, 4, 5, 6].map(function (i) {
-    var d = new Date(ws);
-    d.setDate(d.getDate() + i);
-    var ds = d.toISOString().split('T')[0];
-    var has = workouts.some(function (w) {
-      return w.date === ds;
-    });
-    var isT = ds === today;
+  }, "\u041D\u0435\u0442 \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043E\u043A \u2014 \u043D\u0430\u0436\u043C\u0438 + \u0447\u0442\u043E\u0431\u044B \u0434\u043E\u0431\u0430\u0432\u0438\u0442\u044C") : todayWorkouts.map(function (w, i) {
+    var m = TYPE_META[w.type] || TYPE_META.hyrox;
+    var exVals = [];
+    if (w.km) exVals.push(w.km + ' км');
+    if (w.pace) exVals.push(w.pace + ' мин/км');
     return /*#__PURE__*/React.createElement("div", {
-      key: i,
+      key: w.id,
       style: {
-        flex: 1,
+        padding: '12px 16px',
+        borderBottom: i < todayWorkouts.length - 1 ? '1px solid #f5f5f7' : 'none'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: 10
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 8,
+        height: 8,
+        borderRadius: '50%',
+        background: m.color,
+        flexShrink: 0,
+        marginTop: 5
+      }
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 14,
+        fontWeight: 500
+      }
+    }, w.title || m.label), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: '#86868B',
+        marginTop: 2
+      }
+    }, w.duration && w.duration + ' мин', exVals.length > 0 ? ' · ' + exVals.join(' · ') : '', w.notes ? ' · ' + w.notes : ''), w.exercises && w.exercises.length > 0 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginTop: 8,
         display: 'flex',
         flexDirection: 'column',
+        gap: 3
+      }
+    }, w.exercises.map(function (ex, j) {
+      var vals = [];
+      if (ex.distance) vals.push(ex.distance + ' м');
+      if (ex.reps) vals.push(ex.reps + ' раз');
+      if (ex.weight) vals.push(ex.weight + ' кг');
+      if (ex.time) vals.push(ex.time);
+      return /*#__PURE__*/React.createElement("div", {
+        key: j,
+        style: {
+          fontSize: 11,
+          display: 'flex',
+          justifyContent: 'space-between'
+        }
+      }, /*#__PURE__*/React.createElement("span", null, ex.emoji, " ", ex.name), /*#__PURE__*/React.createElement("span", {
+        style: {
+          color: P,
+          fontFamily: 'DM Mono, monospace'
+        }
+      }, vals.join(' · ')));
+    }))), /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        if (confirm('Удалить?')) onDelWorkout(w.id);
+      },
+      style: {
+        color: '#C7C7CC',
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer',
+        padding: 4
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "Trash",
+      size: 14
+    }))));
+  }))), /*#__PURE__*/React.createElement(Section, {
+    title: "\u041F\u0440\u043E\u0442\u043E\u043A\u043E\u043B\u044B",
+    emoji: "\uD83E\uDDEC"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: Object.assign({}, card, {
+      overflow: 'hidden'
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 1,
+      background: '#f5f5f7'
+    }
+  }, PROTOCOLS.map(function (p) {
+    var on = !!(health.protocols && health.protocols[p.key]);
+    return /*#__PURE__*/React.createElement("div", {
+      key: p.key,
+      onClick: function onClick() {
+        toggleProto(p.key);
+      },
+      style: {
+        background: on ? '#FFF0F5' : '#fff',
+        padding: '11px 14px',
+        cursor: 'pointer',
+        display: 'flex',
         alignItems: 'center',
-        gap: 6
+        gap: 8
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 9,
-        textTransform: 'uppercase',
-        color: '#86868B'
+        fontSize: 16
       }
-    }, 'ПВСЧПСВ'[i]), /*#__PURE__*/React.createElement("div", {
+    }, p.emoji), /*#__PURE__*/React.createElement("span", {
       style: {
-        width: '100%',
-        height: 40,
-        borderRadius: 12,
+        fontSize: 13,
+        flex: 1,
+        color: on ? P : '#1d1d1f'
+      }
+    }, p.label), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 18,
+        height: 18,
+        borderRadius: '50%',
+        background: on ? P : '#f2f2f7',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: 12,
-        fontWeight: 500,
-        background: has ? 'linear-gradient(135deg,#FF375F,#FF5C8A)' : isT ? '#fff' : '#f5f5f7',
-        color: has ? '#fff' : isT ? '#FF375F' : '#86868B',
-        border: isT && !has ? '1.5px solid #FF375F' : '1px solid rgba(0,0,0,.04)',
-        boxShadow: has ? '0 4px 12px rgba(255,55,95,.25)' : 'none'
+        flexShrink: 0
       }
-    }, d.getDate()));
-  }))), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return onLog(null);
+    }, on && /*#__PURE__*/React.createElement(Icon, {
+      name: "Check",
+      size: 10,
+      stroke: "#fff",
+      sw: 2.5
+    })));
+  })))), /*#__PURE__*/React.createElement(Section, {
+    title: "\u0417\u0430\u043C\u0435\u0442\u043A\u0438",
+    emoji: "\uD83D\uDCDD"
+  }, /*#__PURE__*/React.createElement("textarea", {
+    value: health.notes || '',
+    onChange: function onChange(e) {
+      onHealth(Object.assign({}, health, {
+        notes: e.target.value
+      }));
     },
-    style: Object.assign({}, C.card, {
-      padding: 16,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: 8,
-      color: '#86868B',
-      fontSize: 14,
-      border: '1px solid rgba(0,0,0,.04)',
-      cursor: 'pointer'
+    placeholder: "\u041A\u0430\u043A \u0441\u0435\u0431\u044F \u0447\u0443\u0432\u0441\u0442\u0432\u0443\u0435\u0448\u044C? \u0427\u0442\u043E \u043E\u0441\u043E\u0431\u0435\u043D\u043D\u043E\u0433\u043E?",
+    rows: 3,
+    style: Object.assign({}, inp, {
+      resize: 'none',
+      lineHeight: 1.6
     })
-  }, /*#__PURE__*/React.createElement(Icon, {
-    name: "Plus",
-    size: 16
-  }), "\u0414\u0440\u0443\u0433\u0430\u044F \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0430"), /*#__PURE__*/React.createElement("div", {
-    style: Object.assign({}, C.card, {
-      padding: 20,
-      display: 'flex',
-      gap: 14
+  })));
+}
+
+// ── FOOD TAB ─────────────────────────────────────────────────────
+function FoodTab(_ref9) {
+  var date = _ref9.date,
+    nut = _ref9.nut,
+    health = _ref9.health,
+    onNut = _ref9.onNut,
+    onHealth = _ref9.onHealth,
+    goals = _ref9.goals,
+    onSaveGoals = _ref9.onSaveGoals;
+  var _useState37 = useState(false),
+    _useState38 = _slicedToArray(_useState37, 2),
+    editGoals = _useState38[0],
+    setEditGoals = _useState38[1];
+  var _useState39 = useState(goals),
+    _useState40 = _slicedToArray(_useState39, 2),
+    tempGoals = _useState40[0],
+    setTempGoals = _useState40[1];
+  var updN = function updN(k, v) {
+    onNut(Object.assign({}, nut, _defineProperty({}, k, v)));
+  };
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Section, {
+    title: "\u041C\u0430\u043A\u0440\u043E\u0441\u044B \xB7 \u0444\u0430\u043A\u0442",
+    emoji: "\uD83E\uDD57",
+    action: /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        setTempGoals(Object.assign({}, goals));
+        setEditGoals(true);
+      },
+      style: {
+        padding: '5px 12px',
+        borderRadius: 20,
+        fontSize: 11,
+        fontWeight: 500,
+        background: '#f5f5f7',
+        color: '#86868B',
+        border: 'none',
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 4
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "Settings",
+      size: 13,
+      stroke: "#86868B"
+    }), " \u0426\u0435\u043B\u0438")
+  }, editGoals && /*#__PURE__*/React.createElement("div", {
+    style: Object.assign({}, card, {
+      padding: 16,
+      marginBottom: 12
     })
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      width: 40,
-      height: 40,
-      borderRadius: 16,
-      background: 'linear-gradient(135deg,#FFE5EC,#FFF0F5)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexShrink: 0
-    }
-  }, /*#__PURE__*/React.createElement(Icon, {
-    name: tip.icon,
-    size: 18,
-    stroke: "#FF375F"
-  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: 'Instrument Serif, serif',
-      fontStyle: 'italic',
-      fontSize: 14,
-      color: '#FF375F',
-      marginBottom: 4
-    }
-  }, "\u0441\u043E\u0432\u0435\u0442 \xB7 ", tip.title.toLowerCase()), /*#__PURE__*/React.createElement("div", {
-    style: {
       fontSize: 13,
-      color: '#6e6e73',
-      lineHeight: 1.55
+      fontWeight: 600,
+      marginBottom: 12
     }
-  }, tip.text))));
+  }, "\u2699\uFE0F \u0422\u0432\u043E\u0438 \u0435\u0436\u0435\u0434\u043D\u0435\u0432\u043D\u044B\u0435 \u0446\u0435\u043B\u0438"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 8,
+      marginBottom: 12
+    }
+  }, NUT_FIELDS.map(function (f) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: f.key
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: '#86868B',
+        marginBottom: 4
+      }
+    }, f.label, " (", f.unit, ")"), /*#__PURE__*/React.createElement("input", {
+      type: "number",
+      inputMode: "numeric",
+      value: tempGoals[f.key] || '',
+      onChange: function onChange(e) {
+        var v = e.target.value;
+        setTempGoals(function (p) {
+          var o = Object.assign({}, p);
+          o[f.key] = +v;
+          return o;
+        });
+      },
+      style: inp
+    }));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      setEditGoals(false);
+    },
+    style: {
+      flex: 1,
+      padding: 10,
+      borderRadius: 14,
+      background: '#f5f5f7',
+      color: '#86868B',
+      fontSize: 13,
+      fontWeight: 500,
+      border: 'none',
+      cursor: 'pointer'
+    }
+  }, "\u041E\u0442\u043C\u0435\u043D\u0430"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      onSaveGoals(tempGoals);
+      setEditGoals(false);
+    },
+    style: {
+      flex: 1,
+      padding: 10,
+      borderRadius: 14,
+      background: 'linear-gradient(135deg,#FF375F,#FF5C8A)',
+      color: '#fff',
+      fontSize: 13,
+      fontWeight: 600,
+      border: 'none',
+      cursor: 'pointer'
+    }
+  }, "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C"))), /*#__PURE__*/React.createElement("div", {
+    style: Object.assign({}, card, {
+      overflow: 'hidden'
+    })
+  }, NUT_FIELDS.map(function (f, i) {
+    var v = parseFloat(nut[f.key]) || 0;
+    var goal = goals[f.key] || DEFAULT_GOALS[f.key];
+    var pct = Math.min(100, v / goal * 100);
+    return /*#__PURE__*/React.createElement("div", {
+      key: f.key,
+      style: {
+        padding: '14px 18px',
+        borderBottom: i < NUT_FIELDS.length - 1 ? '1px solid #f5f5f7' : 'none'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 4
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 15,
+        fontWeight: 500
+      }
+    }, f.label), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        alignItems: 'baseline',
+        gap: 4
+      }
+    }, /*#__PURE__*/React.createElement("input", {
+      type: "number",
+      inputMode: "numeric",
+      value: nut[f.key] || '',
+      onChange: function onChange(e) {
+        updN(f.key, e.target.value);
+      },
+      placeholder: goal + '',
+      style: {
+        border: 'none',
+        outline: 'none',
+        fontSize: 22,
+        fontFamily: 'DM Mono, monospace',
+        fontWeight: 600,
+        color: f.color,
+        width: 80,
+        textAlign: 'right',
+        background: 'none'
+      }
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 12,
+        color: '#86868B'
+      }
+    }, f.unit))), /*#__PURE__*/React.createElement(MiniBar, {
+      value: v,
+      max: goal,
+      color: f.color
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: '#C7C7CC',
+        marginTop: 3,
+        display: 'flex',
+        justifyContent: 'space-between'
+      }
+    }, /*#__PURE__*/React.createElement("span", null, "\u0446\u0435\u043B\u044C ", goal, " ", f.unit), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: pct >= 90 ? '#34C759' : pct >= 50 ? f.color : '#C7C7CC'
+      }
+    }, pct.toFixed(0), "%")));
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 10,
+      marginBottom: 20
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: Object.assign({}, card, {
+      padding: 16
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: '#86868B',
+      textTransform: 'uppercase',
+      letterSpacing: '0.1em',
+      marginBottom: 8
+    }
+  }, "\u2696\uFE0F \u0412\u0435\u0441"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'baseline',
+      gap: 6
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    step: "0.1",
+    inputMode: "decimal",
+    value: health.weight || '',
+    onChange: function onChange(e) {
+      onHealth(Object.assign({}, health, {
+        weight: e.target.value
+      }));
+    },
+    placeholder: "61.5",
+    style: {
+      border: 'none',
+      outline: 'none',
+      fontSize: 32,
+      fontFamily: 'Instrument Serif, serif',
+      color: '#FF9500',
+      background: 'none',
+      width: '100%'
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 14,
+      color: '#86868B'
+    }
+  }, "\u043A\u0433"))), /*#__PURE__*/React.createElement("div", {
+    style: Object.assign({}, card, {
+      padding: 16
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: '#86868B',
+      textTransform: 'uppercase',
+      letterSpacing: '0.1em',
+      marginBottom: 8
+    }
+  }, "\uD83D\uDCA7 \u0412\u043E\u0434\u0430"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'baseline',
+      gap: 6
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    step: "0.1",
+    inputMode: "decimal",
+    value: health.water || '',
+    onChange: function onChange(e) {
+      onHealth(Object.assign({}, health, {
+        water: e.target.value
+      }));
+    },
+    placeholder: "0",
+    style: {
+      border: 'none',
+      outline: 'none',
+      fontSize: 32,
+      fontFamily: 'Instrument Serif, serif',
+      color: '#007AFF',
+      background: 'none',
+      width: '100%'
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 14,
+      color: '#86868B'
+    }
+  }, "\u043B")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 4,
+      marginTop: 8
+    }
+  }, [2, 2.5, 3].map(function (v) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: v,
+      onClick: function onClick() {
+        onHealth(Object.assign({}, health, {
+          water: v + ''
+        }));
+      },
+      style: {
+        flex: 1,
+        padding: '4px 0',
+        borderRadius: 10,
+        fontSize: 11,
+        border: 'none',
+        cursor: 'pointer',
+        background: health.water === v + '' ? '#007AFF' : '#f5f5f7',
+        color: health.water === v + '' ? '#fff' : '#86868B'
+      }
+    }, v, "\u043B");
+  })))));
 }
 
-// ── PLAN ─────────────────────────────────────────────────────────
-function PlanTab(_ref10) {
-  var curWeek = _ref10.curWeek,
-    workouts = _ref10.workouts,
-    start = _ref10.start,
-    ov = _ref10.ov,
-    onEdit = _ref10.onEdit;
-  var _useState11 = useState(curWeek),
-    _useState12 = _slicedToArray(_useState11, 2),
-    exp = _useState12[0],
-    setExp = _useState12[1];
+// ── PLAN TAB ─────────────────────────────────────────────────────
+function PlanTab(_ref0) {
+  var curWeek = _ref0.curWeek,
+    workouts = _ref0.workouts,
+    start = _ref0.start,
+    ov = _ref0.ov,
+    onSaveOv = _ref0.onSaveOv,
+    onResetOv = _ref0.onResetOv;
+  var _useState41 = useState(curWeek),
+    _useState42 = _slicedToArray(_useState41, 2),
+    exp = _useState42[0],
+    setExp = _useState42[1];
+  var _useState43 = useState(null),
+    _useState44 = _slicedToArray(_useState43, 2),
+    editDay = _useState44[0],
+    setEditDay = _useState44[1];
   var phases = useMemo(function () {
     var o = {};
     PROGRAM.forEach(function (w) {
       if (!o[w.phaseNum]) o[w.phaseNum] = {
         name: w.phase,
-        focus: w.focus,
         weeks: []
       };
       o[w.phaseNum].weeks.push(w);
     });
     return o;
   }, []);
-  var sd = new Date(start);
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '8px 24px 0',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 20
+  return /*#__PURE__*/React.createElement("div", null, editDay && /*#__PURE__*/React.createElement(EditDayModal, {
+    week: editDay.week,
+    di: editDay.di,
+    cur: getDay(editDay.week, editDay.di, ov),
+    isOv: !!(ov && ov[editDay.week + '-' + editDay.di]),
+    onSave: function onSave(ch) {
+      onSaveOv(editDay.week, editDay.di, ch);
+      setEditDay(null);
+    },
+    onReset: function onReset() {
+      onResetOv(editDay.week, editDay.di);
+      setEditDay(null);
+    },
+    onClose: function onClose() {
+      setEditDay(null);
     }
-  }, Object.entries(phases).map(function (_ref11) {
-    var _ref12 = _slicedToArray(_ref11, 2),
-      num = _ref12[0],
-      phase = _ref12[1];
+  }), Object.entries(phases).map(function (entry) {
+    var num = entry[0],
+      phase = entry[1];
     return /*#__PURE__*/React.createElement("div", {
-      key: num
+      key: num,
+      style: {
+        marginBottom: 20
+      }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
-        marginBottom: 12,
-        padding: '0 4px'
+        marginBottom: 10
       }
     }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 10,
+        fontSize: 9,
+        color: P,
         letterSpacing: '0.2em',
         textTransform: 'uppercase',
-        color: '#FF375F',
         marginBottom: 2
       }
     }, "\u0424\u0430\u0437\u0430 ", num), /*#__PURE__*/React.createElement("div", {
@@ -1660,17 +3344,10 @@ function PlanTab(_ref10) {
         fontFamily: 'Instrument Serif, serif',
         fontSize: 22
       }
-    }, phase.name), /*#__PURE__*/React.createElement("div", {
+    }, phase.name)), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 11,
-        color: '#86868B',
-        marginTop: 2
-      }
-    }, phase.focus)), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 11,
-        color: '#86868B',
-        fontFamily: 'DM Mono, monospace'
+        color: '#86868B'
       }
     }, phase.weeks.length, " \u043D\u0435\u0434")), /*#__PURE__*/React.createElement("div", {
       style: {
@@ -1679,28 +3356,27 @@ function PlanTab(_ref10) {
         gap: 8
       }
     }, phase.weeks.map(function (w) {
-      var wk = new Date(sd);
-      wk.setDate(wk.getDate() + (w.week - 1) * 7);
-      var we = new Date(wk);
-      we.setDate(we.getDate() + 6);
+      // Fix: compute dates correctly
+      var wkDateISO = addDays(start, (w.week - 1) * 7);
+      var weDateISO = addDays(start, (w.week - 1) * 7 + 6);
       var isCur = w.week === curWeek,
         isPast = w.week < curWeek,
-        isExp = exp === w.week;
+        isExp2 = exp === w.week;
       return /*#__PURE__*/React.createElement("div", {
         key: w.week,
         style: {
-          borderRadius: 24,
+          borderRadius: 20,
           overflow: 'hidden',
           background: isCur ? 'linear-gradient(135deg,#FFF5F8,#FFEEF4)' : '#fff',
           border: '1px solid ' + (isCur ? 'rgba(255,55,95,.15)' : 'rgba(0,0,0,.04)')
         }
       }, /*#__PURE__*/React.createElement("button", {
         onClick: function onClick() {
-          return setExp(isExp ? null : w.week);
+          setExp(isExp2 ? null : w.week);
         },
         style: {
           width: '100%',
-          padding: '14px 20px',
+          padding: '14px 18px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -1712,16 +3388,16 @@ function PlanTab(_ref10) {
         style: {
           display: 'flex',
           alignItems: 'center',
-          gap: 12
+          gap: 10
         }
       }, /*#__PURE__*/React.createElement("div", {
         style: {
-          fontSize: 11,
-          padding: '3px 10px',
+          fontSize: 10,
+          padding: '3px 9px',
           borderRadius: 8,
           fontWeight: 500,
           fontFamily: 'DM Mono, monospace',
-          background: isCur ? '#FF375F' : isPast ? '#f2f2f7' : '#fafafa',
+          background: isCur ? P : isPast ? '#f2f2f7' : '#fafafa',
           color: isCur ? '#fff' : isPast ? '#86868B' : '#1d1d1f'
         }
       }, "W", w.week), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
@@ -1729,20 +3405,20 @@ function PlanTab(_ref10) {
           fontSize: 13,
           fontWeight: 500
         }
-      }, fmtDate(wk.toISOString()), " \u2014 ", fmtDate(we.toISOString())), isCur && /*#__PURE__*/React.createElement("div", {
+      }, fmtDate(wkDateISO), " \u2014 ", fmtDate(weDateISO)), isCur && /*#__PURE__*/React.createElement("div", {
         style: {
           fontFamily: 'Instrument Serif, serif',
           fontStyle: 'italic',
           fontSize: 11,
-          color: '#FF375F'
+          color: P
         }
       }, "\u0442\u0435\u043A\u0443\u0449\u0430\u044F"))), /*#__PURE__*/React.createElement(Icon, {
-        name: "ChevronDown",
+        name: "ChevDown",
         size: 16,
         stroke: "#86868B"
-      })), isExp && /*#__PURE__*/React.createElement("div", {
+      })), isExp2 && /*#__PURE__*/React.createElement("div", {
         style: {
-          padding: '0 20px 16px',
+          padding: '0 18px 16px',
           borderTop: '1px solid #f5f5f7',
           paddingTop: 14,
           display: 'flex',
@@ -1751,32 +3427,34 @@ function PlanTab(_ref10) {
         }
       }, w.days.map(function (_, i) {
         var d = getDay(w.week, i, ov);
-        var meta = TYPE_META[d.type];
-        var dd = new Date(wk);
-        dd.setDate(dd.getDate() + i);
+        var m = TYPE_META[d.type] || TYPE_META.rest;
+        var dayDateISO = addDays(start, (w.week - 1) * 7 + i);
         var lg = workouts.some(function (wo) {
-          return wo.date === dd.toISOString().split('T')[0];
+          return wo.date === dayDateISO;
         });
         return /*#__PURE__*/React.createElement("button", {
           key: i,
           onClick: function onClick() {
-            return onEdit(w.week, i);
+            setEditDay({
+              week: w.week,
+              di: i
+            });
           },
           style: {
             display: 'flex',
-            gap: 12,
+            gap: 10,
             alignItems: 'flex-start',
             textAlign: 'left',
             background: 'none',
             border: 'none',
             cursor: 'pointer',
-            padding: '4px 6px',
+            padding: '4px 4px',
             borderRadius: 10,
             width: '100%'
           }
         }, /*#__PURE__*/React.createElement("div", {
           style: {
-            width: 36,
+            width: 34,
             flexShrink: 0,
             textAlign: 'center'
           }
@@ -1788,16 +3466,16 @@ function PlanTab(_ref10) {
           }
         }, d.day), /*#__PURE__*/React.createElement("div", {
           style: {
-            fontSize: 13,
+            fontSize: 12,
             fontFamily: 'DM Mono, monospace',
-            color: lg ? '#FF375F' : '#86868B'
+            color: lg ? P : '#86868B'
           }
-        }, dd.getDate())), /*#__PURE__*/React.createElement("div", {
+        }, new Date(dayDateISO + 'T12:00:00').getDate())), /*#__PURE__*/React.createElement("div", {
           style: {
             width: 3,
             alignSelf: 'stretch',
             borderRadius: 2,
-            background: meta.color,
+            background: m.color,
             opacity: .5,
             marginTop: 3,
             flexShrink: 0
@@ -1805,28 +3483,26 @@ function PlanTab(_ref10) {
         }), /*#__PURE__*/React.createElement("div", {
           style: {
             flex: 1,
-            minWidth: 0,
-            paddingBottom: 2
+            minWidth: 0
           }
         }, /*#__PURE__*/React.createElement("div", {
           style: {
             display: 'flex',
-            alignItems: 'center',
             gap: 6,
+            alignItems: 'center',
             marginBottom: 2
           }
         }, /*#__PURE__*/React.createElement("span", {
           style: {
             fontSize: 9,
             textTransform: 'uppercase',
-            letterSpacing: '0.1em',
-            fontWeight: 500,
-            color: meta.color
+            color: m.color,
+            fontWeight: 500
           }
-        }, meta.label), d._ov && /*#__PURE__*/React.createElement("span", {
+        }, m.label), d._ov && /*#__PURE__*/React.createElement("span", {
           style: {
             fontSize: 9,
-            color: '#FF375F',
+            color: P,
             fontStyle: 'italic'
           }
         }, "\u0438\u0437\u043C\u0435\u043D\u0435\u043D\u043E"), lg && /*#__PURE__*/React.createElement(Icon, {
@@ -1842,12 +3518,12 @@ function PlanTab(_ref10) {
           style: {
             fontSize: 11,
             color: '#86868B',
-            lineHeight: 1.5,
+            lineHeight: 1.4,
             marginTop: 2
           }
         }, d.detail)), /*#__PURE__*/React.createElement(Icon, {
           name: "Pencil",
-          size: 13,
+          size: 12,
           stroke: "#d1d1d6",
           style: {
             marginTop: 4,
@@ -1858,679 +3534,189 @@ function PlanTab(_ref10) {
     })));
   }));
 }
-
-// ── LOG ──────────────────────────────────────────────────────────
-function LogTab(_ref13) {
-  var workouts = _ref13.workouts,
-    onDel = _ref13.onDel,
-    onAdd = _ref13.onAdd;
-  var grouped = useMemo(function () {
-    var g = {};
-    workouts.forEach(function (w) {
-      if (!g[w.date]) g[w.date] = [];
-      g[w.date].push(w);
-    });
-    return Object.entries(g).sort(function (a, b) {
-      return b[0].localeCompare(a[0]);
-    });
-  }, [workouts]);
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '8px 24px 0',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 16
-    }
-  }, /*#__PURE__*/React.createElement("button", {
-    onClick: onAdd,
-    style: C.btn
-  }, "+ \u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0443"), workouts.length === 0 ? /*#__PURE__*/React.createElement("div", {
-    style: {
-      textAlign: 'center',
-      padding: '60px 0'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: 64,
-      height: 64,
-      borderRadius: 20,
-      background: 'linear-gradient(135deg,#FFE5EC,#FFF0F5)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      margin: '0 auto 12px'
-    }
-  }, /*#__PURE__*/React.createElement(Icon, {
-    name: "Activity",
-    size: 28,
-    stroke: "#FF375F"
-  })), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: 'Instrument Serif, serif',
-      fontStyle: 'italic',
-      fontSize: 20,
-      marginBottom: 4
-    }
-  }, "\u043F\u043E\u043A\u0430 \u043F\u0443\u0441\u0442\u043E"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 13,
-      color: '#86868B'
-    }
-  }, "\u041D\u0430\u0447\u043D\u0438 \u0441\u0435\u0433\u043E\u0434\u043D\u044F \u2014 \u043A\u0430\u0436\u0434\u0430\u044F \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0430 \u0441\u0447\u0438\u0442\u0430\u0435\u0442\u0441\u044F")) : grouped.map(function (_ref14) {
-    var _ref15 = _slicedToArray(_ref14, 2),
-      date = _ref15[0],
-      ws = _ref15[1];
-    return /*#__PURE__*/React.createElement("div", {
-      key: date
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontFamily: 'Instrument Serif, serif',
-        fontStyle: 'italic',
-        fontSize: 15,
-        color: '#86868B',
-        marginBottom: 8,
-        textTransform: 'capitalize'
-      }
-    }, fmtLong(date)), ws.map(function (w) {
-      var m = TYPE_META[w.type];
-      return /*#__PURE__*/React.createElement("div", {
-        key: w.id,
-        style: Object.assign({}, C.card, {
-          padding: 16,
-          marginBottom: 8
-        })
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          display: 'flex',
-          alignItems: 'flex-start',
-          gap: 12
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          flex: 1,
-          minWidth: 0
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 5,
-          padding: '2px 8px',
-          borderRadius: 999,
-          background: m.soft,
-          marginBottom: 6
-        }
-      }, /*#__PURE__*/React.createElement("span", {
-        style: {
-          width: 4,
-          height: 4,
-          borderRadius: '50%',
-          background: m.color,
-          display: 'inline-block'
-        }
-      }), /*#__PURE__*/React.createElement("span", {
-        style: {
-          fontSize: 10,
-          fontWeight: 500,
-          color: m.color
-        }
-      }, m.label)), /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 15,
-          fontWeight: 500
-        }
-      }, w.title), /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 11,
-          color: '#86868B',
-          marginTop: 6,
-          display: 'flex',
-          gap: 12,
-          fontFamily: 'DM Mono, monospace'
-        }
-      }, w.duration && /*#__PURE__*/React.createElement("span", null, w.duration, " \u043C\u0438\u043D"), w.rpe && /*#__PURE__*/React.createElement("span", null, "RPE ", w.rpe, "/10")), w.exercises && w.exercises.length > 0 && /*#__PURE__*/React.createElement("div", {
-        style: {
-          marginTop: 10,
-          paddingTop: 10,
-          borderTop: '1px solid #f5f5f7',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 6
-        }
-      }, w.exercises.map(function (ex, i) {
-        var em = EXERCISES[ex.type];
-        return /*#__PURE__*/React.createElement("div", {
-          key: i,
-          style: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            fontSize: 12
-          }
-        }, /*#__PURE__*/React.createElement("span", null, em && em.emoji, " ", em && em.name || ex.type), /*#__PURE__*/React.createElement("span", {
-          style: {
-            color: '#FF375F',
-            fontWeight: 500,
-            fontFamily: 'DM Mono, monospace'
-          }
-        }, fmtEx(ex)));
-      })), w.notes && /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontFamily: 'Instrument Serif, serif',
-          fontStyle: 'italic',
-          fontSize: 13,
-          color: '#6e6e73',
-          marginTop: 8
-        }
-      }, "\"", w.notes, "\"")), /*#__PURE__*/React.createElement("button", {
-        onClick: function onClick() {
-          if (confirm('Удалить?')) onDel(w.id);
-        },
-        style: {
-          color: '#d1d1d6',
-          padding: 4,
-          background: 'none',
-          border: 'none',
-          cursor: 'pointer'
-        }
-      }, /*#__PURE__*/React.createElement(Icon, {
-        name: "Trash2",
-        size: 16
-      }))));
-    }));
-  }));
-}
-
-// ── LOG FORM ─────────────────────────────────────────────────────
-function LogForm(_ref16) {
-  var prefill = _ref16.prefill,
-    onSave = _ref16.onSave,
-    onClose = _ref16.onClose;
-  var _useState13 = useState({
-      date: todayISO(),
-      type: prefill && prefill.type || 'hyrox',
-      title: prefill && prefill.title || '',
-      duration: '',
-      rpe: 7,
-      notes: '',
-      exercises: []
-    }),
-    _useState14 = _slicedToArray(_useState13, 2),
-    form = _useState14[0],
-    setForm = _useState14[1];
-  var _useState15 = useState(false),
-    _useState16 = _slicedToArray(_useState15, 2),
-    addOpen = _useState16[0],
-    setAddOpen = _useState16[1];
-  var _useState17 = useState(null),
-    _useState18 = _slicedToArray(_useState17, 2),
-    selEx = _useState18[0],
-    setSelEx = _useState18[1];
-  var _useState19 = useState({}),
-    _useState20 = _slicedToArray(_useState19, 2),
-    vals = _useState20[0],
-    setVals = _useState20[1];
-  var handleAdd = function handleAdd() {
-    if (!selEx) return;
-    var ex = {
-      type: selEx
-    };
-    EXERCISES[selEx].fields.forEach(function (f) {
-      if (vals[f]) ex[f] = FIELD_META[f].type === 'number' ? Number(vals[f]) : vals[f];
-    });
-    setForm(function (p) {
-      return Object.assign({}, p, {
-        exercises: p.exercises.concat([ex])
-      });
-    });
-    setSelEx(null);
-    setVals({});
-    setAddOpen(false);
-  };
-  var exOrder = useMemo(function () {
-    var all = Object.keys(EXERCISES);
-    if (form.type === 'hyrox' || form.type === 'simulation') {
-      var h = ['skierg', 'sled_push', 'sled_pull', 'burpees', 'rower', 'farmers', 'sandbag', 'wallballs', 'run'];
-      return h.concat(all.filter(function (k) {
-        return h.indexOf(k) === -1;
-      }));
-    }
-    if (form.type === 'run') return ['run'].concat(all.filter(function (k) {
-      return k !== 'run';
-    }));
-    if (form.type === 'strength') {
-      var s = ['squat', 'deadlift', 'press', 'pullup', 'plank'];
-      return s.concat(all.filter(function (k) {
-        return s.indexOf(k) === -1;
-      }));
-    }
-    return all;
-  }, [form.type]);
-  var inp = {
-    background: '#f5f5f7',
-    border: '1px solid #e5e5ea',
-    borderRadius: 12,
-    padding: '10px 12px',
-    fontSize: 14,
-    width: '100%',
-    fontFamily: 'inherit',
-    color: '#1d1d1f'
-  };
-  return /*#__PURE__*/React.createElement(Sheet, {
-    onClose: onClose,
-    title: /*#__PURE__*/React.createElement("span", null, "\u043D\u043E\u0432\u0430\u044F ", /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontStyle: 'italic',
-        color: '#FF375F'
-      }
-    }, "\u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0430"))
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 16
-    }
-  }, /*#__PURE__*/React.createElement(Fld, {
-    label: "\u0422\u0438\u043F"
-  }, /*#__PURE__*/React.createElement(TypePicker, {
-    value: form.type,
-    onChange: function onChange(t) {
-      return setForm(function (p) {
-        return Object.assign({}, p, {
-          type: t
-        });
-      });
-    }
-  })), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: 12
-    }
-  }, /*#__PURE__*/React.createElement(Fld, {
-    label: "\u0414\u0430\u0442\u0430"
-  }, /*#__PURE__*/React.createElement("input", {
-    type: "date",
-    value: form.date,
-    onChange: function onChange(e) {
-      return setForm(function (p) {
-        return Object.assign({}, p, {
-          date: e.target.value
-        });
-      });
-    },
-    style: inp
-  })), /*#__PURE__*/React.createElement(Fld, {
-    label: "\u041C\u0438\u043D"
-  }, /*#__PURE__*/React.createElement("input", {
-    type: "number",
-    inputMode: "numeric",
-    value: form.duration,
-    onChange: function onChange(e) {
-      return setForm(function (p) {
-        return Object.assign({}, p, {
-          duration: e.target.value
-        });
-      });
-    },
-    style: Object.assign({}, inp, {
-      fontFamily: 'DM Mono, monospace'
-    })
-  }))), /*#__PURE__*/React.createElement(Fld, {
-    label: "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435"
-  }, /*#__PURE__*/React.createElement("input", {
-    value: form.title,
-    onChange: function onChange(e) {
-      return setForm(function (p) {
-        return Object.assign({}, p, {
-          title: e.target.value
-        });
-      });
-    },
-    placeholder: "\u043D\u0430\u043F\u0440. Hyrox \u0442\u0435\u0445\u043D\u0438\u043A\u0430 A",
-    style: inp
-  })), /*#__PURE__*/React.createElement(Fld, {
-    label: "\u0423\u043F\u0440\u0430\u0436\u043D\u0435\u043D\u0438\u044F"
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 8
-    }
-  }, form.exercises.map(function (ex, i) {
-    var em = EXERCISES[ex.type];
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: 10,
-        padding: '10px 14px',
-        borderRadius: 16,
-        background: '#FFF5F8',
-        border: '1px solid rgba(255,55,95,.1)'
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 18
-      }
-    }, em && em.emoji), /*#__PURE__*/React.createElement("div", {
-      style: {
-        flex: 1
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 13,
-        fontWeight: 500
-      }
-    }, em && em.name), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 11,
-        color: '#FF375F',
-        marginTop: 2,
-        fontFamily: 'DM Mono, monospace'
-      }
-    }, fmtEx(ex))), /*#__PURE__*/React.createElement("button", {
-      onClick: function onClick() {
-        return setForm(function (p) {
-          return Object.assign({}, p, {
-            exercises: p.exercises.filter(function (_, j) {
-              return j !== i;
-            })
-          });
-        });
-      },
-      style: {
-        color: '#86868B',
-        background: 'none',
-        border: 'none',
-        cursor: 'pointer'
-      }
-    }, /*#__PURE__*/React.createElement(Icon, {
-      name: "X",
-      size: 16
-    })));
-  }), !addOpen ? /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setAddOpen(true);
-    },
-    style: {
-      width: '100%',
-      padding: 12,
-      borderRadius: 16,
-      background: '#FFE5EC',
-      color: '#FF375F',
-      fontSize: 13,
-      fontWeight: 500,
-      border: '1px dashed rgba(255,55,95,.3)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: 6,
-      cursor: 'pointer'
-    }
-  }, /*#__PURE__*/React.createElement(Icon, {
-    name: "Plus",
-    size: 15
-  }), " \u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0443\u043F\u0440\u0430\u0436\u043D\u0435\u043D\u0438\u0435") : /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: 14,
-      borderRadius: 16,
-      background: '#fafafa',
-      border: '1px solid rgba(0,0,0,.06)',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 12
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      gap: 8
-    }
-  }, exOrder.map(function (k) {
-    return /*#__PURE__*/React.createElement("button", {
-      key: k,
-      onClick: function onClick() {
-        return setSelEx(k);
-      },
-      style: {
-        padding: '6px 12px',
-        borderRadius: 999,
-        fontSize: 12,
-        fontWeight: 500,
-        display: 'flex',
-        alignItems: 'center',
-        gap: 4,
-        background: selEx === k ? '#FF375F' : '#fff',
-        color: selEx === k ? '#fff' : '#1d1d1f',
-        border: '1px solid rgba(0,0,0,.06)',
-        cursor: 'pointer'
-      }
-    }, EXERCISES[k].emoji, " ", EXERCISES[k].name);
-  })), selEx && /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: 8
-    }
-  }, EXERCISES[selEx].fields.map(function (f) {
-    return /*#__PURE__*/React.createElement(Fld, {
-      key: f,
-      label: FIELD_META[f].label
-    }, /*#__PURE__*/React.createElement("input", {
-      type: FIELD_META[f].type,
-      inputMode: FIELD_META[f].inputMode,
-      placeholder: FIELD_META[f].placeholder,
-      value: vals[f] || '',
-      onChange: function onChange(e) {
-        return setVals(function (v) {
-          return Object.assign({}, v, _defineProperty({}, f, e.target.value));
-        });
-      },
-      style: Object.assign({}, inp, {
-        fontFamily: 'DM Mono, monospace'
-      })
-    }));
-  })), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      gap: 8
-    }
-  }, /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      setAddOpen(false);
-      setSelEx(null);
-      setVals({});
-    },
-    style: {
-      flex: 1,
-      padding: 10,
-      borderRadius: 14,
-      background: '#f5f5f7',
-      color: '#86868B',
-      fontSize: 13,
-      fontWeight: 500,
-      border: 'none',
-      cursor: 'pointer'
-    }
-  }, "\u041E\u0442\u043C\u0435\u043D\u0430"), /*#__PURE__*/React.createElement("button", {
-    onClick: handleAdd,
-    disabled: !selEx,
-    style: {
-      flex: 1,
-      padding: 10,
-      borderRadius: 14,
-      background: 'linear-gradient(135deg,#FF375F,#FF5C8A)',
-      color: '#fff',
-      fontSize: 13,
-      fontWeight: 600,
-      border: 'none',
-      cursor: 'pointer',
-      opacity: selEx ? 1 : .4
-    }
-  }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C"))))), /*#__PURE__*/React.createElement(Fld, {
-    label: 'Усилие RPE ' + form.rpe + '/10'
-  }, /*#__PURE__*/React.createElement("input", {
-    type: "range",
-    min: "1",
-    max: "10",
-    value: form.rpe,
-    onChange: function onChange(e) {
-      return setForm(function (p) {
-        return Object.assign({}, p, {
-          rpe: +e.target.value
-        });
-      });
-    },
-    style: {
-      accentColor: '#FF375F',
-      width: '100%',
-      marginTop: 6
-    }
-  })), /*#__PURE__*/React.createElement(Fld, {
-    label: "\u0417\u0430\u043C\u0435\u0442\u043A\u0438"
-  }, /*#__PURE__*/React.createElement("textarea", {
-    value: form.notes,
-    onChange: function onChange(e) {
-      return setForm(function (p) {
-        return Object.assign({}, p, {
-          notes: e.target.value
-        });
-      });
-    },
-    placeholder: "\u043A\u0430\u043A \u043F\u0440\u043E\u0448\u043B\u043E?",
-    style: Object.assign({}, inp, {
-      height: 88,
-      resize: 'none'
-    })
-  })), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return onSave(Object.assign({}, form, {
-        duration: form.duration ? +form.duration : null
-      }));
-    },
-    disabled: !form.title,
-    style: Object.assign({}, C.btn, {
-      opacity: form.title ? 1 : .35
-    })
-  }, "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C")));
-}
-
-// ── EDIT MODAL ───────────────────────────────────────────────────
-function EditModal(_ref17) {
-  var week = _ref17.week,
-    di = _ref17.di,
-    cur = _ref17.cur,
-    isOv = _ref17.isOv,
-    onSave = _ref17.onSave,
-    onReset = _ref17.onReset,
-    onClose = _ref17.onClose;
+function EditDayModal(_ref1) {
+  var week = _ref1.week,
+    di = _ref1.di,
+    cur = _ref1.cur,
+    isOv = _ref1.isOv,
+    onSave = _ref1.onSave,
+    onReset = _ref1.onReset,
+    onClose = _ref1.onClose;
   var days = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
-  var _useState21 = useState({
+  var _useState45 = useState({
       type: cur && cur.type || 'hyrox',
       title: cur && cur.title || '',
       detail: cur && cur.detail || '',
       duration: cur ? cur.duration : ''
     }),
-    _useState22 = _slicedToArray(_useState21, 2),
-    form = _useState22[0],
-    setForm = _useState22[1];
-  var inp = {
-    background: '#f5f5f7',
-    border: '1px solid #e5e5ea',
-    borderRadius: 12,
-    padding: '10px 12px',
-    fontSize: 14,
-    width: '100%',
-    fontFamily: 'inherit',
-    color: '#1d1d1f'
-  };
-  return /*#__PURE__*/React.createElement(Sheet, {
-    onClose: onClose,
-    title: /*#__PURE__*/React.createElement("span", null, "\u0440\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C ", /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontStyle: 'italic',
-        color: '#FF375F'
-      }
-    }, "\u0434\u0435\u043D\u044C"))
+    _useState46 = _slicedToArray(_useState45, 2),
+    form = _useState46[0],
+    setForm = _useState46[1];
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'fixed',
+      inset: 0,
+      zIndex: 50,
+      display: 'flex',
+      alignItems: 'flex-end',
+      background: 'rgba(0,0,0,.5)',
+      backdropFilter: 'blur(8px)'
+    },
+    onClick: onClose
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 11,
-      letterSpacing: '0.2em',
-      textTransform: 'uppercase',
-      color: '#86868B',
+      width: '100%',
+      maxHeight: '90vh',
+      overflowY: 'auto',
+      background: '#fff',
+      borderTopLeftRadius: 28,
+      borderTopRightRadius: 28
+    },
+    onClick: function onClick(e) {
+      e.stopPropagation();
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '12px 20px 28px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'center',
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 36,
+      height: 4,
+      borderRadius: 2,
+      background: '#e5e5ea'
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: '#86868B',
+      textTransform: 'uppercase',
+      letterSpacing: '0.15em'
     }
   }, "\u041D\u0435\u0434\u0435\u043B\u044F ", week, " \xB7 ", days[di]), /*#__PURE__*/React.createElement("div", {
     style: {
+      fontFamily: 'Instrument Serif, serif',
+      fontSize: 24
+    }
+  }, "\u0440\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontStyle: 'italic',
+      color: P
+    }
+  }, "\u0434\u0435\u043D\u044C"))), /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    style: {
+      width: 30,
+      height: 30,
+      borderRadius: '50%',
+      background: '#f5f5f7',
+      border: 'none',
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "X",
+    size: 16,
+    stroke: "#86868B"
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(3,1fr)',
+      gap: 6,
+      marginBottom: 14
+    }
+  }, Object.entries(TYPE_META).map(function (e) {
+    var k = e[0],
+      m = e[1];
+    return /*#__PURE__*/React.createElement("button", {
+      key: k,
+      onClick: function onClick() {
+        setForm(function (p) {
+          return Object.assign({}, p, {
+            type: k
+          });
+        });
+      },
+      style: {
+        padding: '9px 4px',
+        borderRadius: 12,
+        fontSize: 11,
+        fontWeight: 500,
+        border: 'none',
+        cursor: 'pointer',
+        background: form.type === k ? m.color : m.soft,
+        color: form.type === k ? '#fff' : m.color
+      }
+    }, m.label);
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
       display: 'flex',
       flexDirection: 'column',
-      gap: 16
+      gap: 10
     }
-  }, /*#__PURE__*/React.createElement(Fld, {
-    label: "\u0422\u0438\u043F"
-  }, /*#__PURE__*/React.createElement(TypePicker, {
-    value: form.type,
-    onChange: function onChange(t) {
-      return setForm(function (p) {
-        return Object.assign({}, p, {
-          type: t
-        });
-      });
-    },
-    includeRest: true
-  })), /*#__PURE__*/React.createElement(Fld, {
-    label: "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435"
   }, /*#__PURE__*/React.createElement("input", {
     value: form.title,
     onChange: function onChange(e) {
-      return setForm(function (p) {
+      setForm(function (p) {
         return Object.assign({}, p, {
           title: e.target.value
         });
       });
     },
+    placeholder: "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435",
     style: inp
-  })), /*#__PURE__*/React.createElement(Fld, {
-    label: "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435"
-  }, /*#__PURE__*/React.createElement("textarea", {
+  }), /*#__PURE__*/React.createElement("textarea", {
     value: form.detail,
     onChange: function onChange(e) {
-      return setForm(function (p) {
+      setForm(function (p) {
         return Object.assign({}, p, {
           detail: e.target.value
         });
       });
     },
+    placeholder: "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435 \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0438\u2026",
     style: Object.assign({}, inp, {
-      height: 100,
+      height: 90,
       resize: 'none'
     })
-  })), /*#__PURE__*/React.createElement(Fld, {
-    label: "\u0414\u043B\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C \u043C\u0438\u043D"
-  }, /*#__PURE__*/React.createElement("input", {
+  }), /*#__PURE__*/React.createElement("input", {
     type: "number",
     value: form.duration,
     onChange: function onChange(e) {
-      return setForm(function (p) {
+      setForm(function (p) {
         return Object.assign({}, p, {
           duration: e.target.value
         });
       });
     },
+    placeholder: "\u0414\u043B\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C (\u043C\u0438\u043D)",
     style: inp
-  })), /*#__PURE__*/React.createElement("button", {
+  }), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
-      return onSave({
+      onSave({
         type: form.type,
         title: form.title,
         detail: form.detail,
-        duration: form.duration === '' ? 0 : +form.duration
+        duration: form.duration ? +form.duration : 0
       });
     },
     disabled: !form.title,
-    style: Object.assign({}, C.btn, {
+    style: Object.assign({}, pinkBtn, {
       opacity: form.title ? 1 : .35
     })
   }, "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C"), isOv && /*#__PURE__*/React.createElement("button", {
@@ -2538,113 +3724,107 @@ function EditModal(_ref17) {
     style: {
       width: '100%',
       padding: 12,
-      borderRadius: 16,
+      borderRadius: 14,
       background: '#f5f5f7',
       color: '#86868B',
-      fontSize: 14,
+      fontSize: 13,
       fontWeight: 500,
       border: 'none',
       cursor: 'pointer',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      gap: 6
+      gap: 6,
+      fontFamily: 'inherit'
     }
   }, /*#__PURE__*/React.createElement(Icon, {
     name: "RotateCcw",
-    size: 14
-  }), "\u0412\u0435\u0440\u043D\u0443\u0442\u044C \u043E\u0440\u0438\u0433\u0438\u043D\u0430\u043B")));
+    size: 13
+  }), "\u0412\u0435\u0440\u043D\u0443\u0442\u044C \u043E\u0440\u0438\u0433\u0438\u043D\u0430\u043B")))));
 }
 
-// ── STATS ────────────────────────────────────────────────────────
-function StatsTab(_ref18) {
-  var workouts = _ref18.workouts,
-    start = _ref18.start;
+// ── STATS TAB ────────────────────────────────────────────────────
+function StatsTab(_ref10) {
+  var workouts = _ref10.workouts,
+    start = _ref10.start;
+  var _useState47 = useState('recovery'),
+    _useState48 = _slicedToArray(_useState47, 2),
+    metric = _useState48[0],
+    setMetric = _useState48[1];
+  var METRICS = [{
+    key: 'recovery',
+    label: 'Recovery',
+    color: '#34C759'
+  }, {
+    key: 'hrv',
+    label: 'HRV',
+    color: '#007AFF'
+  }, {
+    key: 'rhr',
+    label: 'Пульс',
+    color: P
+  }, {
+    key: 'sleepDuration',
+    label: 'Сон',
+    color: '#5856D6'
+  }, {
+    key: 'weight',
+    label: 'Вес',
+    color: '#FF9500'
+  }, {
+    key: 'calories',
+    label: 'Калории',
+    color: '#FF3B30'
+  }];
+  var sel = METRICS.find(function (m) {
+    return m.key === metric;
+  }) || METRICS[0];
+  var chartData = useMemo(function () {
+    var dates = getAllHealthDates().slice(-14);
+    return dates.map(function (date) {
+      var h = ls.get(SK_HEALTH(date));
+      var n = ls.get(SK_NUT(date));
+      var v = null;
+      if (metric === 'weight') v = h && h.weight ? parseFloat(h.weight) : null;else if (metric === 'calories') v = n && n.calories ? parseFloat(n.calories) : null;else v = h && h.whoop && h.whoop[metric] ? parseFloat(h.whoop[metric]) : null;
+      return {
+        label: fmtDate(date),
+        v: v
+      };
+    }).filter(function (d) {
+      return d.v != null;
+    });
+  }, [metric]);
+  var protoStats = useMemo(function () {
+    var dates = getAllHealthDates();
+    var counts = {};
+    PROTOCOLS.forEach(function (p) {
+      counts[p.key] = 0;
+    });
+    dates.forEach(function (date) {
+      var h = ls.get(SK_HEALTH(date));
+      if (h && h.protocols) PROTOCOLS.forEach(function (p) {
+        if (h.protocols[p.key]) counts[p.key]++;
+      });
+    });
+    return PROTOCOLS.map(function (p) {
+      return Object.assign({}, p, {
+        count: counts[p.key],
+        pct: dates.length > 0 ? Math.round(counts[p.key] / dates.length * 100) : 0
+      });
+    }).sort(function (a, b) {
+      return b.count - a.count;
+    });
+  }, []);
   var totalMin = workouts.reduce(function (s, w) {
-    return s + (w.duration || 0);
+    return s + (+w.duration || 0);
   }, 0);
   var days = daysBetween(start, todayISO()) + 1;
-  var byType = useMemo(function () {
-    var t = {};
-    workouts.forEach(function (w) {
-      t[w.type] = (t[w.type] || 0) + 1;
-    });
-    return Object.entries(t).map(function (_ref19) {
-      var _ref20 = _slicedToArray(_ref19, 2),
-        k = _ref20[0],
-        v = _ref20[1];
-      return {
-        type: TYPE_META[k] && TYPE_META[k].label || k,
-        count: v,
-        color: TYPE_META[k] && TYPE_META[k].color || '#888'
-      };
-    });
-  }, [workouts]);
-  var weekly = useMemo(function () {
-    var wks = {};
-    workouts.forEach(function (w) {
-      var d = new Date(w.date);
-      d.setDate(d.getDate() - d.getDay() + (d.getDay() === 0 ? -6 : 1));
-      var k = d.toISOString().split('T')[0];
-      wks[k] = (wks[k] || 0) + (w.duration || 0);
-    });
-    return Object.entries(wks).sort().slice(-8).map(function (_ref21) {
-      var _ref22 = _slicedToArray(_ref21, 2),
-        d = _ref22[0],
-        v = _ref22[1];
-      return {
-        week: fmtDate(d),
-        minutes: v
-      };
-    });
-  }, [workouts]);
-  var prs = useMemo(function () {
-    var m = {};
-    workouts.forEach(function (w) {
-      if (w.exercises) w.exercises.forEach(function (ex) {
-        if (!m[ex.type]) m[ex.type] = [];
-        m[ex.type].push(Object.assign({}, ex, {
-          date: w.date
-        }));
-      });
-    });
-    return Object.entries(m).map(function (_ref23) {
-      var _ref24 = _slicedToArray(_ref23, 2),
-        type = _ref24[0],
-        entries = _ref24[1];
-      var best = {};
-      ['reps', 'distance', 'weight'].forEach(function (f) {
-        var vs = entries.map(function (e) {
-          return e[f];
-        }).filter(function (v) {
-          return v != null;
-        });
-        if (vs.length) best[f] = Math.max.apply(null, vs);
-      });
-      var ts = entries.map(function (e) {
-        return e.time;
-      }).filter(Boolean);
-      if (ts.length) best.time = ts.sort()[0];
-      return {
-        type: type,
-        latest: entries[entries.length - 1],
-        best: best,
-        count: entries.length
-      };
-    });
-  }, [workouts]);
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '8px 24px 0',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 16
-    }
-  }, /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
       gridTemplateColumns: 'repeat(3,1fr)',
-      gap: 8
+      gap: 8,
+      marginBottom: 20
     }
   }, [{
     l: 'Тренировок',
@@ -2660,14 +3840,14 @@ function StatsTab(_ref18) {
     return /*#__PURE__*/React.createElement("div", {
       key: i,
       style: {
-        borderRadius: 24,
-        padding: 16,
+        borderRadius: 20,
+        padding: 14,
         background: s.a ? 'linear-gradient(135deg,#FFF5F8,#FFEEF4)' : '#fff',
         border: '1px solid ' + (s.a ? 'rgba(255,55,95,.12)' : 'rgba(0,0,0,.04)')
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 10,
+        fontSize: 9,
         letterSpacing: '0.15em',
         textTransform: 'uppercase',
         color: '#86868B'
@@ -2675,465 +3855,374 @@ function StatsTab(_ref18) {
     }, s.l), /*#__PURE__*/React.createElement("div", {
       style: {
         fontFamily: 'Instrument Serif, serif',
-        fontSize: 40,
-        marginTop: 6,
-        color: s.a ? '#FF375F' : '#1d1d1f'
+        fontSize: 36,
+        marginTop: 4,
+        color: s.a ? P : '#1d1d1f'
       }
     }, s.v));
-  })), weekly.length > 0 && /*#__PURE__*/React.createElement("div", {
-    style: Object.assign({}, C.card, {
-      padding: 20
-    })
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: 'Instrument Serif, serif',
-      fontStyle: 'italic',
-      fontSize: 17,
-      marginBottom: 16
-    }
-  }, "\u043E\u0431\u044A\u0451\u043C \u043F\u043E \u043D\u0435\u0434\u0435\u043B\u044F\u043C \xB7 \u043C\u0438\u043D"), /*#__PURE__*/React.createElement(SimpleBarChart, {
-    data: weekly,
-    dataKey: "minutes",
-    xKey: "week"
-  })), byType.length > 0 && /*#__PURE__*/React.createElement("div", {
-    style: Object.assign({}, C.card, {
-      padding: 20
-    })
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: 'Instrument Serif, serif',
-      fontStyle: 'italic',
-      fontSize: 17,
-      marginBottom: 14
-    }
-  }, "\u043F\u043E \u0442\u0438\u043F\u0430\u043C"), byType.sort(function (a, b) {
-    return b.count - a.count;
-  }).map(function (t) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: t.type,
-      style: {
-        marginBottom: 12
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        fontSize: 13,
-        marginBottom: 6
-      }
-    }, /*#__PURE__*/React.createElement("span", null, t.type), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontFamily: 'DM Mono, monospace',
-        color: '#86868B'
-      }
-    }, t.count)), /*#__PURE__*/React.createElement("div", {
-      style: {
-        height: 6,
-        background: '#f2f2f7',
-        borderRadius: 3,
-        overflow: 'hidden'
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        height: '100%',
-        borderRadius: 3,
-        background: t.color,
-        width: t.count / workouts.length * 100 + '%'
-      }
-    })));
-  })), prs.length > 0 && /*#__PURE__*/React.createElement("div", {
-    style: Object.assign({}, C.card, {
-      padding: 20
-    })
+  })), /*#__PURE__*/React.createElement(Section, {
+    title: "\u0422\u0440\u0435\u043D\u0434\u044B WHOOP",
+    emoji: "\uD83D\uDCC8"
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
-      alignItems: 'center',
-      gap: 8,
-      marginBottom: 14
+      gap: 6,
+      overflowX: 'auto',
+      paddingBottom: 8,
+      marginBottom: 10
     }
-  }, /*#__PURE__*/React.createElement(Icon, {
-    name: "Trophy",
-    size: 16,
-    stroke: "#FF375F"
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: 'Instrument Serif, serif',
-      fontStyle: 'italic',
-      fontSize: 17
-    }
-  }, "\u043B\u0438\u0447\u043D\u044B\u0435 \u0440\u0435\u043A\u043E\u0440\u0434\u044B")), prs.map(function (p) {
-    var em = EXERCISES[p.type];
-    return /*#__PURE__*/React.createElement("div", {
-      key: p.type,
-      style: {
-        paddingBottom: 12,
-        marginBottom: 12,
-        borderBottom: '1px solid #f5f5f7'
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 8
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: 6,
-        fontSize: 14,
-        fontWeight: 500
-      }
-    }, /*#__PURE__*/React.createElement("span", null, em && em.emoji), em && em.name), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 10,
-        color: '#86868B'
-      }
-    }, p.count, " \u0437\u0430\u043C\u0435\u0440", p.count === 1 ? '' : p.count < 5 ? 'а' : 'ов')), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: 6
-      }
-    }, p.best.distance != null && /*#__PURE__*/React.createElement("span", {
-      style: {
-        padding: '3px 8px',
-        borderRadius: 8,
-        background: '#FFF5F8',
-        fontSize: 11,
-        color: '#FF375F',
-        fontFamily: 'DM Mono, monospace'
-      }
-    }, "\u043C\u0430\u043A\u0441 ", p.best.distance, "\u043C"), p.best.reps != null && /*#__PURE__*/React.createElement("span", {
-      style: {
-        padding: '3px 8px',
-        borderRadius: 8,
-        background: '#FFF5F8',
-        fontSize: 11,
-        color: '#FF375F',
-        fontFamily: 'DM Mono, monospace'
-      }
-    }, "\u043C\u0430\u043A\u0441 ", p.best.reps, "\u0440\u0430\u0437"), p.best.weight != null && /*#__PURE__*/React.createElement("span", {
-      style: {
-        padding: '3px 8px',
-        borderRadius: 8,
-        background: '#FFF5F8',
-        fontSize: 11,
-        color: '#FF375F',
-        fontFamily: 'DM Mono, monospace'
-      }
-    }, "\u043C\u0430\u043A\u0441 ", p.best.weight, "\u043A\u0433"), p.best.time && /*#__PURE__*/React.createElement("span", {
-      style: {
-        padding: '3px 8px',
-        borderRadius: 8,
-        background: '#FFF5F8',
-        fontSize: 11,
-        color: '#FF375F',
-        fontFamily: 'DM Mono, monospace'
-      }
-    }, "\u043B\u0443\u0447\u0448\u0435\u0435 ", p.best.time)));
-  })), workouts.length === 0 && /*#__PURE__*/React.createElement("div", {
-    style: {
-      textAlign: 'center',
-      padding: '48px 0',
-      color: '#86868B',
-      fontFamily: 'Instrument Serif, serif',
-      fontStyle: 'italic',
-      fontSize: 18
-    }
-  }, "\u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0430 \u043F\u043E\u044F\u0432\u0438\u0442\u0441\u044F \u043F\u043E\u0441\u043B\u0435 \u043F\u0435\u0440\u0432\u043E\u0439 \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0438"));
-}
-
-// ── GUIDE ────────────────────────────────────────────────────────
-function GuideTab() {
-  var _useState23 = useState('stations'),
-    _useState24 = _slicedToArray(_useState23, 2),
-    active = _useState24[0],
-    setActive = _useState24[1];
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '8px 24px 0',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 16
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      gap: 4,
-      padding: 6,
-      borderRadius: 18,
-      background: '#f2f2f7'
-    }
-  }, [{
-    id: 'stations',
-    l: 'Станции'
-  }, {
-    id: 'tips',
-    l: 'Советы'
-  }, {
-    id: 'race',
-    l: 'Гонка'
-  }].map(function (t) {
+  }, METRICS.map(function (m) {
     return /*#__PURE__*/React.createElement("button", {
-      key: t.id,
+      key: m.key,
       onClick: function onClick() {
-        return setActive(t.id);
+        setMetric(m.key);
       },
       style: {
-        flex: 1,
-        padding: '8px 0',
-        borderRadius: 12,
-        fontSize: 12,
+        flexShrink: 0,
+        padding: '6px 14px',
+        borderRadius: 20,
+        fontSize: 11,
         fontWeight: 500,
-        background: active === t.id ? '#fff' : 'transparent',
-        color: active === t.id ? '#FF375F' : '#86868B',
         border: 'none',
         cursor: 'pointer',
-        boxShadow: active === t.id ? '0 1px 4px rgba(0,0,0,.06)' : 'none'
+        background: metric === m.key ? m.color : '#fff',
+        color: metric === m.key ? '#fff' : '#86868B',
+        boxShadow: '0 1px 3px rgba(0,0,0,.06)'
       }
-    }, t.l);
-  })), active === 'stations' && /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 12
-    }
-  }, STATIONS.map(function (s, i) {
+    }, m.label);
+  })), /*#__PURE__*/React.createElement("div", {
+    style: Object.assign({}, card, {
+      padding: '14px 10px'
+    })
+  }, /*#__PURE__*/React.createElement(SimpleLineChart, {
+    data: chartData,
+    color: sel.color,
+    height: 130
+  }))), /*#__PURE__*/React.createElement(Section, {
+    title: "\u041F\u0440\u043E\u0442\u043E\u043A\u043E\u043B\u044B \xB7 \u0447\u0430\u0441\u0442\u043E\u0442\u0430",
+    emoji: "\uD83E\uDDEC"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: Object.assign({}, card, {
+      overflow: 'hidden'
+    })
+  }, protoStats.slice(0, 8).map(function (p, i) {
     return /*#__PURE__*/React.createElement("div", {
-      key: s.name,
-      style: Object.assign({}, C.card, {
-        padding: 20
-      })
+      key: p.key,
+      style: {
+        padding: '11px 16px',
+        borderBottom: i < 7 ? '1px solid #f5f5f7' : 'none'
+      }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
         display: 'flex',
         justifyContent: 'space-between',
-        marginBottom: 12
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'flex',
         alignItems: 'center',
-        gap: 10
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 10,
-        padding: '2px 8px',
-        borderRadius: 6,
-        background: '#FFE5EC',
-        color: '#FF375F',
-        fontWeight: 500,
-        fontFamily: 'DM Mono, monospace'
-      }
-    }, String(i + 1).padStart(2, '0')), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontFamily: 'Instrument Serif, serif',
-        fontSize: 22
-      }
-    }, s.name)), /*#__PURE__*/React.createElement("div", {
-      style: {
-        textAlign: 'right',
-        fontSize: 11,
-        fontFamily: 'DM Mono, monospace'
-      }
-    }, s.target)), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: 8,
-        marginBottom: 12
-      }
-    }, [['Дистанция', s.distance], ['Вес', s.weight]].map(function (_ref25) {
-      var _ref26 = _slicedToArray(_ref25, 2),
-        l = _ref26[0],
-        v = _ref26[1];
-      return /*#__PURE__*/React.createElement("div", {
-        key: l,
-        style: {
-          padding: '8px 12px',
-          borderRadius: 12,
-          background: '#fafafa'
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontSize: 9,
-          textTransform: 'uppercase',
-          color: '#86868B'
-        }
-      }, l), /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontFamily: 'DM Mono, monospace',
-          fontSize: 12,
-          marginTop: 2
-        }
-      }, v));
-    })), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 8
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'flex',
-        gap: 10
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        width: 20,
-        height: 20,
-        borderRadius: '50%',
-        background: '#FFE5EC',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexShrink: 0,
-        fontSize: 11,
-        color: '#FF375F'
-      }
-    }, "\u2713"), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 12,
-        color: '#3c3c43',
-        lineHeight: 1.55
+        marginBottom: 4
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
-        fontWeight: 500,
-        color: '#FF375F'
+        fontSize: 13
       }
-    }, "\u0442\u0435\u0445\u043D\u0438\u043A\u0430. "), s.tip)), /*#__PURE__*/React.createElement("div", {
+    }, p.emoji, " ", p.label), /*#__PURE__*/React.createElement("span", {
       style: {
-        display: 'flex',
-        gap: 10
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        width: 20,
-        height: 20,
-        borderRadius: '50%',
-        background: '#FFF3F0',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexShrink: 0,
+        fontFamily: 'DM Mono, monospace',
         fontSize: 11,
-        color: '#FF9F7A'
+        color: '#86868B'
       }
-    }, "\xD7"), /*#__PURE__*/React.createElement("div", {
+    }, p.count, "\xD7 \xB7 ", p.pct, "%")), /*#__PURE__*/React.createElement(MiniBar, {
+      value: p.pct,
+      max: 100,
+      color: P
+    }));
+  }))));
+}
+
+// ── AI TAB ───────────────────────────────────────────────────────
+function AITab(_ref11) {
+  var date = _ref11.date,
+    health = _ref11.health,
+    nut = _ref11.nut,
+    goals = _ref11.goals,
+    workouts = _ref11.workouts;
+  var _useState49 = useState([{
+      role: 'assistant',
+      text: 'Привет! 👋 Я твой AI-коуч по здоровью и Hyrox. Спроси что угодно — анализ данных WHOOP, советы по питанию, оценку готовности к тренировке или биохакинг-стратегии.'
+    }]),
+    _useState50 = _slicedToArray(_useState49, 2),
+    messages = _useState50[0],
+    setMessages = _useState50[1];
+  var _useState51 = useState(''),
+    _useState52 = _slicedToArray(_useState51, 2),
+    input = _useState52[0],
+    setInput = _useState52[1];
+  var _useState53 = useState(false),
+    _useState54 = _slicedToArray(_useState53, 2),
+    loading = _useState54[0],
+    setLoading = _useState54[1];
+  var messagesEnd = useRef(null);
+  useEffect(function () {
+    if (messagesEnd.current) messagesEnd.current.scrollIntoView({
+      behavior: 'smooth'
+    });
+  }, [messages]);
+  var QUICK = [{
+    label: '📊 Анализ недели',
+    prompt: 'Проанализируй мои данные за последние 7 дней и дай конкретные рекомендации'
+  }, {
+    label: '💪 Готовность к тренировке',
+    prompt: 'Исходя из сегодняшних данных WHOOP, какую тренировку мне сегодня делать?'
+  }, {
+    label: '😴 Улучшить сон и HRV',
+    prompt: 'Как улучшить качество сна и повысить HRV? Что из моих протоколов помогает?'
+  }, {
+    label: '🥗 Питание для Hyrox',
+    prompt: 'Дай рекомендации по питанию для улучшения результатов в Hyrox'
+  }];
+  var buildCtx = function buildCtx() {
+    var dates = getAllHealthDates().slice(-7);
+    var lines = dates.map(function (d) {
+      var h = ls.get(SK_HEALTH(d)) || {};
+      var n = ls.get(SK_NUT(d)) || {};
+      var proto = PROTOCOLS.filter(function (p) {
+        return h.protocols && h.protocols[p.key];
+      }).map(function (p) {
+        return p.label;
+      }).join(', ') || '—';
+      return d + ': Recovery=' + (h.whoop && h.whoop.recovery || '—') + '% HRV=' + (h.whoop && h.whoop.hrv || '—') + 'ms RHR=' + (h.whoop && h.whoop.rhr || '—') + 'bpm Сон=' + (h.whoop && h.whoop.sleepDuration || '—') + 'ч Вес=' + (h.weight || '—') + 'кг | ' + (n.calories || '—') + 'ккал белок=' + (n.protein || '—') + 'г | ' + proto;
+    }).join('\n');
+    var todayW = workouts.filter(function (w) {
+      return w.date === date;
+    }).map(function (w) {
+      return (w.title || w.type) + ' ' + (w.duration || '') + 'мин';
+    }).join(', ') || 'нет';
+    return 'Данные за 7 дней:\n' + lines + '\n\nСегодня: Recovery=' + (health && health.whoop && health.whoop.recovery || '—') + '% HRV=' + (health && health.whoop && health.whoop.hrv || '—') + 'ms. Тренировки: ' + todayW + '. Цели питания: ' + goals.calories + 'ккал, ' + goals.protein + 'г белка.';
+  };
+  var send = function send(text) {
+    if (!text.trim()) return;
+    var userMsg = text.trim();
+    setMessages(function (p) {
+      return p.concat([{
+        role: 'user',
+        text: userMsg
+      }]);
+    });
+    setInput('');
+    setLoading(true);
+    var ctx = buildCtx();
+    var apiMsgs = messages.concat([{
+      role: 'user',
+      text: userMsg
+    }]).map(function (m) {
+      return {
+        role: m.role === 'assistant' ? 'assistant' : 'user',
+        content: m.text
+      };
+    }).slice(-10);
+    fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: 'Ты персональный AI-коуч по здоровью и спорту. Пользовательница: молодая женщина, тренируется к Hyrox, занимается теннисом, пилатесом, бегом. Отслеживает WHOOP, биохакинг-протоколы, питание. Отвечай на русском языке. Давай конкретные персонализированные советы. Будь поддерживающей. Используй данные.\n\n' + ctx,
+        messages: apiMsgs
+      })
+    }).then(function (r) {
+      return r.json();
+    }).then(function (data) {
+      var reply = data.content && data.content[0] && data.content[0].text || 'Ошибка';
+      setMessages(function (p) {
+        return p.concat([{
+          role: 'assistant',
+          text: reply
+        }]);
+      });
+      setLoading(false);
+    }).catch(function () {
+      setMessages(function (p) {
+        return p.concat([{
+          role: 'assistant',
+          text: 'Ошибка соединения.'
+        }]);
+      });
+      setLoading(false);
+    });
+  };
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 6,
+      overflowX: 'auto',
+      paddingBottom: 10,
+      marginBottom: 4
+    }
+  }, QUICK.map(function (q) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: q.label,
+      onClick: function onClick() {
+        send(q.prompt);
+      },
       style: {
+        flexShrink: 0,
+        padding: '8px 14px',
+        borderRadius: 20,
         fontSize: 12,
-        color: '#6e6e73',
-        lineHeight: 1.55
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
         fontWeight: 500,
-        color: '#FF9F7A'
+        border: 'none',
+        cursor: 'pointer',
+        background: '#fff',
+        color: '#1d1d1f',
+        boxShadow: '0 1px 4px rgba(0,0,0,.08)',
+        whiteSpace: 'nowrap'
       }
-    }, "\u043E\u0448\u0438\u0431\u043A\u0430. "), s.mistake))));
-  })), active === 'tips' && /*#__PURE__*/React.createElement("div", {
+    }, q.label);
+  })), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       flexDirection: 'column',
-      gap: 12
+      gap: 10,
+      minHeight: 200,
+      marginBottom: 16
     }
-  }, TIPS.map(function (t, i) {
+  }, messages.map(function (m, i) {
     return /*#__PURE__*/React.createElement("div", {
       key: i,
-      style: Object.assign({}, C.card, {
-        padding: 16,
-        display: 'flex',
-        gap: 14
-      })
-    }, /*#__PURE__*/React.createElement("div", {
       style: {
-        width: 40,
-        height: 40,
-        borderRadius: 16,
-        background: 'linear-gradient(135deg,#FFE5EC,#FFF0F5)',
+        display: 'flex',
+        justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start',
+        alignItems: 'flex-end',
+        gap: 8
+      }
+    }, m.role === 'assistant' && /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 28,
+        height: 28,
+        borderRadius: '50%',
+        background: 'linear-gradient(135deg,#FF375F,#FF5C8A)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0
       }
     }, /*#__PURE__*/React.createElement(Icon, {
-      name: t.icon,
-      size: 18,
-      stroke: "#FF375F"
-    })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      name: "Sparkles",
+      size: 13,
+      stroke: "#fff"
+    })), /*#__PURE__*/React.createElement("div", {
       style: {
-        fontFamily: 'Instrument Serif, serif',
-        fontSize: 17
+        maxWidth: '80%',
+        padding: '11px 15px',
+        borderRadius: m.role === 'user' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
+        background: m.role === 'user' ? 'linear-gradient(135deg,#FF375F,#FF5C8A)' : '#fff',
+        color: m.role === 'user' ? '#fff' : '#1d1d1f',
+        fontSize: 13,
+        lineHeight: 1.6,
+        boxShadow: '0 1px 4px rgba(0,0,0,.06)',
+        whiteSpace: 'pre-wrap'
       }
-    }, t.title), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 12,
-        color: '#6e6e73',
-        lineHeight: 1.55,
-        marginTop: 4
-      }
-    }, t.text)));
-  })), active === 'race' && /*#__PURE__*/React.createElement("div", {
+    }, m.text));
+  }), loading && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
-      flexDirection: 'column',
-      gap: 12
+      gap: 8,
+      alignItems: 'flex-end'
     }
-  }, [{
-    title: 'за неделю до',
-    items: ['Снизь объём на 40–50%', 'Углеводы — добавь к рациону', 'Сон 8–9 часов', 'Никаких новых блюд', 'Прогон станций в лёгком темпе']
-  }, {
-    title: 'за день до',
-    items: ['Минимальная активность', 'Carb load — паста, рис, картофель', 'Литр воды + электролиты', 'Сложи сумку: форма, обувь, гели', 'Спать в 22:00']
-  }, {
-    title: 'утро гонки',
-    items: ['Завтрак за 2.5–3 часа', 'Овсянка + банан + кофе', '500мл воды за 1 час', 'Разминка 15 мин: бег + динамика', 'Дыхание: 4 сек вдох, 6 выдох']
-  }, {
-    title: 'на гонке',
-    items: ['Первый км — НЕ быстро', 'Sled push: упор и шаги', 'Перед wall balls — глубокий вдох', 'Гели каждые 30–40 мин', 'Финиш — оставь силы на последние 200м']
-  }].map(function (s) {
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 28,
+      height: 28,
+      borderRadius: '50%',
+      background: 'linear-gradient(135deg,#FF375F,#FF5C8A)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "Sparkles",
+    size: 13,
+    stroke: "#fff"
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '11px 15px',
+      borderRadius: '18px 18px 18px 4px',
+      background: '#fff',
+      boxShadow: '0 1px 4px rgba(0,0,0,.06)',
+      display: 'flex',
+      gap: 4,
+      alignItems: 'center'
+    }
+  }, [0, 1, 2].map(function (i) {
     return /*#__PURE__*/React.createElement("div", {
-      key: s.title,
-      style: Object.assign({}, C.card, {
-        padding: 20
-      })
-    }, /*#__PURE__*/React.createElement("div", {
+      key: i,
       style: {
-        fontFamily: 'Instrument Serif, serif',
-        fontSize: 22,
-        marginBottom: 12
+        width: 5,
+        height: 5,
+        borderRadius: '50%',
+        background: '#C7C7CC',
+        animation: 'blink 1.2s infinite',
+        animationDelay: i * 0.2 + 's'
       }
-    }, s.title), s.items.map(function (it, i) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        style: {
-          display: 'flex',
-          gap: 10,
-          marginBottom: 8,
-          fontSize: 13,
-          color: '#3c3c43',
-          lineHeight: 1.5
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          width: 6,
-          height: 6,
-          borderRadius: '50%',
-          background: '#FF375F',
-          flexShrink: 0,
-          marginTop: 6
-        }
-      }), /*#__PURE__*/React.createElement("div", null, it));
-    }));
-  })));
+    });
+  }))), /*#__PURE__*/React.createElement("div", {
+    ref: messagesEnd
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'sticky',
+      bottom: 90,
+      paddingTop: 10,
+      background: 'linear-gradient(to top, rgba(250,245,248,1) 70%, transparent)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8,
+      alignItems: 'flex-end'
+    }
+  }, /*#__PURE__*/React.createElement("textarea", {
+    value: input,
+    onChange: function onChange(e) {
+      setInput(e.target.value);
+    },
+    onKeyDown: function onKeyDown(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        send(input);
+      }
+    },
+    placeholder: "\u0421\u043F\u0440\u043E\u0441\u0438 \u0447\u0442\u043E \u0443\u0433\u043E\u0434\u043D\u043E\u2026",
+    rows: 1,
+    style: Object.assign({}, inp, {
+      flex: 1,
+      resize: 'none',
+      lineHeight: 1.5
+    })
+  }), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      send(input);
+    },
+    disabled: !input.trim() || loading,
+    style: {
+      width: 42,
+      height: 42,
+      borderRadius: 13,
+      background: input.trim() && !loading ? 'linear-gradient(135deg,#FF375F,#FF5C8A)' : '#f5f5f7',
+      border: 'none',
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "Send",
+    size: 17,
+    stroke: input.trim() && !loading ? '#fff' : '#C7C7CC'
+  })))), /*#__PURE__*/React.createElement("style", null, '@keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}'));
 }
 
-// ── INIT ─────────────────────────────────────────────────────────
+// INIT
 try {
   if (window.Telegram && window.Telegram.WebApp) {
     var tg = window.Telegram.WebApp;
@@ -3143,9 +4232,7 @@ try {
     if (tg.setBackgroundColor) tg.setBackgroundColor('#FFFFFF');
   }
 } catch (e) {}
-var container = document.getElementById('root');
-var root = ReactDOM.createRoot(container);
-root.render(React.createElement(App));
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
 
 </script>
 </body>
