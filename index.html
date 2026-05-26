@@ -1741,10 +1741,36 @@ function SyncBadge(_ref4) {
     stroke: "#86868B"
   }), "\u0441\u0438\u043D\u0445\u0440...") : null;
 }
-function SimpleLineChart(_ref5) {
-  var data = _ref5.data,
-    color = _ref5.color,
-    height = _ref5.height;
+function SaveButton(_ref5) {
+  var onSave = _ref5.onSave;
+  var _useState = useState('idle'),
+    _useState2 = _slicedToArray(_useState, 2),
+    state = _useState2[0],
+    setState = _useState2[1]; // idle | saving | saved
+  var handle = function handle() {
+    setState('saving');
+    onSave().then(function () {
+      setState('saved');
+      setTimeout(function () {
+        setState('idle');
+      }, 2000);
+    });
+  };
+  return /*#__PURE__*/React.createElement("button", {
+    onClick: handle,
+    disabled: state !== 'idle',
+    style: Object.assign({}, pinkBtn, {
+      background: state === 'saved' ? 'linear-gradient(135deg,#34C759,#30D158)' : 'linear-gradient(135deg,#FF375F,#FF5C8A)',
+      opacity: 1,
+      transition: 'background .3s',
+      marginBottom: 8
+    })
+  }, state === 'saved' ? '✓ Сохранено!' : state === 'saving' ? 'Сохраняю...' : 'Сохранить день');
+}
+function SimpleLineChart(_ref6) {
+  var data = _ref6.data,
+    color = _ref6.color,
+    height = _ref6.height;
   color = color || P;
   height = height || 120;
   if (!data || data.length < 2) return /*#__PURE__*/React.createElement("div", {
@@ -1833,49 +1859,49 @@ function SimpleLineChart(_ref5) {
 }
 
 // ── WORKOUT LOG FORM ─────────────────────────────────────────────
-function WorkoutLogForm(_ref6) {
-  var onSave = _ref6.onSave,
-    onClose = _ref6.onClose;
-  var _useState = useState('hyrox'),
-    _useState2 = _slicedToArray(_useState, 2),
-    type = _useState2[0],
-    setType = _useState2[1];
-  var _useState3 = useState(''),
+function WorkoutLogForm(_ref7) {
+  var onSave = _ref7.onSave,
+    onClose = _ref7.onClose;
+  var _useState3 = useState('hyrox'),
     _useState4 = _slicedToArray(_useState3, 2),
-    title = _useState4[0],
-    setTitle = _useState4[1];
+    type = _useState4[0],
+    setType = _useState4[1];
   var _useState5 = useState(''),
     _useState6 = _slicedToArray(_useState5, 2),
-    duration = _useState6[0],
-    setDuration = _useState6[1];
+    title = _useState6[0],
+    setTitle = _useState6[1];
   var _useState7 = useState(''),
     _useState8 = _slicedToArray(_useState7, 2),
-    notes = _useState8[0],
-    setNotes = _useState8[1];
-  var _useState9 = useState([]),
+    duration = _useState8[0],
+    setDuration = _useState8[1];
+  var _useState9 = useState(''),
     _useState0 = _slicedToArray(_useState9, 2),
-    exercises = _useState0[0],
-    setExercises = _useState0[1];
-  var _useState1 = useState(false),
+    notes = _useState0[0],
+    setNotes = _useState0[1];
+  var _useState1 = useState([]),
     _useState10 = _slicedToArray(_useState1, 2),
-    addingEx = _useState10[0],
-    setAddingEx = _useState10[1];
-  var _useState11 = useState(null),
+    exercises = _useState10[0],
+    setExercises = _useState10[1];
+  var _useState11 = useState(false),
     _useState12 = _slicedToArray(_useState11, 2),
-    selEx = _useState12[0],
-    setSelEx = _useState12[1];
-  var _useState13 = useState({}),
+    addingEx = _useState12[0],
+    setAddingEx = _useState12[1];
+  var _useState13 = useState(null),
     _useState14 = _slicedToArray(_useState13, 2),
-    exVals = _useState14[0],
-    setExVals = _useState14[1];
-  var _useState15 = useState(''),
+    selEx = _useState14[0],
+    setSelEx = _useState14[1];
+  var _useState15 = useState({}),
     _useState16 = _slicedToArray(_useState15, 2),
-    runKm = _useState16[0],
-    setRunKm = _useState16[1];
+    exVals = _useState16[0],
+    setExVals = _useState16[1];
   var _useState17 = useState(''),
     _useState18 = _slicedToArray(_useState17, 2),
-    runPace = _useState18[0],
-    setRunPace = _useState18[1];
+    runKm = _useState18[0],
+    setRunKm = _useState18[1];
+  var _useState19 = useState(''),
+    _useState20 = _slicedToArray(_useState19, 2),
+    runPace = _useState20[0],
+    setRunPace = _useState20[1];
   var addExercise = function addExercise() {
     if (!selEx) return;
     var ex = {
@@ -2301,76 +2327,76 @@ function WorkoutLogForm(_ref6) {
 
 // ── APP ──────────────────────────────────────────────────────────
 function App() {
-  var _useState19 = useState('today'),
-    _useState20 = _slicedToArray(_useState19, 2),
-    tab = _useState20[0],
-    setTab = _useState20[1];
-  var _useState21 = useState(null),
+  var _useState21 = useState('today'),
     _useState22 = _slicedToArray(_useState21, 2),
-    userId = _useState22[0],
-    setUserId = _useState22[1];
-  var _useState23 = useState(todayISO()),
+    tab = _useState22[0],
+    setTab = _useState22[1];
+  var _useState23 = useState(null),
     _useState24 = _slicedToArray(_useState23, 2),
-    date = _useState24[0],
-    setDate = _useState24[1];
-  var _useState25 = useState({
+    userId = _useState24[0],
+    setUserId = _useState24[1];
+  var _useState25 = useState(todayISO()),
+    _useState26 = _slicedToArray(_useState25, 2),
+    date = _useState26[0],
+    setDate = _useState26[1];
+  var _useState27 = useState({
       whoop: {},
       protocols: {},
       water: '',
       notes: '',
       weight: ''
     }),
-    _useState26 = _slicedToArray(_useState25, 2),
-    health = _useState26[0],
-    setHealth = _useState26[1];
-  var _useState27 = useState({}),
     _useState28 = _slicedToArray(_useState27, 2),
-    nut = _useState28[0],
-    setNut = _useState28[1];
-  var _useState29 = useState(DEFAULT_GOALS),
+    health = _useState28[0],
+    setHealth = _useState28[1];
+  var _useState29 = useState({}),
     _useState30 = _slicedToArray(_useState29, 2),
-    goals = _useState30[0],
-    setGoals = _useState30[1];
-  var _useState31 = useState(todayISO()),
+    nut = _useState30[0],
+    setNut = _useState30[1];
+  var _useState31 = useState(DEFAULT_GOALS),
     _useState32 = _slicedToArray(_useState31, 2),
-    startDate = _useState32[0],
-    setStartDate = _useState32[1];
-  var _useState33 = useState({}),
+    goals = _useState32[0],
+    setGoals = _useState32[1];
+  var _useState33 = useState(todayISO()),
     _useState34 = _slicedToArray(_useState33, 2),
-    planOv = _useState34[0],
-    setPlanOv = _useState34[1];
-  var _useState35 = useState([]),
+    startDate = _useState34[0],
+    setStartDate = _useState34[1];
+  var _useState35 = useState({}),
     _useState36 = _slicedToArray(_useState35, 2),
-    workouts = _useState36[0],
-    setWorkouts = _useState36[1];
-  var _useState37 = useState(true),
+    planOv = _useState36[0],
+    setPlanOv = _useState36[1];
+  var _useState37 = useState([]),
     _useState38 = _slicedToArray(_useState37, 2),
-    loading = _useState38[0],
-    setLoading = _useState38[1];
-  var _useState39 = useState(false),
+    workouts = _useState38[0],
+    setWorkouts = _useState38[1];
+  var _useState39 = useState(true),
     _useState40 = _slicedToArray(_useState39, 2),
-    syncing = _useState40[0],
-    setSyncing = _useState40[1];
+    loading = _useState40[0],
+    setLoading = _useState40[1];
   var _useState41 = useState(false),
     _useState42 = _slicedToArray(_useState41, 2),
-    logOpen = _useState42[0],
-    setLogOpen = _useState42[1];
-  var _useState43 = useState(null),
+    syncing = _useState42[0],
+    setSyncing = _useState42[1];
+  var _useState43 = useState(false),
     _useState44 = _slicedToArray(_useState43, 2),
-    dbOk = _useState44[0],
-    setDbOk = _useState44[1]; // null=checking, true=ok, false=error
-  var _useState45 = useState(function () {
+    logOpen = _useState44[0],
+    setLogOpen = _useState44[1];
+  var _useState45 = useState(null),
+    _useState46 = _slicedToArray(_useState45, 2),
+    dbOk = _useState46[0],
+    setDbOk = _useState46[1]; // null=checking, true=ok, false=error
+  var _useState47 = useState(function () {
       return localStorage.getItem('device') || 'whoop';
     }),
-    _useState46 = _slicedToArray(_useState45, 2),
-    device = _useState46[0],
-    setDevice = _useState46[1];
-  var _useState47 = useState(function () {
+    _useState48 = _slicedToArray(_useState47, 2),
+    device = _useState48[0],
+    setDevice = _useState48[1];
+  var _useState49 = useState(function () {
       return !localStorage.getItem('device');
     }),
-    _useState48 = _slicedToArray(_useState47, 2),
-    editingDevice = _useState48[0],
-    setEditingDevice = _useState48[1];
+    _useState50 = _slicedToArray(_useState49, 2),
+    editingDevice = _useState50[0],
+    setEditingDevice = _useState50[1];
   var saveDevice = function saveDevice(d) {
     setDevice(d);
     localStorage.setItem('device', d);
@@ -2794,6 +2820,17 @@ function App() {
     onSaveDevice: saveDevice,
     onCancelDevice: function onCancelDevice() {
       setEditingDevice(false);
+    },
+    onSave: function onSave() {
+      return sb.upsert('health_days', {
+        user_id: userId,
+        date: date,
+        whoop: health.whoop || {},
+        protocols: health.protocols || {},
+        weight: health.weight ? +health.weight : null,
+        water: health.water ? +health.water : null,
+        notes: health.notes || null
+      });
     }
   }), tab === 'plan' && /*#__PURE__*/React.createElement(PlanTab, {
     curWeek: week,
@@ -2884,17 +2921,18 @@ function App() {
 }
 
 // ── TODAY ────────────────────────────────────────────────────────
-function TodayTab(_ref7) {
-  var date = _ref7.date,
-    health = _ref7.health,
-    onHealth = _ref7.onHealth,
-    workouts = _ref7.workouts,
-    onDelWorkout = _ref7.onDelWorkout,
-    onOpenLog = _ref7.onOpenLog,
-    device = _ref7.device,
-    editingDevice = _ref7.editingDevice,
-    onSaveDevice = _ref7.onSaveDevice,
-    onCancelDevice = _ref7.onCancelDevice;
+function TodayTab(_ref8) {
+  var date = _ref8.date,
+    health = _ref8.health,
+    onHealth = _ref8.onHealth,
+    workouts = _ref8.workouts,
+    onDelWorkout = _ref8.onDelWorkout,
+    onOpenLog = _ref8.onOpenLog,
+    device = _ref8.device,
+    editingDevice = _ref8.editingDevice,
+    onSaveDevice = _ref8.onSaveDevice,
+    onCancelDevice = _ref8.onCancelDevice,
+    onSave = _ref8.onSave;
   var fields = DEVICE_FIELDS[device] || DEVICE_FIELDS.whoop;
   var dmeta = DEVICE_META[device] || DEVICE_META.whoop;
   var updW = function updW(k, v) {
@@ -3369,25 +3407,27 @@ function TodayTab(_ref7) {
       resize: 'none',
       lineHeight: 1.6
     })
-  })));
+  })), /*#__PURE__*/React.createElement(SaveButton, {
+    onSave: onSave
+  }));
 }
 
 // ── FOOD ─────────────────────────────────────────────────────────
-function FoodTab(_ref8) {
-  var nut = _ref8.nut,
-    health = _ref8.health,
-    onNut = _ref8.onNut,
-    onHealth = _ref8.onHealth,
-    goals = _ref8.goals,
-    onSaveGoals = _ref8.onSaveGoals;
-  var _useState49 = useState(false),
-    _useState50 = _slicedToArray(_useState49, 2),
-    editGoals = _useState50[0],
-    setEditGoals = _useState50[1];
-  var _useState51 = useState(goals),
+function FoodTab(_ref9) {
+  var nut = _ref9.nut,
+    health = _ref9.health,
+    onNut = _ref9.onNut,
+    onHealth = _ref9.onHealth,
+    goals = _ref9.goals,
+    onSaveGoals = _ref9.onSaveGoals;
+  var _useState51 = useState(false),
     _useState52 = _slicedToArray(_useState51, 2),
-    tempGoals = _useState52[0],
-    setTempGoals = _useState52[1];
+    editGoals = _useState52[0],
+    setEditGoals = _useState52[1];
+  var _useState53 = useState(goals),
+    _useState54 = _slicedToArray(_useState53, 2),
+    tempGoals = _useState54[0],
+    setTempGoals = _useState54[1];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Section, {
     title: "\u041C\u0430\u043A\u0440\u043E\u0441\u044B \xB7 \u0444\u0430\u043A\u0442",
     emoji: "\uD83E\uDD57",
@@ -3686,21 +3726,21 @@ function FoodTab(_ref8) {
 }
 
 // ── PLAN ─────────────────────────────────────────────────────────
-function PlanTab(_ref9) {
-  var curWeek = _ref9.curWeek,
-    workouts = _ref9.workouts,
-    start = _ref9.start,
-    ov = _ref9.ov,
-    onSaveOv = _ref9.onSaveOv,
-    onResetOv = _ref9.onResetOv;
-  var _useState53 = useState(curWeek),
-    _useState54 = _slicedToArray(_useState53, 2),
-    exp = _useState54[0],
-    setExp = _useState54[1];
-  var _useState55 = useState(null),
+function PlanTab(_ref0) {
+  var curWeek = _ref0.curWeek,
+    workouts = _ref0.workouts,
+    start = _ref0.start,
+    ov = _ref0.ov,
+    onSaveOv = _ref0.onSaveOv,
+    onResetOv = _ref0.onResetOv;
+  var _useState55 = useState(curWeek),
     _useState56 = _slicedToArray(_useState55, 2),
-    editDay = _useState56[0],
-    setEditDay = _useState56[1];
+    exp = _useState56[0],
+    setExp = _useState56[1];
+  var _useState57 = useState(null),
+    _useState58 = _slicedToArray(_useState57, 2),
+    editDay = _useState58[0],
+    setEditDay = _useState58[1];
   var phases = useMemo(function () {
     var o = {};
     PROGRAM.forEach(function (w) {
@@ -3945,24 +3985,24 @@ function PlanTab(_ref9) {
     })));
   }));
 }
-function EditDayModal(_ref0) {
-  var week = _ref0.week,
-    di = _ref0.di,
-    cur = _ref0.cur,
-    isOv = _ref0.isOv,
-    onSave = _ref0.onSave,
-    onReset = _ref0.onReset,
-    onClose = _ref0.onClose;
+function EditDayModal(_ref1) {
+  var week = _ref1.week,
+    di = _ref1.di,
+    cur = _ref1.cur,
+    isOv = _ref1.isOv,
+    onSave = _ref1.onSave,
+    onReset = _ref1.onReset,
+    onClose = _ref1.onClose;
   var days = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
-  var _useState57 = useState({
+  var _useState59 = useState({
       type: cur && cur.type || 'hyrox',
       title: cur && cur.title || '',
       detail: cur && cur.detail || '',
       duration: cur ? cur.duration : ''
     }),
-    _useState58 = _slicedToArray(_useState57, 2),
-    form = _useState58[0],
-    setForm = _useState58[1];
+    _useState60 = _slicedToArray(_useState59, 2),
+    form = _useState60[0],
+    setForm = _useState60[1];
   return /*#__PURE__*/React.createElement("div", {
     style: {
       position: 'fixed',
@@ -4155,43 +4195,43 @@ function EditDayModal(_ref0) {
 }
 
 // ── STATS ─────────────────────────────────────────────────────────
-function StatsTab(_ref1) {
-  var userId = _ref1.userId,
-    workouts = _ref1.workouts,
-    start = _ref1.start,
-    onEditDay = _ref1.onEditDay;
-  var _useState59 = useState('recovery'),
-    _useState60 = _slicedToArray(_useState59, 2),
-    metric = _useState60[0],
-    setMetric = _useState60[1];
-  var _useState61 = useState([]),
+function StatsTab(_ref10) {
+  var userId = _ref10.userId,
+    workouts = _ref10.workouts,
+    start = _ref10.start,
+    onEditDay = _ref10.onEditDay;
+  var _useState61 = useState('recovery'),
     _useState62 = _slicedToArray(_useState61, 2),
-    allHealth = _useState62[0],
-    setAllHealth = _useState62[1];
+    metric = _useState62[0],
+    setMetric = _useState62[1];
   var _useState63 = useState([]),
     _useState64 = _slicedToArray(_useState63, 2),
-    allNut = _useState64[0],
-    setAllNut = _useState64[1];
-  var _useState65 = useState(true),
+    allHealth = _useState64[0],
+    setAllHealth = _useState64[1];
+  var _useState65 = useState([]),
     _useState66 = _slicedToArray(_useState65, 2),
-    loadingStats = _useState66[0],
-    setLoadingStats = _useState66[1];
-  var _useState67 = useState('stats'),
+    allNut = _useState66[0],
+    setAllNut = _useState66[1];
+  var _useState67 = useState(true),
     _useState68 = _slicedToArray(_useState67, 2),
-    view = _useState68[0],
-    setView = _useState68[1]; // 'stats' | 'calendar'
-  var _useState69 = useState(new Date().getFullYear()),
+    loadingStats = _useState68[0],
+    setLoadingStats = _useState68[1];
+  var _useState69 = useState('stats'),
     _useState70 = _slicedToArray(_useState69, 2),
-    calYear = _useState70[0],
-    setCalYear = _useState70[1];
-  var _useState71 = useState(new Date().getMonth()),
+    view = _useState70[0],
+    setView = _useState70[1]; // 'stats' | 'calendar'
+  var _useState71 = useState(new Date().getFullYear()),
     _useState72 = _slicedToArray(_useState71, 2),
-    calMonth = _useState72[0],
-    setCalMonth = _useState72[1];
-  var _useState73 = useState(null),
+    calYear = _useState72[0],
+    setCalYear = _useState72[1];
+  var _useState73 = useState(new Date().getMonth()),
     _useState74 = _slicedToArray(_useState73, 2),
-    selectedDay = _useState74[0],
-    setSelectedDay = _useState74[1]; // iso date string
+    calMonth = _useState74[0],
+    setCalMonth = _useState74[1];
+  var _useState75 = useState(null),
+    _useState76 = _slicedToArray(_useState75, 2),
+    selectedDay = _useState76[0],
+    setSelectedDay = _useState76[1]; // iso date string
 
   useEffect(function () {
     if (!userId) return;
@@ -4399,11 +4439,12 @@ function StatsTab(_ref1) {
     }, /*#__PURE__*/React.createElement("div", {
       style: {
         width: '100%',
-        maxHeight: '85vh',
+        height: '80vh',
         overflowY: 'auto',
         background: '#fff',
         borderTopLeftRadius: 28,
-        borderTopRightRadius: 28
+        borderTopRightRadius: 28,
+        WebkitOverflowScrolling: 'touch'
       },
       onClick: function onClick(e) {
         e.stopPropagation();
@@ -4996,28 +5037,28 @@ function StatsTab(_ref1) {
 }
 
 // ── AI ─────────────────────────────────────────────────────────
-function AITab(_ref10) {
-  var date = _ref10.date,
-    health = _ref10.health,
-    nut = _ref10.nut,
-    goals = _ref10.goals,
-    workouts = _ref10.workouts,
-    userId = _ref10.userId;
-  var _useState75 = useState([{
+function AITab(_ref11) {
+  var date = _ref11.date,
+    health = _ref11.health,
+    nut = _ref11.nut,
+    goals = _ref11.goals,
+    workouts = _ref11.workouts,
+    userId = _ref11.userId;
+  var _useState77 = useState([{
       role: 'assistant',
       text: 'Привет! 👋 Я твой AI-коуч. Данные WHOOP, протоколы, питание — всё уже загружено. Что хочешь проанализировать?'
     }]),
-    _useState76 = _slicedToArray(_useState75, 2),
-    messages = _useState76[0],
-    setMessages = _useState76[1];
-  var _useState77 = useState(''),
     _useState78 = _slicedToArray(_useState77, 2),
-    input = _useState78[0],
-    setInput = _useState78[1];
-  var _useState79 = useState(false),
+    messages = _useState78[0],
+    setMessages = _useState78[1];
+  var _useState79 = useState(''),
     _useState80 = _slicedToArray(_useState79, 2),
-    loading = _useState80[0],
-    setLoading = _useState80[1];
+    input = _useState80[0],
+    setInput = _useState80[1];
+  var _useState81 = useState(false),
+    _useState82 = _slicedToArray(_useState81, 2),
+    loading = _useState82[0],
+    setLoading = _useState82[1];
   var endRef = useRef(null);
   useEffect(function () {
     if (endRef.current) endRef.current.scrollIntoView({
