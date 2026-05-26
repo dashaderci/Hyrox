@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
+  <title>Hyrox Trainer</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+    body{background:#fff;font-family:'DM Sans',system-ui,sans-serif;overscroll-behavior:none}
+    #root{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+    .serif{font-family:'Instrument Serif',serif;font-weight:400;letter-spacing:-0.01em}
+    .si{font-family:'Instrument Serif',serif;font-style:italic;letter-spacing:-0.02em}
+    .mono{font-family:'DM Mono',monospace}
+    .card{background:#fff;border-radius:24px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 4px 24px rgba(255,55,95,.04);border:1px solid rgba(0,0,0,.04)}
+    .card-pink{background:linear-gradient(135deg,#FFF5F8,#FFEEF4);border-radius:24px;border:1px solid rgba(255,55,95,.08)}
+    .pglow{box-shadow:0 8px 32px rgba(255,55,95,.18),0 2px 8px rgba(255,55,95,.12)}
+    @keyframes fadeUp{from{transform:translateY(12px);opacity:0}to{transform:translateY(0);opacity:1}}
+    .fu{animation:fadeUp .35s cubic-bezier(.16,1,.3,1)}
+    input,select,textarea{font-family:inherit;color:#1D1D1F;background:#f5f5f7;border:1px solid #e5e5ea;border-radius:12px;padding:10px 12px;font-size:14px;width:100%}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:#FF375F}
+    textarea{resize:none}
+    button{cursor:pointer;border:none;background:none;font-family:inherit}
+    .nav-blur{backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
+    ::-webkit-scrollbar{display:none}
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useMemo } = React;
+const { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } = Recharts;
+
+// ── SVG ICON PRIMITIVES ──────────────────────────────────────────
+const Ic = ({d,d2,size=20,stroke='currentColor',sw=1.8,...p}) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round" {...p}>
+    {Array.isArray(d)?d.map((dd,i)=><path key={i} d={dd}/>):<path d={d}/>}
+  </svg>
+);
+const ICONS = {
+  Sparkles: p=><Ic {...p} d={["m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z","M5 3v4","M19 17v4","M3 5h4","M17 19h4"]}/>,
+  Calendar: p=><Ic {...p} d={["M8 2v4","M16 2v4","M3 10h18","M21 8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8z"]}/>,
+  Activity: p=><Ic {...p} d="M22 12h-4l-3 9L9 3l-3 9H2"/>,
+  BarChart3: p=><Ic {...p} d={["M3 3v18h18","M18 17V9","M13 17V5","M8 17v-3"]}/>,
+  BookOpen: p=><Ic {...p} d={["M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z","M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"]}/>,
+  Flame: p=><Ic {...p} d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>,
+  Plus: p=><Ic {...p} d={["M5 12h14","M12 5v14"]}/>,
+  Check: p=><Ic {...p} d="M20 6 9 17l-5-5"/>,
+  X: p=><Ic {...p} d={["M18 6 6 18","M6 6l12 12"]}/>,
+  ChevronDown: p=><Ic {...p} d="m6 9 6 6 6-6"/>,
+  Trash2: p=><Ic {...p} d={["M3 6h18","M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6","M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2","M10 11v6","M14 11v6"]}/>,
+  Trophy: p=><Ic {...p} d={["M6 9H4.5a2.5 2.5 0 0 1 0-5H6","M18 9h1.5a2.5 2.5 0 0 0 0-5H18","M4 22h16","M10 14.66V17a2 2 0 0 1-2 2h8a2 2 0 0 1-2-2v-2.34","M18 2H6v7a6 6 0 0 0 12 0V2Z"]}/>,
+  Clock: p=><Ic {...p} d={["M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z","M12 6v6l4 2"]}/>,
+  TrendingUp: p=><Ic {...p} d={["M22 7 13.5 15.5l-5-5L2 17","M16 7h6v6"]}/>,
+  Zap: p=><Ic {...p} d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>,
+  Target: p=><Ic {...p} d={["M12 12m-10 0a10 10 0 1 0 20 0a10 10 0 1 0-20 0","M12 12m-6 0a6 6 0 1 0 12 0a6 6 0 1 0-12 0","M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0"]}/>,
+  Heart: p=><Ic {...p} d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>,
+  Coffee: p=><Ic {...p} d={["M10 2v2","M14 2v2","M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 0 1 4 4v3a2 2 0 0 1-2 2h-1"]}/>,
+  Droplet: p=><Ic {...p} d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>,
+  Pencil: p=><Ic {...p} d={["M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z","M15 5l4 4"]}/>,
+  RotateCcw: p=><Ic {...p} d={["M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8","M3 3v5h5"]}/>,
+};
+const Icon = ({name,...p}) => { const C = ICONS[name]; return C ? <C {...p}/> : null; };
+
+// ── DATA ─────────────────────────────────────────────────────────
+const PROGRAM = [
+  ...Array.from({length:4},(_,i)=>({
+    week:i+1,phase:'Фундамент',phaseNum:1,focus:'База + техника станций',
+    days:[
+      {day:'ПН',type:'hyrox',title:'Hyrox техника A',detail:'3 станции × 3 раунда: SkiErg 250м • Wall balls 15 • Farmers 50м (12кг). Отдых 90с между.',duration:50},
+      {day:'ВТ',type:'run',title:'Бег Zone 2',detail:`${30+i*5} мин в разговорном темпе. Пульс 130-145.`,duration:30+i*5},
+      {day:'СР',type:'strength',title:'Сила: нижняя + кор',detail:'Приседания 4×8 • Выпады 3×10/нога • Румынская тяга 3×10 • Планка 3×45с',duration:45},
+      {day:'ЧТ',type:'pilates',title:'Пилатес / мобильность',detail:'Кор, ягодицы, гибкость. Фокус на ТВА и тазобедренные.',duration:45},
+      {day:'ПТ',type:'hyrox',title:'Hyrox техника B',detail:'3 станции × 3 раунда: Гребля 250м • Burpee broad jump 10 • Сэндбэг выпады 20м (8кг)',duration:50},
+      {day:'СБ',type:i%2===0?'tennis':'run',title:i%2===0?'Теннис':'Длинный бег',detail:i%2===0?'Игра 60-90 мин.':`Лёгкий бег ${40+i*5} мин.`,duration:i%2===0?75:40+i*5},
+      {day:'ВС',type:'rest',title:'Отдых',detail:'Сон, прогулка, растяжка.',duration:0},
+    ]
+  })),
+  ...Array.from({length:5},(_,i)=>({
+    week:i+5,phase:'Объём',phaseNum:2,focus:'Компромиссный бег + объём',
+    days:[
+      {day:'ПН',type:'hyrox',title:'Compromised run',detail:`4 × (400м бег + станция). Wall balls 20 / SkiErg 200м / Burpees 10 / Farmers 50м.`,duration:55},
+      {day:'ВТ',type:'run',title:'Интервалы',detail:`${6+i} × 400м в быстром темпе, отдых 90с трусцой.`,duration:45},
+      {day:'СР',type:'strength',title:'Сила фулбоди',detail:'Приседания 4×6 • Жим стоя 4×8 • Тяга 4×8 • Болгарские выпады 3×8',duration:55},
+      {day:'ЧТ',type:'pilates',title:'Пилатес',detail:'Кор и стабильность таза. Особое внимание задней цепи.',duration:45},
+      {day:'ПТ',type:'hyrox',title:'Hyrox 6 станций',detail:'2 раунда: SkiErg 500м • Sled push • Sled pull • Burpees 10 • Гребля 500м • Wall balls 25',duration:60},
+      {day:'СБ',type:i%2===0?'run':'tennis',title:i%2===0?'Длинный бег':'Теннис',detail:i%2===0?`${50+i*5} мин лёгко.`:'Игра 60-90 мин.',duration:i%2===0?50+i*5:75},
+      {day:'ВС',type:'rest',title:'Отдых',detail:'Сон 8+ часов. Foam roller.',duration:0},
+    ]
+  })),
+  ...Array.from({length:5},(_,i)=>({
+    week:i+10,phase:'Специфика',phaseNum:3,focus:'Brick + соревновательный темп',
+    days:[
+      {day:'ПН',type:'hyrox',title:'Brick workout',detail:`4 × (800м бег + станция). Wall balls 30 / Гребля 400м / SkiErg 400м / Sandbag 50м`,duration:65},
+      {day:'ВТ',type:'run',title:'Темповый бег',detail:'10 мин разминка • 25-30 мин в темпе чуть быстрее комфортного • 5 мин заминка',duration:45},
+      {day:'СР',type:'strength',title:'Сила компаунд',detail:'Становая 4×5 • Жим 4×6 • Тяга 4×8 • Выпады с весом 3×10',duration:60},
+      {day:'ЧТ',type:'pilates',title:'Пилатес',detail:'Восстановительная сессия + кор.',duration:45},
+      {day:'ПТ',type:'hyrox',title:'Mini Hyrox',detail:'4 раунда × (400м + одна станция). Без отдыха между.',duration:50},
+      {day:'СБ',type:i%2===0?'run':'tennis',title:i%2===0?'Долгий лёгкий бег':'Теннис',detail:i%2===0?`${55+i*3} мин Zone 2.`:'Игра в удовольствие.',duration:i%2===0?55+i*3:75},
+      {day:'ВС',type:'rest',title:'Отдых',detail:'Полное восстановление.',duration:0},
+    ]
+  })),
+  ...Array.from({length:4},(_,i)=>({
+    week:i+15,phase:'Пик',phaseNum:4,focus:'Half-Hyrox симуляции',
+    days:[
+      {day:'ПН',type:'simulation',title:'Half Hyrox',detail:'4 раунда: 1000м бег → станция в порядке гонки. Боевые веса.',duration:75},
+      {day:'ВТ',type:'run',title:'Интервалы 800',detail:'6 × 800м в темпе быстрее цели, отдых 2 мин.',duration:50},
+      {day:'СР',type:'strength',title:'Сила (поддержка)',detail:'Приседания 3×5 • Тяга 3×5 • Жим 3×6. Меньше объём.',duration:45},
+      {day:'ЧТ',type:'pilates',title:'Восстановление',detail:'Лёгкий пилатес + foam roller + растяжка.',duration:40},
+      {day:'ПТ',type:'simulation',title:'Mini Hyrox боевой',detail:'4 раунда: 1000м + станция с реальными весами.',duration:65},
+      {day:'СБ',type:'run',title:'Long + ускорения',detail:'40 мин лёгко + 6 × 100м ускорений в конце.',duration:50},
+      {day:'ВС',type:'rest',title:'Отдых',detail:'Восстановление обязательно.',duration:0},
+    ]
+  })),
+  {week:19,phase:'Подводка',phaseNum:5,focus:'Снижение объёма',days:[
+    {day:'ПН',type:'hyrox',title:'Лёгкий Hyrox',detail:'2 раунда: 1000м + 4 станции (50% усилий).',duration:45},
+    {day:'ВТ',type:'run',title:'Лёгкие интервалы',detail:'4 × 400м в темпе цели, отдых 2 мин.',duration:35},
+    {day:'СР',type:'strength',title:'Лёгкая сила',detail:'Приседания 3×5 (60%) • Жим 3×5. Активация.',duration:30},
+    {day:'ЧТ',type:'rest',title:'Отдых',detail:'Полный день отдыха.',duration:0},
+    {day:'ПТ',type:'hyrox',title:'Тест станций',detail:'Замерь личники: SkiErg 1000м • Wall balls 50 • Sled push 50м.',duration:40},
+    {day:'СБ',type:'run',title:'Лёгкий бег',detail:'20 мин + 4 × 50м ускорений.',duration:25},
+    {day:'ВС',type:'rest',title:'Отдых',detail:'Сон и углеводы.',duration:0},
+  ]},
+  {week:20,phase:'Подводка',phaseNum:5,focus:'Гоночная неделя',days:[
+    {day:'ПН',type:'run',title:'Активность',detail:'30 мин лёгкого бега.',duration:30},
+    {day:'ВТ',type:'pilates',title:'Мобильность',detail:'Растяжка, foam roller.',duration:30},
+    {day:'СР',type:'hyrox',title:'Лёгкие станции',detail:'3 станции по 1 раунду. Просто разбудить тело.',duration:30},
+    {day:'ЧТ',type:'rest',title:'Отдых',detail:'Гидратация, сон, углеводы.',duration:0},
+    {day:'ПТ',type:'run',title:'Активация',detail:'15 мин + 4 × 100м ускорений.',duration:20},
+    {day:'СБ',type:'simulation',title:'🏁 Гонка Hyrox',detail:'Дай всё, на что способна. Удачи!',duration:90},
+    {day:'ВС',type:'rest',title:'Восстановление',detail:'Празднуй. Сон. Еда. Гордись собой.',duration:0},
+  ]},
+];
+
+const STATIONS=[
+  {name:'SkiErg',distance:'1000 м',weight:'—',tip:'Тяга из бёдер и кора, руки тянут в конце. Дыхание ритмичное.',mistake:'Тянуть только руками — забьются плечи к 3-й станции.',target:'4:30–5:30'},
+  {name:'Sled Push',distance:'50 м',weight:'102 кг',tip:'Низкая позиция, толкай ногами. Прямая линия от пятки до головы.',mistake:'Слишком высокая стойка — нет рычага.',target:'2:00–3:00'},
+  {name:'Sled Pull',distance:'50 м',weight:'78 кг',tip:'Тяни рывком + шаг назад. Кор напряжён.',mistake:'Игнорировать ноги — садись низко между рывками.',target:'2:30–3:30'},
+  {name:'Burpee Broad Jumps',distance:'80 м',weight:'—',tip:'Длинный прыжок важнее быстрого бёрпи.',mistake:'Прыгать вверх вместо в длину.',target:'4:00–5:30'},
+  {name:'Rower',distance:'1000 м',weight:'—',tip:'1-2-3: ноги→корпус→руки. Damper 5–6.',mistake:'Тянуть руками рано.',target:'4:00–4:45'},
+  {name:'Farmers Carry',distance:'200 м',weight:'16 кг × 2',tip:'Плечи назад, кор напряжён, мелкие шаги.',mistake:'Сгорбленная спина.',target:'1:30–2:30'},
+  {name:'Sandbag Lunges',distance:'100 м',weight:'10 кг',tip:'Колено мягко касается пола. Выпрямляйся полностью.',mistake:'Неполная амплитуда — судьи дисквалифицируют.',target:'3:30–5:00'},
+  {name:'Wall Balls',distance:'100 повт.',weight:'4 кг / 2.74 м',tip:'Используй ноги — это присед с броском. Лови на грудь.',mistake:'Бросать руками — забьёшь плечи.',target:'4:30–6:30'},
+];
+
+const TIPS=[
+  {icon:'Droplet',title:'Гидратация',text:'Минимум 2.5л в день. Электролиты перед тяжёлыми тренировками.'},
+  {icon:'Coffee',title:'Сон',text:'Меньше 7 часов = минус 10–20% результатов. Сон — самый дешёвый стероид.'},
+  {icon:'Heart',title:'Восстановление',text:'Один полный выходной в неделю обязателен. Тело адаптируется в отдыхе.'},
+  {icon:'Zap',title:'Питание',text:'Углеводы за 2–3 часа до тренировки. Белок + углеводы в течение 30 мин после.'},
+  {icon:'Target',title:'Wall balls — главный враг',text:'Последняя станция, к ней приходишь измотанной. Тренируй её в конце сессий.'},
+  {icon:'Flame',title:'Транзиции',text:'На гонке теряется 3–5 минут на переходах. Заходи в станцию уже двигаясь.'},
+  {icon:'TrendingUp',title:'Прогрессия',text:'Hyrox = выносливость + техника. 100 идеальных wall balls важнее большого веса.'},
+  {icon:'Activity',title:'Compromised running',text:'Бег после станции — другой бег. Тренируй его 2× в неделю.'},
+];
+
+const EXERCISES={
+  skierg:{name:'SkiErg',fields:['distance','time'],emoji:'🎿'},
+  sled_push:{name:'Sled Push',fields:['distance','weight','time'],emoji:'🛷'},
+  sled_pull:{name:'Sled Pull',fields:['distance','weight','time'],emoji:'🪢'},
+  burpees:{name:'Burpee Broad Jumps',fields:['distance','reps','time'],emoji:'🤸'},
+  rower:{name:'Гребля',fields:['distance','time'],emoji:'🚣'},
+  farmers:{name:'Farmers Carry',fields:['distance','weight','time'],emoji:'💪'},
+  sandbag:{name:'Sandbag Lunges',fields:['distance','weight','time'],emoji:'🎒'},
+  wallballs:{name:'Wall Balls',fields:['reps','weight','time'],emoji:'🏐'},
+  run:{name:'Бег',fields:['distance','time'],emoji:'🏃'},
+  squat:{name:'Приседания',fields:['reps','weight'],emoji:'🦵'},
+  deadlift:{name:'Тяга',fields:['reps','weight'],emoji:'🏋️'},
+  press:{name:'Жим',fields:['reps','weight'],emoji:'💥'},
+  pullup:{name:'Подтягивания',fields:['reps'],emoji:'🆙'},
+  plank:{name:'Планка',fields:['time'],emoji:'➖'},
+  custom:{name:'Своё',fields:['reps','distance','weight','time'],emoji:'✨'},
+};
+const FIELD_META={
+  distance:{label:'метры',placeholder:'250',type:'number',inputMode:'numeric'},
+  reps:{label:'повторения',placeholder:'30',type:'number',inputMode:'numeric'},
+  weight:{label:'вес, кг',placeholder:'4',type:'number',inputMode:'decimal'},
+  time:{label:'время',placeholder:'5:12',type:'text',inputMode:'text'},
+};
+const TYPE_META={
+  hyrox:{label:'Hyrox',color:'#FF375F',soft:'#FFE5EC',icon:'Flame'},
+  run:{label:'Бег',color:'#FF6B9D',soft:'#FFE9F1',icon:'Activity'},
+  tennis:{label:'Теннис',color:'#FF9F7A',soft:'#FFEEE5',icon:'Target'},
+  pilates:{label:'Пилатес',color:'#C77DFF',soft:'#F5E5FF',icon:'Heart'},
+  strength:{label:'Сила',color:'#FF5C8A',soft:'#FFE3EC',icon:'Zap'},
+  simulation:{label:'Симуляция',color:'#FF375F',soft:'#FFE5EC',icon:'Trophy'},
+  rest:{label:'Отдых',color:'#A0A0A8',soft:'#F2F2F7',icon:'Coffee'},
+};
+
+const todayISO=()=>new Date().toISOString().split('T')[0];
+const fmtDate=iso=>new Date(iso).toLocaleDateString('ru-RU',{day:'numeric',month:'short'});
+const fmtLong=iso=>new Date(iso).toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'});
+const daysBetween=(d1,d2)=>Math.floor((new Date(d2)-new Date(d1))/86400000);
+const getCurWeekDay=start=>{
+  const days=daysBetween(start,todayISO());
+  return{week:Math.min(Math.floor(days/7)+1,20),dayIdx:((days%7)+7)%7};
+};
+const getDay=(week,di,ov)=>{
+  const base=PROGRAM[week-1]?.days[di];
+  if(!base)return null;
+  const k=`${week}-${di}`;
+  return ov?.[k]?{...base,...ov[k],_ov:true}:base;
+};
+const fmtEx=ex=>{
+  const p=[];
+  if(ex.distance)p.push(`${ex.distance} м`);
+  if(ex.reps)p.push(`${ex.reps} раз`);
+  if(ex.weight)p.push(`${ex.weight} кг`);
+  if(ex.time)p.push(ex.time);
+  return p.join(' · ');
+};
+
+const SK='hyrox-v2';
+const load=()=>{try{const r=localStorage.getItem(SK);return r?JSON.parse(r):null;}catch{return null;}};
+const save=d=>{try{localStorage.setItem(SK,JSON.stringify(d));}catch(e){}};
+
+// ── APP ──────────────────────────────────────────────────────────
+export default function App(){
+  const [tab,setTab]=useState('today');
+  const [data,setData]=useState({startDate:todayISO(),workouts:[],ov:{}});
+  const [ready,setReady]=useState(false);
+  const [logOpen,setLogOpen]=useState(false);
+  const [prefill,setPrefill]=useState(null);
+  const [editDay,setEditDay]=useState(null);
+
+  useEffect(()=>{const d=load();if(d)setData({ov:{},...d});setReady(true);},[]);
+  useEffect(()=>{if(ready)save(data);},[data,ready]);
+
+  const addW=w=>{setData(p=>({...p,workouts:[{...w,id:Date.now()+''},...p.workouts]}));setLogOpen(false);setPrefill(null);};
+  const delW=id=>setData(p=>({...p,workouts:p.workouts.filter(w=>w.id!==id)}));
+  const saveOv=(wk,di,ch)=>{const k=`${wk}-${di}`;setData(p=>({...p,ov:{...p.ov,[k]:ch}}));setEditDay(null);};
+  const resetOv=(wk,di)=>{const k=`${wk}-${di}`;setData(p=>{const o={...p.ov};delete o[k];return{...p,ov:o}});setEditDay(null);};
+
+  const {week,dayIdx}=getCurWeekDay(data.startDate);
+  const curW=PROGRAM[week-1];
+  const todayPlan=getDay(week,dayIdx,data.ov);
+
+  const NAV=[
+    {id:'today',icon:'Sparkles',label:'Сегодня'},
+    {id:'plan',icon:'Calendar',label:'План'},
+    {id:'log',icon:'Activity',label:'Лог'},
+    {id:'stats',icon:'BarChart3',label:'Стата'},
+    {id:'guide',icon:'BookOpen',label:'Гайд'},
+  ];
+
+  return(
+    <div style={{minHeight:'100vh',paddingBottom:80,background:'radial-gradient(circle at 20% 0%,#FFF0F5,#fff 40%)',color:'#1D1D1F',position:'relative',overflow:'hidden'}}>
+      {/* blobs */}
+      <div style={{position:'absolute',top:0,right:0,width:280,height:280,borderRadius:'50%',background:'radial-gradient(circle,#FFB6CB,transparent 70%)',opacity:.3,filter:'blur(40px)',pointerEvents:'none'}}/>
+      <div style={{position:'absolute',top:160,left:0,width:240,height:240,borderRadius:'50%',background:'radial-gradient(circle,#FFD6E1,transparent 70%)',opacity:.2,filter:'blur(40px)',pointerEvents:'none'}}/>
+
+      {/* HEADER */}
+      <div style={{padding:'48px 24px 8px',position:'relative',zIndex:1}}>
+        <div style={{display:'flex',alignItems:'flex-end',justifyContent:'space-between'}}>
+          <div>
+            <div style={{fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#86868B',marginBottom:4}}>{curW?.phase}</div>
+            <div className="serif" style={{fontSize:44,lineHeight:1}}>hy<span className="si" style={{color:'#FF375F'}}>rox</span></div>
+          </div>
+          <div style={{textAlign:'right'}}>
+            <div style={{fontSize:10,letterSpacing:'0.2em',textTransform:'uppercase',color:'#86868B'}}>Неделя</div>
+            <div className="serif" style={{fontSize:28,lineHeight:1,marginTop:4}}>
+              <span style={{color:'#FF375F'}}>{week}</span>
+              <span style={{color:'#d1d1d6',fontSize:18}}> / 20</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style={{position:'relative',zIndex:1}}>
+        {tab==='today'&&<TodayTab plan={todayPlan} week={week} di={dayIdx} workouts={data.workouts} onLog={p=>{setPrefill(p);setLogOpen(true);}} onEdit={()=>setEditDay({week,di:dayIdx})}/>}
+        {tab==='plan'&&<PlanTab curWeek={week} workouts={data.workouts} start={data.startDate} ov={data.ov} onEdit={(w,di)=>setEditDay({week:w,di})}/>}
+        {tab==='log'&&<LogTab workouts={data.workouts} onDel={delW} onAdd={()=>setLogOpen(true)}/>}
+        {tab==='stats'&&<StatsTab workouts={data.workouts} start={data.startDate}/>}
+        {tab==='guide'&&<GuideTab/>}
+      </div>
+
+      {logOpen&&<LogForm prefill={prefill} onSave={addW} onClose={()=>{setLogOpen(false);setPrefill(null);}}/>}
+      {editDay&&<EditModal week={editDay.week} di={editDay.di} cur={getDay(editDay.week,editDay.di,data.ov)} isOv={!!data.ov[`${editDay.week}-${editDay.di}`]} onSave={(ch)=>saveOv(editDay.week,editDay.di,ch)} onReset={()=>resetOv(editDay.week,editDay.di)} onClose={()=>setEditDay(null)}/>}
+
+      {/* NAV */}
+      <nav className="nav-blur" style={{position:'fixed',bottom:0,left:0,right:0,zIndex:20,background:'rgba(255,255,255,0.82)',borderTop:'1px solid rgba(0,0,0,.06)'}}>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',maxWidth:480,margin:'0 auto',paddingTop:8,paddingBottom:'max(12px,env(safe-area-inset-bottom))'}}>
+          {NAV.map(t=>(
+            <button key={t.id} onClick={()=>setTab(t.id)} style={{display:'flex',flexDirection:'column',alignItems:'center',gap:3,padding:'4px 0',background:'none',border:'none'}}>
+              <Icon name={t.icon} size={20} stroke={tab===t.id?'#FF375F':'#86868B'} sw={tab===t.id?2.2:1.8}/>
+              <span style={{fontSize:10,fontWeight:500,color:tab===t.id?'#FF375F':'#86868B',letterSpacing:'0.05em'}}>{t.label}</span>
+            </button>
+          ))}
+        </div>
+      </nav>
+    </div>
+  );
+}
+
+// ── TODAY ────────────────────────────────────────────────────────
+function TodayTab({plan,week,di,workouts,onLog,onEdit}){
+  const today=todayISO();
+  const logged=workouts.find(w=>w.date===today);
+  const ws=new Date();ws.setDate(ws.getDate()-ws.getDay()+(ws.getDay()===0?-6:1));
+  const wsISO=ws.toISOString().split('T')[0];
+  const wkCnt=workouts.filter(w=>w.date>=wsISO).length;
+  const tip=useMemo(()=>TIPS[Math.floor(Math.random()*TIPS.length)],[]);
+  if(!plan)return<div style={{padding:'40px 24px',textAlign:'center',color:'#86868B'}}>Программа завершена ✨</div>;
+  const m=TYPE_META[plan.type];
+  return(
+    <div style={{padding:'4px 24px 0',display:'flex',flexDirection:'column',gap:16}} className="fu">
+      <div className="si" style={{fontSize:17,color:'#86868B',textTransform:'capitalize'}}>{fmtLong(today)}</div>
+
+      {/* hero */}
+      <div className="card-pink" style={{padding:24,position:'relative',overflow:'hidden'}}>
+        <div style={{position:'absolute',top:-60,right:-60,width:140,height:140,borderRadius:'50%',background:m.color,opacity:.35,filter:'blur(30px)'}}/>
+        <div style={{position:'relative'}}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:16}}>
+            <div style={{display:'inline-flex',alignItems:'center',gap:6,padding:'4px 12px',borderRadius:999,background:'rgba(255,255,255,.75)',border:`1px solid ${m.color}25`,fontSize:11,fontWeight:500,color:m.color}}>
+              <span style={{width:6,height:6,borderRadius:'50%',background:m.color,display:'inline-block'}}/>
+              {m.label}{plan._ov&&<span style={{opacity:.7}}> · изменено</span>}
+            </div>
+            <div style={{display:'flex',alignItems:'center',gap:10}}>
+              {logged&&<span style={{fontSize:12,fontWeight:500,color:'#34C759',display:'flex',alignItems:'center',gap:3}}><Icon name="Check" size={14} stroke="#34C759"/>сделано</span>}
+              <button onClick={onEdit} style={{width:28,height:28,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',color:'#FF375F'}}>
+                <Icon name="Pencil" size={14}/>
+              </button>
+            </div>
+          </div>
+          <div className="serif" style={{fontSize:32,lineHeight:1.05,marginBottom:4}}>{plan.title}</div>
+          <div style={{fontSize:14,color:'#6e6e73',lineHeight:1.6,marginTop:10}}>{plan.detail}</div>
+          {plan.duration>0&&<div style={{display:'flex',alignItems:'center',gap:6,marginTop:14,fontSize:12,color:'#86868B'}}><Icon name="Clock" size={14}/>~{plan.duration} мин</div>}
+          {plan.type!=='rest'&&!logged&&(
+            <button onClick={()=>onLog({type:plan.type,title:plan.title})} className="pglow"
+              style={{marginTop:20,width:'100%',background:'linear-gradient(135deg,#FF375F,#FF5C8A)',color:'#fff',fontWeight:600,padding:'14px 0',borderRadius:18,fontSize:15}}>
+              Залогировать тренировку
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* week strip */}
+      <div className="card" style={{padding:20}}>
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
+          <span className="si" style={{fontSize:17}}>эта неделя</span>
+          <span><span className="serif" style={{fontSize:22,color:'#FF375F'}}>{wkCnt}</span><span style={{color:'#86868B',fontSize:13}}> / 6</span></span>
+        </div>
+        <div style={{display:'flex',gap:6}}>
+          {[0,1,2,3,4,5,6].map(i=>{
+            const d=new Date(ws);d.setDate(d.getDate()+i);
+            const ds=d.toISOString().split('T')[0];
+            const has=workouts.some(w=>w.date===ds);
+            const isT=ds===today;
+            return(
+              <div key={i} style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:6}}>
+                <span style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.1em',color:'#86868B'}}>{'ПВСЧПСВ'[i]}</span>
+                <div style={{width:'100%',height:40,borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,fontWeight:500,
+                  background:has?'linear-gradient(135deg,#FF375F,#FF5C8A)':isT?'#fff':'#f5f5f7',
+                  color:has?'#fff':isT?'#FF375F':'#86868B',
+                  border:isT&&!has?'1.5px solid #FF375F':'1px solid rgba(0,0,0,.04)',
+                  boxShadow:has?'0 4px 12px rgba(255,55,95,.25)':'none'}}>
+                  {d.getDate()}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <button onClick={()=>onLog(null)} className="card" style={{padding:16,display:'flex',alignItems:'center',justifyContent:'center',gap:8,color:'#86868B',fontSize:14}}>
+        <Icon name="Plus" size={16}/>Другая тренировка
+      </button>
+
+      {/* tip */}
+      <div className="card" style={{padding:20,display:'flex',gap:14}}>
+        <div style={{width:40,height:40,borderRadius:16,background:'linear-gradient(135deg,#FFE5EC,#FFF0F5)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
+          <Icon name={tip.icon} size={18} stroke="#FF375F"/>
+        </div>
+        <div>
+          <div className="si" style={{fontSize:14,color:'#FF375F',marginBottom:4}}>совет · {tip.title.toLowerCase()}</div>
+          <div style={{fontSize:13,color:'#6e6e73',lineHeight:1.55}}>{tip.text}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── PLAN ─────────────────────────────────────────────────────────
+function PlanTab({curWeek,workouts,start,ov,onEdit}){
+  const [exp,setExp]=useState(curWeek);
+  const phases=useMemo(()=>{
+    const o={};
+    PROGRAM.forEach(w=>{if(!o[w.phaseNum])o[w.phaseNum]={name:w.phase,focus:w.focus,weeks:[]};o[w.phaseNum].weeks.push(w);});
+    return o;
+  },[]);
+  const sd=new Date(start);
+  return(
+    <div style={{padding:'8px 24px 0',display:'flex',flexDirection:'column',gap:20}} className="fu">
+      {Object.entries(phases).map(([num,phase])=>(
+        <div key={num}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-end',marginBottom:12,padding:'0 4px'}}>
+            <div>
+              <div style={{fontSize:10,letterSpacing:'0.2em',textTransform:'uppercase',color:'#FF375F',marginBottom:2}}>Фаза {num}</div>
+              <div className="serif" style={{fontSize:22}}>{phase.name}</div>
+              <div style={{fontSize:11,color:'#86868B',marginTop:2}}>{phase.focus}</div>
+            </div>
+            <div className="mono" style={{fontSize:11,color:'#86868B'}}>{phase.weeks.length} нед</div>
+          </div>
+          <div style={{display:'flex',flexDirection:'column',gap:8}}>
+            {phase.weeks.map(w=>{
+              const wk=new Date(sd);wk.setDate(wk.getDate()+(w.week-1)*7);
+              const we=new Date(wk);we.setDate(we.getDate()+6);
+              const isCur=w.week===curWeek,isPast=w.week<curWeek,isExp=exp===w.week;
+              return(
+                <div key={w.week} style={{borderRadius:24,overflow:'hidden',
+                  background:isCur?'linear-gradient(135deg,#FFF5F8,#FFEEF4)':'#fff',
+                  border:`1px solid ${isCur?'rgba(255,55,95,.15)':'rgba(0,0,0,.04)'}`,
+                  boxShadow:isCur?'0 4px 24px rgba(255,55,95,.06)':'0 1px 2px rgba(0,0,0,.02)'}}>
+                  <button onClick={()=>setExp(isExp?null:w.week)} style={{width:'100%',padding:'14px 20px',display:'flex',alignItems:'center',justifyContent:'space-between',background:'none'}}>
+                    <div style={{display:'flex',alignItems:'center',gap:12}}>
+                      <div className="mono" style={{fontSize:11,padding:'3px 10px',borderRadius:8,fontWeight:500,
+                        background:isCur?'#FF375F':isPast?'#f2f2f7':'#fafafa',
+                        color:isCur?'#fff':isPast?'#86868B':'#1d1d1f'}}>W{w.week}</div>
+                      <div>
+                        <div style={{fontSize:13,fontWeight:500}}>{fmtDate(wk.toISOString())} — {fmtDate(we.toISOString())}</div>
+                        {isCur&&<div className="si" style={{fontSize:11,color:'#FF375F'}}>текущая</div>}
+                      </div>
+                    </div>
+                    <Icon name="ChevronDown" size={16} stroke="#86868B" style={{transform:isExp?'rotate(180deg)':'none',transition:'transform .2s'}}/>
+                  </button>
+                  {isExp&&(
+                    <div style={{padding:'0 20px 16px',borderTop:'1px solid #f5f5f7',display:'flex',flexDirection:'column',gap:10,paddingTop:14}}>
+                      {w.days.map((_,i)=>{
+                        const d=getDay(w.week,i,ov);
+                        const m=TYPE_META[d.type];
+                        const dd=new Date(wk);dd.setDate(dd.getDate()+i);
+                        const lg=workouts.some(wo=>wo.date===dd.toISOString().split('T')[0]);
+                        return(
+                          <button key={i} onClick={()=>onEdit(w.week,i)} style={{display:'flex',gap:12,alignItems:'flex-start',textAlign:'left',background:'none',padding:'4px 6px',borderRadius:10,width:'100%'}}>
+                            <div style={{width:36,flexShrink:0,textAlign:'center'}}>
+                              <div style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.1em',color:'#86868B'}}>{d.day}</div>
+                              <div className="mono" style={{fontSize:13,color:lg?'#FF375F':'#86868B'}}>{dd.getDate()}</div>
+                            </div>
+                            <div style={{width:3,alignSelf:'stretch',borderRadius:2,background:m.color,opacity:.5,marginTop:3,flexShrink:0}}/>
+                            <div style={{flex:1,minWidth:0,paddingBottom:2}}>
+                              <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:2}}>
+                                <span style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.1em',fontWeight:500,color:m.color}}>{m.label}</span>
+                                {d._ov&&<span className="si" style={{fontSize:9,color:'#FF375F'}}>изменено</span>}
+                                {lg&&<Icon name="Check" size={11} stroke="#34C759"/>}
+                              </div>
+                              <div style={{fontSize:13,fontWeight:500}}>{d.title}</div>
+                              <div style={{fontSize:11,color:'#86868B',lineHeight:1.5,marginTop:2}}>{d.detail}</div>
+                            </div>
+                            <Icon name="Pencil" size={13} stroke="#d1d1d6" style={{marginTop:4,flexShrink:0}}/>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── LOG ──────────────────────────────────────────────────────────
+function LogTab({workouts,onDel,onAdd}){
+  const grouped=useMemo(()=>{
+    const g={};workouts.forEach(w=>{if(!g[w.date])g[w.date]=[];g[w.date].push(w);});
+    return Object.entries(g).sort((a,b)=>b[0].localeCompare(a[0]));
+  },[workouts]);
+  return(
+    <div style={{padding:'8px 24px 0',display:'flex',flexDirection:'column',gap:16}} className="fu">
+      <button onClick={onAdd} className="pglow" style={{width:'100%',background:'linear-gradient(135deg,#FF375F,#FF5C8A)',color:'#fff',fontWeight:600,padding:'14px 0',borderRadius:18,fontSize:15,display:'flex',alignItems:'center',justifyContent:'center',gap:8}}>
+        <Icon name="Plus" size={16} stroke="#fff"/>Добавить тренировку
+      </button>
+      {workouts.length===0?(
+        <div style={{textAlign:'center',padding:'60px 0'}}>
+          <div style={{width:64,height:64,borderRadius:20,background:'linear-gradient(135deg,#FFE5EC,#FFF0F5)',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 12px'}}>
+            <Icon name="Activity" size={28} stroke="#FF375F"/>
+          </div>
+          <div className="si" style={{fontSize:20,marginBottom:4}}>пока пусто</div>
+          <div style={{fontSize:13,color:'#86868B'}}>Начни сегодня — каждая тренировка считается</div>
+        </div>
+      ):grouped.map(([date,ws])=>(
+        <div key={date}>
+          <div className="si" style={{fontSize:15,color:'#86868B',marginBottom:8,textTransform:'capitalize'}}>{fmtLong(date)}</div>
+          {ws.map(w=>{
+            const m=TYPE_META[w.type];
+            return(
+              <div key={w.id} className="card" style={{padding:16,marginBottom:8}}>
+                <div style={{display:'flex',alignItems:'flex-start',gap:12}}>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{display:'inline-flex',alignItems:'center',gap:5,padding:'2px 8px',borderRadius:999,background:m.soft,marginBottom:6}}>
+                      <span style={{width:4,height:4,borderRadius:'50%',background:m.color,display:'inline-block'}}/>
+                      <span style={{fontSize:10,fontWeight:500,color:m.color}}>{m.label}</span>
+                    </div>
+                    <div style={{fontSize:15,fontWeight:500}}>{w.title}</div>
+                    <div className="mono" style={{fontSize:11,color:'#86868B',marginTop:6,display:'flex',gap:12}}>
+                      {w.duration&&<span>{w.duration} мин</span>}
+                      {w.rpe&&<span>RPE {w.rpe}/10</span>}
+                    </div>
+                    {w.exercises?.length>0&&(
+                      <div style={{marginTop:10,paddingTop:10,borderTop:'1px solid #f5f5f7',display:'flex',flexDirection:'column',gap:6}}>
+                        {w.exercises.map((ex,i)=>{
+                          const em=EXERCISES[ex.type];
+                          return(
+                            <div key={i} style={{display:'flex',alignItems:'center',justifyContent:'space-between',fontSize:12}}>
+                              <span>{em?.emoji} {em?.name||ex.type}</span>
+                              <span className="mono" style={{color:'#FF375F',fontWeight:500}}>{fmtEx(ex)}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                    {w.notes&&<div className="si" style={{fontSize:13,color:'#6e6e73',marginTop:8}}>"{w.notes}"</div>}
+                  </div>
+                  <button onClick={()=>{if(confirm('Удалить?'))onDel(w.id);}} style={{color:'#d1d1d6',padding:4}}>
+                    <Icon name="Trash2" size={16}/>
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── MODALS ───────────────────────────────────────────────────────
+function Sheet({onClose,title,children}){
+  return(
+    <div style={{position:'fixed',inset:0,zIndex:50,display:'flex',alignItems:'flex-end',background:'rgba(0,0,0,.45)',backdropFilter:'blur(8px)'}} onClick={onClose}>
+      <div style={{width:'100%',maxHeight:'92vh',overflowY:'auto',background:'#fff',borderTopLeftRadius:32,borderTopRightRadius:32}} onClick={e=>e.stopPropagation()} className="fu">
+        <div style={{padding:'0 24px 24px'}}>
+          <div style={{display:'flex',justifyContent:'center',padding:'12px 0 4px'}}><div style={{width:40,height:4,borderRadius:2,background:'#e5e5ea'}}/></div>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:20,marginTop:8}}>
+            <div className="serif" style={{fontSize:28}}>{title}</div>
+            <button onClick={onClose} style={{width:32,height:32,borderRadius:'50%',background:'#f5f5f7',display:'flex',alignItems:'center',justifyContent:'center',color:'#86868B'}}>
+              <Icon name="X" size={18}/>
+            </button>
+          </div>
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Fld({label,children}){
+  return(
+    <div>
+      <div style={{fontSize:11,letterSpacing:'0.15em',textTransform:'uppercase',color:'#86868B',marginBottom:6}}>{label}</div>
+      {children}
+    </div>
+  );
+}
+
+function TypePicker({value,onChange,includeRest=false}){
+  return(
+    <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8}}>
+      {Object.entries(TYPE_META).filter(([k])=>includeRest||k!=='rest').map(([k,m])=>(
+        <button key={k} onClick={()=>onChange(k)} style={{
+          padding:'10px 6px',borderRadius:14,fontSize:12,fontWeight:500,
+          background:value===k?m.color:m.soft,color:value===k?'#fff':m.color,
+          boxShadow:value===k?`0 4px 12px ${m.color}40`:'none'}}>
+          {m.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function LogForm({prefill,onSave,onClose}){
+  const [form,setForm]=useState({date:todayISO(),type:prefill?.type||'hyrox',title:prefill?.title||'',duration:'',rpe:7,notes:'',exercises:[]});
+  const [addOpen,setAddOpen]=useState(false);
+  const [selEx,setSelEx]=useState(null);
+  const [vals,setVals]=useState({});
+
+  const handleAdd=()=>{
+    if(!selEx)return;
+    const ex={type:selEx};
+    EXERCISES[selEx].fields.forEach(f=>{if(vals[f])ex[f]=FIELD_META[f].type==='number'?Number(vals[f]):vals[f];});
+    setForm(p=>({...p,exercises:[...p.exercises,ex]}));
+    setSelEx(null);setVals({});setAddOpen(false);
+  };
+
+  const exOrder=useMemo(()=>{
+    const all=Object.keys(EXERCISES);
+    if(form.type==='hyrox'||form.type==='simulation'){
+      const h=['skierg','sled_push','sled_pull','burpees','rower','farmers','sandbag','wallballs','run'];
+      return[...h,...all.filter(k=>!h.includes(k))];
+    }
+    if(form.type==='run')return['run',...all.filter(k=>k!=='run')];
+    if(form.type==='strength')return['squat','deadlift','press','pullup','plank',...all.filter(k=>!['squat','deadlift','press','pullup','plank'].includes(k))];
+    return all;
+  },[form.type]);
+
+  return(
+    <Sheet onClose={onClose} title={<>новая <span className="si" style={{color:'#FF375F'}}>тренировка</span></>}>
+      <div style={{display:'flex',flexDirection:'column',gap:16}}>
+        <Fld label="Тип"><TypePicker value={form.type} onChange={t=>setForm(p=>({...p,type:t}))}/></Fld>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+          <Fld label="Дата"><input type="date" value={form.date} onChange={e=>setForm(p=>({...p,date:e.target.value}))}/></Fld>
+          <Fld label="Длительность · мин"><input type="number" inputMode="numeric" value={form.duration} onChange={e=>setForm(p=>({...p,duration:e.target.value}))} className="mono"/></Fld>
+        </div>
+        <Fld label="Название"><input value={form.title} onChange={e=>setForm(p=>({...p,title:e.target.value}))} placeholder="напр. Hyrox техника A"/></Fld>
+
+        <Fld label="Упражнения">
+          <div style={{display:'flex',flexDirection:'column',gap:8}}>
+            {form.exercises.map((ex,i)=>{
+              const m=EXERCISES[ex.type];
+              return(
+                <div key={i} style={{display:'flex',alignItems:'center',gap:10,padding:'10px 14px',borderRadius:16,background:'#FFF5F8',border:'1px solid rgba(255,55,95,.1)'}}>
+                  <span style={{fontSize:18}}>{m?.emoji}</span>
+                  <div style={{flex:1}}>
+                    <div style={{fontSize:13,fontWeight:500}}>{m?.name}</div>
+                    <div className="mono" style={{fontSize:11,color:'#FF375F',marginTop:2}}>{fmtEx(ex)}</div>
+                  </div>
+                  <button onClick={()=>setForm(p=>({...p,exercises:p.exercises.filter((_,j)=>j!==i)}))} style={{color:'#86868B'}}>
+                    <Icon name="X" size={16}/>
+                  </button>
+                </div>
+              );
+            })}
+            {!addOpen?(
+              <button onClick={()=>setAddOpen(true)} style={{width:'100%',padding:'12px',borderRadius:16,background:'#FFE5EC',color:'#FF375F',fontSize:13,fontWeight:500,border:'1px dashed rgba(255,55,95,.3)',display:'flex',alignItems:'center',justifyContent:'center',gap:6}}>
+                <Icon name="Plus" size={15}/>Добавить упражнение
+              </button>
+            ):(
+              <div style={{padding:14,borderRadius:16,background:'#fafafa',border:'1px solid rgba(0,0,0,.06)',display:'flex',flexDirection:'column',gap:12}}>
+                <div style={{fontSize:10,letterSpacing:'0.15em',textTransform:'uppercase',color:'#86868B'}}>Что делаешь?</div>
+                <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+                  {exOrder.map(k=>(
+                    <button key={k} onClick={()=>setSelEx(k)} style={{padding:'6px 12px',borderRadius:999,fontSize:12,fontWeight:500,display:'flex',alignItems:'center',gap:4,
+                      background:selEx===k?'#FF375F':'#fff',color:selEx===k?'#fff':'#1d1d1f',border:'1px solid rgba(0,0,0,.06)'}}>
+                      {EXERCISES[k].emoji} {EXERCISES[k].name}
+                    </button>
+                  ))}
+                </div>
+                {selEx&&(
+                  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8}}>
+                    {EXERCISES[selEx].fields.map(f=>(
+                      <Fld key={f} label={FIELD_META[f].label}>
+                        <input type={FIELD_META[f].type} inputMode={FIELD_META[f].inputMode} placeholder={FIELD_META[f].placeholder} value={vals[f]||''} onChange={e=>setVals(v=>({...v,[f]:e.target.value}))} className="mono"/>
+                      </Fld>
+                    ))}
+                  </div>
+                )}
+                <div style={{display:'flex',gap:8}}>
+                  <button onClick={()=>{setAddOpen(false);setSelEx(null);setVals({});}} style={{flex:1,padding:'10px',borderRadius:14,background:'#f5f5f7',color:'#86868B',fontSize:13,fontWeight:500}}>Отмена</button>
+                  <button onClick={handleAdd} disabled={!selEx} style={{flex:1,padding:'10px',borderRadius:14,background:'linear-gradient(135deg,#FF375F,#FF5C8A)',color:'#fff',fontSize:13,fontWeight:600,opacity:selEx?1:.4}}>Добавить</button>
+                </div>
+              </div>
+            )}
+          </div>
+        </Fld>
+
+        <Fld label={<>Усилие · RPE <span className="mono" style={{color:'#FF375F',marginLeft:4}}>{form.rpe}/10</span></>}>
+          <input type="range" min="1" max="10" value={form.rpe} onChange={e=>setForm(p=>({...p,rpe:+e.target.value}))} style={{accentColor:'#FF375F',width:'100%',marginTop:6,background:'none',border:'none',padding:0}}/>
+        </Fld>
+        <Fld label="Заметки"><textarea value={form.notes} onChange={e=>setForm(p=>({...p,notes:e.target.value}))} placeholder="как прошло?" style={{height:88}}/></Fld>
+        <button onClick={()=>onSave({...form,duration:form.duration?+form.duration:null})} disabled={!form.title} className="pglow"
+          style={{width:'100%',background:'linear-gradient(135deg,#FF375F,#FF5C8A)',color:'#fff',fontWeight:600,padding:'14px 0',borderRadius:18,fontSize:15,opacity:form.title?1:.35}}>
+          Сохранить
+        </button>
+      </div>
+    </Sheet>
+  );
+}
+
+function EditModal({week,di,cur,isOv,onSave,onReset,onClose}){
+  const days=['ПН','ВТ','СР','ЧТ','ПТ','СБ','ВС'];
+  const [form,setForm]=useState({type:cur?.type||'hyrox',title:cur?.title||'',detail:cur?.detail||'',duration:cur?.duration??''});
+  return(
+    <Sheet onClose={onClose} title={<>редактировать <span className="si" style={{color:'#FF375F'}}>день</span></>}>
+      <div style={{fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#86868B',marginBottom:16}}>Неделя {week} · {days[di]}</div>
+      <div style={{display:'flex',flexDirection:'column',gap:16}}>
+        <Fld label="Тип"><TypePicker value={form.type} onChange={t=>setForm(p=>({...p,type:t}))} includeRest/></Fld>
+        <Fld label="Название"><input value={form.title} onChange={e=>setForm(p=>({...p,title:e.target.value}))} placeholder="напр. Hyrox техника A"/></Fld>
+        <Fld label="Описание"><textarea value={form.detail} onChange={e=>setForm(p=>({...p,detail:e.target.value}))} placeholder="Что делать на этой тренировке…" style={{height:100}}/></Fld>
+        <Fld label="Длительность · мин"><input type="number" inputMode="numeric" value={form.duration} onChange={e=>setForm(p=>({...p,duration:e.target.value}))} className="mono"/></Fld>
+        <div style={{display:'flex',flexDirection:'column',gap:8,paddingTop:4}}>
+          <button onClick={()=>onSave({type:form.type,title:form.title,detail:form.detail,duration:form.duration===''?0:+form.duration})} disabled={!form.title} className="pglow"
+            style={{width:'100%',background:'linear-gradient(135deg,#FF375F,#FF5C8A)',color:'#fff',fontWeight:600,padding:'14px 0',borderRadius:18,fontSize:15,opacity:form.title?1:.35}}>
+            Сохранить
+          </button>
+          {isOv&&<button onClick={onReset} style={{width:'100%',padding:'12px',borderRadius:16,background:'#f5f5f7',color:'#86868B',fontSize:14,fontWeight:500,display:'flex',alignItems:'center',justifyContent:'center',gap:6}}>
+            <Icon name="RotateCcw" size={14}/>Вернуть оригинал
+          </button>}
+        </div>
+      </div>
+    </Sheet>
+  );
+}
+
+// ── STATS ────────────────────────────────────────────────────────
+function StatsTab({workouts,start}){
+  const totalMin=workouts.reduce((s,w)=>s+(w.duration||0),0);
+  const days=daysBetween(start,todayISO())+1;
+  const byType=useMemo(()=>{
+    const t={};workouts.forEach(w=>{t[w.type]=(t[w.type]||0)+1;});
+    return Object.entries(t).map(([k,v])=>({type:TYPE_META[k]?.label||k,count:v,color:TYPE_META[k]?.color||'#888'}));
+  },[workouts]);
+  const weekly=useMemo(()=>{
+    const wks={};workouts.forEach(w=>{
+      const d=new Date(w.date);d.setDate(d.getDate()-d.getDay()+(d.getDay()===0?-6:1));
+      const k=d.toISOString().split('T')[0];wks[k]=(wks[k]||0)+(w.duration||0);
+    });
+    return Object.entries(wks).sort().slice(-8).map(([d,v])=>({week:fmtDate(d),minutes:v}));
+  },[workouts]);
+  const prs=useMemo(()=>{
+    const m={};workouts.forEach(w=>{w.exercises?.forEach(ex=>{if(!m[ex.type])m[ex.type]=[];m[ex.type].push({...ex,date:w.date});});});
+    return Object.entries(m).map(([type,entries])=>{
+      const best={};['reps','distance','weight'].forEach(f=>{const vs=entries.map(e=>e[f]).filter(v=>v!=null);if(vs.length)best[f]=Math.max(...vs);});
+      const ts=entries.map(e=>e.time).filter(Boolean);if(ts.length)best.time=ts.sort()[0];
+      return{type,latest:entries[entries.length-1],best,count:entries.length};
+    });
+  },[workouts]);
+
+  const sc=(v,l,acc)=>(
+    <div style={{borderRadius:24,padding:16,background:acc?'linear-gradient(135deg,#FFF5F8,#FFEEF4)':'#fff',border:`1px solid ${acc?'rgba(255,55,95,.12)':'rgba(0,0,0,.04)'}`,boxShadow:'0 1px 2px rgba(0,0,0,.02)'}}>
+      <div style={{fontSize:10,letterSpacing:'0.15em',textTransform:'uppercase',color:'#86868B'}}>{l}</div>
+      <div className="serif" style={{fontSize:40,marginTop:6,color:acc?'#FF375F':'#1d1d1f'}}>{v}</div>
+    </div>
+  );
+
+  return(
+    <div style={{padding:'8px 24px 0',display:'flex',flexDirection:'column',gap:16}} className="fu">
+      <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8}}>
+        {sc(workouts.length,'Тренировок',true)}
+        {sc(Math.round(totalMin/60),'Часов',false)}
+        {sc(days,'Дней',false)}
+      </div>
+      {weekly.length>0&&(
+        <div className="card" style={{padding:20}}>
+          <div className="si" style={{fontSize:17,marginBottom:12}}>объём по неделям</div>
+          <ResponsiveContainer width="100%" height={170}>
+            <BarChart data={weekly}>
+              <defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#FF375F"/><stop offset="100%" stopColor="#FF6B9D"/></linearGradient></defs>
+              <CartesianGrid strokeDasharray="2 4" stroke="#f2f2f7" vertical={false}/>
+              <XAxis dataKey="week" stroke="#a0a0a8" fontSize={10}/>
+              <YAxis stroke="#a0a0a8" fontSize={10}/>
+              <Tooltip contentStyle={{background:'#fff',border:'1px solid rgba(0,0,0,.06)',borderRadius:12,fontSize:12}} cursor={{fill:'#FFE5EC'}}/>
+              <Bar dataKey="minutes" fill="url(#pg)" radius={[8,8,0,0]}/>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+      {byType.length>0&&(
+        <div className="card" style={{padding:20}}>
+          <div className="si" style={{fontSize:17,marginBottom:14}}>по типам</div>
+          {byType.sort((a,b)=>b.count-a.count).map(t=>(
+            <div key={t.type} style={{marginBottom:12}}>
+              <div style={{display:'flex',justifyContent:'space-between',fontSize:13,marginBottom:6}}>
+                <span>{t.type}</span><span className="mono" style={{color:'#86868B'}}>{t.count}</span>
+              </div>
+              <div style={{height:6,background:'#f2f2f7',borderRadius:3,overflow:'hidden'}}>
+                <div style={{height:'100%',borderRadius:3,background:t.color,width:`${(t.count/workouts.length)*100}%`}}/>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      {prs.length>0&&(
+        <div className="card" style={{padding:20}}>
+          <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:14}}>
+            <Icon name="Trophy" size={16} stroke="#FF375F"/>
+            <div className="si" style={{fontSize:17}}>личные рекорды</div>
+          </div>
+          {prs.map(p=>{
+            const m=EXERCISES[p.type];
+            return(
+              <div key={p.type} style={{paddingBottom:12,marginBottom:12,borderBottom:'1px solid #f5f5f7'}}>
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
+                  <div style={{display:'flex',alignItems:'center',gap:6,fontSize:14,fontWeight:500}}><span>{m?.emoji}</span>{m?.name}</div>
+                  <span style={{fontSize:10,color:'#86868B'}}>{p.count} замер{p.count===1?'':p.count<5?'а':'ов'}</span>
+                </div>
+                <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
+                  {p.best.distance!=null&&<PRBadge l="макс м" v={p.best.distance}/>}
+                  {p.best.reps!=null&&<PRBadge l="макс раз" v={p.best.reps}/>}
+                  {p.best.weight!=null&&<PRBadge l="макс кг" v={p.best.weight}/>}
+                  {p.best.time&&<PRBadge l="лучшее" v={p.best.time}/>}
+                </div>
+                <div style={{fontSize:10,color:'#86868B',marginTop:6}}>последний: {fmtEx(p.latest)} · {fmtDate(p.latest.date)}</div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+      {workouts.length===0&&(
+        <div style={{textAlign:'center',padding:'48px 0'}}>
+          <div style={{width:64,height:64,borderRadius:20,background:'linear-gradient(135deg,#FFE5EC,#FFF0F5)',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 12px'}}>
+            <Icon name="BarChart3" size={28} stroke="#FF375F"/>
+          </div>
+          <div className="si" style={{fontSize:20,marginBottom:4}}>статистика появится</div>
+          <div style={{fontSize:13,color:'#86868B'}}>после первой залогированной тренировки</div>
+        </div>
+      )}
+    </div>
+  );
+}
+function PRBadge({l,v}){return<div style={{display:'inline-flex',alignItems:'center',gap:5,padding:'4px 10px',borderRadius:8,background:'#FFF5F8'}}><span style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.1em',color:'#86868B'}}>{l}</span><span className="mono" style={{fontSize:12,fontWeight:600,color:'#FF375F'}}>{v}</span></div>;}
+
+// ── GUIDE ────────────────────────────────────────────────────────
+function GuideTab(){
+  const [active,setActive]=useState('stations');
+  const tabs=[{id:'stations',label:'Станции'},{id:'tips',label:'Советы'},{id:'race',label:'Гонка'}];
+  return(
+    <div style={{padding:'8px 24px 0',display:'flex',flexDirection:'column',gap:16}} className="fu">
+      <div style={{display:'flex',gap:4,padding:6,borderRadius:18,background:'#f2f2f7'}}>
+        {tabs.map(t=>(
+          <button key={t.id} onClick={()=>setActive(t.id)} style={{flex:1,padding:'8px 0',borderRadius:12,fontSize:12,fontWeight:500,
+            background:active===t.id?'#fff':'transparent',color:active===t.id?'#FF375F':'#86868B',
+            boxShadow:active===t.id?'0 1px 4px rgba(0,0,0,.06)':'none'}}>
+            {t.label}
+          </button>
+        ))}
+      </div>
+      {active==='stations'&&(
+        <div style={{display:'flex',flexDirection:'column',gap:12}}>
+          <div className="si" style={{fontSize:14,color:'#86868B',padding:'0 4px'}}>все станции · women open</div>
+          {STATIONS.map((s,i)=>(
+            <div key={s.name} className="card" style={{padding:20}}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:12}}>
+                <div style={{display:'flex',alignItems:'center',gap:10}}>
+                  <div className="mono" style={{fontSize:10,padding:'2px 8px',borderRadius:6,background:'#FFE5EC',color:'#FF375F',fontWeight:500}}>{String(i+1).padStart(2,'0')}</div>
+                  <div className="serif" style={{fontSize:22}}>{s.name}</div>
+                </div>
+                <div style={{textAlign:'right'}}><div style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.1em',color:'#86868B'}}>цель</div><div className="mono" style={{fontSize:11}}>{s.target}</div></div>
+              </div>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:12}}>
+                {[['Дистанция',s.distance],['Вес',s.weight]].map(([l,v])=>(
+                  <div key={l} style={{padding:'8px 12px',borderRadius:12,background:'#fafafa'}}>
+                    <div style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.1em',color:'#86868B'}}>{l}</div>
+                    <div className="mono" style={{fontSize:12,marginTop:2}}>{v}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{display:'flex',flexDirection:'column',gap:8}}>
+                <div style={{display:'flex',gap:10}}>
+                  <div style={{width:20,height:20,borderRadius:'50%',background:'#FFE5EC',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,fontSize:11,color:'#FF375F'}}>✓</div>
+                  <div style={{fontSize:12,color:'#3c3c43',lineHeight:1.55}}><span style={{fontWeight:500,color:'#FF375F'}}>техника. </span>{s.tip}</div>
+                </div>
+                <div style={{display:'flex',gap:10}}>
+                  <div style={{width:20,height:20,borderRadius:'50%',background:'#FFF3F0',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,fontSize:11,color:'#FF9F7A'}}>×</div>
+                  <div style={{fontSize:12,color:'#6e6e73',lineHeight:1.55}}><span style={{fontWeight:500,color:'#FF9F7A'}}>ошибка. </span>{s.mistake}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      {active==='tips'&&(
+        <div style={{display:'flex',flexDirection:'column',gap:12}}>
+          {TIPS.map((t,i)=>(
+            <div key={i} className="card" style={{padding:16,display:'flex',gap:14}}>
+              <div style={{width:40,height:40,borderRadius:16,background:'linear-gradient(135deg,#FFE5EC,#FFF0F5)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
+                <Icon name={t.icon} size={18} stroke="#FF375F"/>
+              </div>
+              <div>
+                <div className="serif" style={{fontSize:17,lineHeight:1.2}}>{t.title}</div>
+                <div style={{fontSize:12,color:'#6e6e73',lineHeight:1.55,marginTop:4}}>{t.text}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      {active==='race'&&(
+        <div style={{display:'flex',flexDirection:'column',gap:12}}>
+          {[
+            {title:'за неделю до',items:['Снизь объём на 40–50%','Углеводы — добавь к рациону','Сон 8–9 часов','Никаких новых блюд','Прогон станций в лёгком темпе']},
+            {title:'за день до',items:['Минимальная активность','Carb load — паста, рис, картофель','Литр воды + электролиты','Сложи сумку: форма, обувь, гели','Спать в 22:00']},
+            {title:'утро гонки',items:['Завтрак за 2.5–3 часа до старта','Овсянка + банан + кофе','500мл воды за 1 час','Разминка 15 мин: бег + динамика','Дыхание: 4 сек вдох, 6 выдох']},
+            {title:'на гонке',items:['Первый км — НЕ быстро','Sled push: упор и шаги','Перед wall balls — глубокий вдох','Гели каждые 30–40 мин','Финиш — оставь силы на последние 200м']},
+          ].map(s=>(
+            <div key={s.title} className="card" style={{padding:20}}>
+              <div className="serif" style={{fontSize:22,marginBottom:12}}>{s.title}</div>
+              {s.items.map((it,i)=>(
+                <div key={i} style={{display:'flex',gap:10,marginBottom:8,fontSize:13,color:'#3c3c43',lineHeight:1.5}}>
+                  <div style={{width:6,height:6,borderRadius:'50%',background:'#FF375F',flexShrink:0,marginTop:6}}/>
+                  <div>{it}</div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── INIT ─────────────────────────────────────────────────────────
+if(window.Telegram?.WebApp){
+  const tg=window.Telegram.WebApp;
+  tg.ready();tg.expand();
+  tg.setHeaderColor?.('#FFFFFF');
+  tg.setBackgroundColor?.('#FFFFFF');
+}
+const root=ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App/>);
+</script>
+</body>
+</html>
