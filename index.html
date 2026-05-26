@@ -5,906 +5,3148 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
   <title>Hyrox Trainer</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <style>
     *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
-    body{background:#fff;font-family:'DM Sans',system-ui,sans-serif;overscroll-behavior:none}
+    body{background:#fff;font-family:'DM Sans',system-ui,sans-serif;overscroll-behavior:none;-webkit-font-smoothing:antialiased}
     #root{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
-    .serif{font-family:'Instrument Serif',serif;font-weight:400;letter-spacing:-0.01em}
-    .si{font-family:'Instrument Serif',serif;font-style:italic;letter-spacing:-0.02em}
-    .mono{font-family:'DM Mono',monospace}
-    .card{background:#fff;border-radius:24px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 4px 24px rgba(255,55,95,.04);border:1px solid rgba(0,0,0,.04)}
-    .card-pink{background:linear-gradient(135deg,#FFF5F8,#FFEEF4);border-radius:24px;border:1px solid rgba(255,55,95,.08)}
-    .pglow{box-shadow:0 8px 32px rgba(255,55,95,.18),0 2px 8px rgba(255,55,95,.12)}
-    @keyframes fadeUp{from{transform:translateY(12px);opacity:0}to{transform:translateY(0);opacity:1}}
-    .fu{animation:fadeUp .35s cubic-bezier(.16,1,.3,1)}
-    input,select,textarea{font-family:inherit;color:#1D1D1F;background:#f5f5f7;border:1px solid #e5e5ea;border-radius:12px;padding:10px 12px;font-size:14px;width:100%}
-    input:focus,select:focus,textarea:focus{outline:none;border-color:#FF375F}
-    textarea{resize:none}
-    button{cursor:pointer;border:none;background:none;font-family:inherit}
-    .nav-blur{backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
+    input,select,textarea{font-family:'DM Sans',system-ui,sans-serif}
     ::-webkit-scrollbar{display:none}
   </style>
 </head>
 <body>
 <div id="root"></div>
-<script type="text/babel" data-presets="react">
-const { useState, useEffect, useMemo } = React;
-const { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } = Recharts;
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js" crossorigin></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js" crossorigin></script>
+<script>
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+var _excluded = ["name"];
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+var _React = React,
+  useState = _React.useState,
+  useEffect = _React.useEffect,
+  useMemo = _React.useMemo;
 
-// ── SVG ICON PRIMITIVES ──────────────────────────────────────────
-const Ic = ({d,d2,size=20,stroke='currentColor',sw=1.8,...p}) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round" {...p}>
-    {Array.isArray(d)?d.map((dd,i)=><path key={i} d={dd}/>):<path d={d}/>}
-  </svg>
-);
-const ICONS = {
-  Sparkles: p=><Ic {...p} d={["m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z","M5 3v4","M19 17v4","M3 5h4","M17 19h4"]}/>,
-  Calendar: p=><Ic {...p} d={["M8 2v4","M16 2v4","M3 10h18","M21 8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8z"]}/>,
-  Activity: p=><Ic {...p} d="M22 12h-4l-3 9L9 3l-3 9H2"/>,
-  BarChart3: p=><Ic {...p} d={["M3 3v18h18","M18 17V9","M13 17V5","M8 17v-3"]}/>,
-  BookOpen: p=><Ic {...p} d={["M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z","M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"]}/>,
-  Flame: p=><Ic {...p} d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>,
-  Plus: p=><Ic {...p} d={["M5 12h14","M12 5v14"]}/>,
-  Check: p=><Ic {...p} d="M20 6 9 17l-5-5"/>,
-  X: p=><Ic {...p} d={["M18 6 6 18","M6 6l12 12"]}/>,
-  ChevronDown: p=><Ic {...p} d="m6 9 6 6 6-6"/>,
-  Trash2: p=><Ic {...p} d={["M3 6h18","M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6","M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2","M10 11v6","M14 11v6"]}/>,
-  Trophy: p=><Ic {...p} d={["M6 9H4.5a2.5 2.5 0 0 1 0-5H6","M18 9h1.5a2.5 2.5 0 0 0 0-5H18","M4 22h16","M10 14.66V17a2 2 0 0 1-2 2h8a2 2 0 0 1-2-2v-2.34","M18 2H6v7a6 6 0 0 0 12 0V2Z"]}/>,
-  Clock: p=><Ic {...p} d={["M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z","M12 6v6l4 2"]}/>,
-  TrendingUp: p=><Ic {...p} d={["M22 7 13.5 15.5l-5-5L2 17","M16 7h6v6"]}/>,
-  Zap: p=><Ic {...p} d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>,
-  Target: p=><Ic {...p} d={["M12 12m-10 0a10 10 0 1 0 20 0a10 10 0 1 0-20 0","M12 12m-6 0a6 6 0 1 0 12 0a6 6 0 1 0-12 0","M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0"]}/>,
-  Heart: p=><Ic {...p} d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>,
-  Coffee: p=><Ic {...p} d={["M10 2v2","M14 2v2","M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 0 1 4 4v3a2 2 0 0 1-2 2h-1"]}/>,
-  Droplet: p=><Ic {...p} d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>,
-  Pencil: p=><Ic {...p} d={["M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z","M15 5l4 4"]}/>,
-  RotateCcw: p=><Ic {...p} d={["M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8","M3 3v5h5"]}/>,
+// ── SIMPLE BAR CHART (no external deps) ─────────────────────────
+function SimpleBarChart(_ref) {
+  var data = _ref.data,
+    dataKey = _ref.dataKey,
+    xKey = _ref.xKey,
+    _ref$color = _ref.color,
+    color = _ref$color === void 0 ? '#FF375F' : _ref$color,
+    _ref$height = _ref.height,
+    height = _ref$height === void 0 ? 160 : _ref$height;
+  if (!data || data.length === 0) return null;
+  var max = Math.max.apply(Math, _toConsumableArray(data.map(function (d) {
+    return d[dataKey] || 0;
+  }))) || 1;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'flex-end',
+      gap: 6,
+      height: height,
+      padding: '0 4px'
+    }
+  }, data.map(function (d, i) {
+    var pct = (d[dataKey] || 0) / max;
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 4,
+        height: '100%',
+        justifyContent: 'flex-end'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: '#86868B',
+        fontFamily: 'DM Mono, monospace'
+      }
+    }, d[dataKey] || 0), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: '100%',
+        borderRadius: '6px 6px 0 0',
+        background: "linear-gradient(180deg, ".concat(color, ", #FF6B9D)"),
+        height: "".concat(Math.max(pct * (height - 40), 4), "px"),
+        transition: 'height .3s'
+      }
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: '#86868B',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        maxWidth: '100%',
+        textAlign: 'center'
+      }
+    }, d[xKey]));
+  }));
+}
+
+// ── SVG ICONS ────────────────────────────────────────────────────
+function Ic(_ref2) {
+  var paths = _ref2.paths,
+    _ref2$size = _ref2.size,
+    size = _ref2$size === void 0 ? 20 : _ref2$size,
+    _ref2$stroke = _ref2.stroke,
+    stroke = _ref2$stroke === void 0 ? 'currentColor' : _ref2$stroke,
+    _ref2$sw = _ref2.sw,
+    sw = _ref2$sw === void 0 ? 1.8 : _ref2$sw,
+    style = _ref2.style;
+  return /*#__PURE__*/React.createElement("svg", {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: stroke,
+    strokeWidth: sw,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    style: style
+  }, paths.map(function (d, i) {
+    return /*#__PURE__*/React.createElement("path", {
+      key: i,
+      d: d
+    });
+  }));
+}
+var ICONS = {
+  Sparkles: function Sparkles(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z", "M5 3v4", "M19 17v4", "M3 5h4", "M17 19h4"]
+    }));
+  },
+  Calendar: function Calendar(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M8 2v4", "M16 2v4", "M3 10h18", "M21 8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8z"]
+    }));
+  },
+  Activity: function Activity(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M22 12h-4l-3 9L9 3l-3 9H2"]
+    }));
+  },
+  BarChart3: function BarChart3(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M3 3v18h18", "M18 17V9", "M13 17V5", "M8 17v-3"]
+    }));
+  },
+  BookOpen: function BookOpen(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z", "M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"]
+    }));
+  },
+  Flame: function Flame(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"]
+    }));
+  },
+  Plus: function Plus(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M5 12h14", "M12 5v14"]
+    }));
+  },
+  Check: function Check(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M20 6 9 17l-5-5"]
+    }));
+  },
+  X: function X(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M18 6 6 18", "M6 6l12 12"]
+    }));
+  },
+  ChevronDown: function ChevronDown(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["m6 9 6 6 6-6"]
+    }));
+  },
+  Trash2: function Trash2(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M3 6h18", "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2", "M10 11v6", "M14 11v6"]
+    }));
+  },
+  Trophy: function Trophy(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M6 9H4.5a2.5 2.5 0 0 1 0-5H6", "M18 9h1.5a2.5 2.5 0 0 0 0-5H18", "M4 22h16", "M10 14.66V17a2 2 0 0 1-2 2h8a2 2 0 0 1-2-2v-2.34", "M18 2H6v7a6 6 0 0 0 12 0V2Z"]
+    }));
+  },
+  Clock: function Clock(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z", "M12 6v6l4 2"]
+    }));
+  },
+  TrendingUp: function TrendingUp(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M22 7 13.5 15.5l-5-5L2 17", "M16 7h6v6"]
+    }));
+  },
+  Zap: function Zap(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"]
+    }));
+  },
+  Target: function Target(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M12 12m-10 0a10 10 0 1 0 20 0a10 10 0 1 0-20 0", "M12 12m-6 0a6 6 0 1 0 12 0a6 6 0 1 0-12 0", "M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0"]
+    }));
+  },
+  Heart: function Heart(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"]
+    }));
+  },
+  Coffee: function Coffee(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M10 2v2", "M14 2v2", "M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 0 1 4 4v3a2 2 0 0 1-2 2h-1"]
+    }));
+  },
+  Droplet: function Droplet(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"]
+    }));
+  },
+  Pencil: function Pencil(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z", "M15 5l4 4"]
+    }));
+  },
+  RotateCcw: function RotateCcw(p) {
+    return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
+      paths: ["M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8", "M3 3v5h5"]
+    }));
+  }
 };
-const Icon = ({name,...p}) => { const C = ICONS[name]; return C ? <C {...p}/> : null; };
+function Icon(_ref3) {
+  var name = _ref3.name,
+    p = _objectWithoutProperties(_ref3, _excluded);
+  var C = ICONS[name];
+  return C ? /*#__PURE__*/React.createElement(C, p) : null;
+}
 
 // ── DATA ─────────────────────────────────────────────────────────
-const PROGRAM = [
-  ...Array.from({length:4},(_,i)=>({
-    week:i+1,phase:'Фундамент',phaseNum:1,focus:'База + техника станций',
-    days:[
-      {day:'ПН',type:'hyrox',title:'Hyrox техника A',detail:'3 станции × 3 раунда: SkiErg 250м • Wall balls 15 • Farmers 50м (12кг). Отдых 90с между.',duration:50},
-      {day:'ВТ',type:'run',title:'Бег Zone 2',detail:`${30+i*5} мин в разговорном темпе. Пульс 130-145.`,duration:30+i*5},
-      {day:'СР',type:'strength',title:'Сила: нижняя + кор',detail:'Приседания 4×8 • Выпады 3×10/нога • Румынская тяга 3×10 • Планка 3×45с',duration:45},
-      {day:'ЧТ',type:'pilates',title:'Пилатес / мобильность',detail:'Кор, ягодицы, гибкость. Фокус на ТВА и тазобедренные.',duration:45},
-      {day:'ПТ',type:'hyrox',title:'Hyrox техника B',detail:'3 станции × 3 раунда: Гребля 250м • Burpee broad jump 10 • Сэндбэг выпады 20м (8кг)',duration:50},
-      {day:'СБ',type:i%2===0?'tennis':'run',title:i%2===0?'Теннис':'Длинный бег',detail:i%2===0?'Игра 60-90 мин.':`Лёгкий бег ${40+i*5} мин.`,duration:i%2===0?75:40+i*5},
-      {day:'ВС',type:'rest',title:'Отдых',detail:'Сон, прогулка, растяжка.',duration:0},
-    ]
-  })),
-  ...Array.from({length:5},(_,i)=>({
-    week:i+5,phase:'Объём',phaseNum:2,focus:'Компромиссный бег + объём',
-    days:[
-      {day:'ПН',type:'hyrox',title:'Compromised run',detail:`4 × (400м бег + станция). Wall balls 20 / SkiErg 200м / Burpees 10 / Farmers 50м.`,duration:55},
-      {day:'ВТ',type:'run',title:'Интервалы',detail:`${6+i} × 400м в быстром темпе, отдых 90с трусцой.`,duration:45},
-      {day:'СР',type:'strength',title:'Сила фулбоди',detail:'Приседания 4×6 • Жим стоя 4×8 • Тяга 4×8 • Болгарские выпады 3×8',duration:55},
-      {day:'ЧТ',type:'pilates',title:'Пилатес',detail:'Кор и стабильность таза. Особое внимание задней цепи.',duration:45},
-      {day:'ПТ',type:'hyrox',title:'Hyrox 6 станций',detail:'2 раунда: SkiErg 500м • Sled push • Sled pull • Burpees 10 • Гребля 500м • Wall balls 25',duration:60},
-      {day:'СБ',type:i%2===0?'run':'tennis',title:i%2===0?'Длинный бег':'Теннис',detail:i%2===0?`${50+i*5} мин лёгко.`:'Игра 60-90 мин.',duration:i%2===0?50+i*5:75},
-      {day:'ВС',type:'rest',title:'Отдых',detail:'Сон 8+ часов. Foam roller.',duration:0},
-    ]
-  })),
-  ...Array.from({length:5},(_,i)=>({
-    week:i+10,phase:'Специфика',phaseNum:3,focus:'Brick + соревновательный темп',
-    days:[
-      {day:'ПН',type:'hyrox',title:'Brick workout',detail:`4 × (800м бег + станция). Wall balls 30 / Гребля 400м / SkiErg 400м / Sandbag 50м`,duration:65},
-      {day:'ВТ',type:'run',title:'Темповый бег',detail:'10 мин разминка • 25-30 мин в темпе чуть быстрее комфортного • 5 мин заминка',duration:45},
-      {day:'СР',type:'strength',title:'Сила компаунд',detail:'Становая 4×5 • Жим 4×6 • Тяга 4×8 • Выпады с весом 3×10',duration:60},
-      {day:'ЧТ',type:'pilates',title:'Пилатес',detail:'Восстановительная сессия + кор.',duration:45},
-      {day:'ПТ',type:'hyrox',title:'Mini Hyrox',detail:'4 раунда × (400м + одна станция). Без отдыха между.',duration:50},
-      {day:'СБ',type:i%2===0?'run':'tennis',title:i%2===0?'Долгий лёгкий бег':'Теннис',detail:i%2===0?`${55+i*3} мин Zone 2.`:'Игра в удовольствие.',duration:i%2===0?55+i*3:75},
-      {day:'ВС',type:'rest',title:'Отдых',detail:'Полное восстановление.',duration:0},
-    ]
-  })),
-  ...Array.from({length:4},(_,i)=>({
-    week:i+15,phase:'Пик',phaseNum:4,focus:'Half-Hyrox симуляции',
-    days:[
-      {day:'ПН',type:'simulation',title:'Half Hyrox',detail:'4 раунда: 1000м бег → станция в порядке гонки. Боевые веса.',duration:75},
-      {day:'ВТ',type:'run',title:'Интервалы 800',detail:'6 × 800м в темпе быстрее цели, отдых 2 мин.',duration:50},
-      {day:'СР',type:'strength',title:'Сила (поддержка)',detail:'Приседания 3×5 • Тяга 3×5 • Жим 3×6. Меньше объём.',duration:45},
-      {day:'ЧТ',type:'pilates',title:'Восстановление',detail:'Лёгкий пилатес + foam roller + растяжка.',duration:40},
-      {day:'ПТ',type:'simulation',title:'Mini Hyrox боевой',detail:'4 раунда: 1000м + станция с реальными весами.',duration:65},
-      {day:'СБ',type:'run',title:'Long + ускорения',detail:'40 мин лёгко + 6 × 100м ускорений в конце.',duration:50},
-      {day:'ВС',type:'rest',title:'Отдых',detail:'Восстановление обязательно.',duration:0},
-    ]
-  })),
-  {week:19,phase:'Подводка',phaseNum:5,focus:'Снижение объёма',days:[
-    {day:'ПН',type:'hyrox',title:'Лёгкий Hyrox',detail:'2 раунда: 1000м + 4 станции (50% усилий).',duration:45},
-    {day:'ВТ',type:'run',title:'Лёгкие интервалы',detail:'4 × 400м в темпе цели, отдых 2 мин.',duration:35},
-    {day:'СР',type:'strength',title:'Лёгкая сила',detail:'Приседания 3×5 (60%) • Жим 3×5. Активация.',duration:30},
-    {day:'ЧТ',type:'rest',title:'Отдых',detail:'Полный день отдыха.',duration:0},
-    {day:'ПТ',type:'hyrox',title:'Тест станций',detail:'Замерь личники: SkiErg 1000м • Wall balls 50 • Sled push 50м.',duration:40},
-    {day:'СБ',type:'run',title:'Лёгкий бег',detail:'20 мин + 4 × 50м ускорений.',duration:25},
-    {day:'ВС',type:'rest',title:'Отдых',detail:'Сон и углеводы.',duration:0},
-  ]},
-  {week:20,phase:'Подводка',phaseNum:5,focus:'Гоночная неделя',days:[
-    {day:'ПН',type:'run',title:'Активность',detail:'30 мин лёгкого бега.',duration:30},
-    {day:'ВТ',type:'pilates',title:'Мобильность',detail:'Растяжка, foam roller.',duration:30},
-    {day:'СР',type:'hyrox',title:'Лёгкие станции',detail:'3 станции по 1 раунду. Просто разбудить тело.',duration:30},
-    {day:'ЧТ',type:'rest',title:'Отдых',detail:'Гидратация, сон, углеводы.',duration:0},
-    {day:'ПТ',type:'run',title:'Активация',detail:'15 мин + 4 × 100м ускорений.',duration:20},
-    {day:'СБ',type:'simulation',title:'🏁 Гонка Hyrox',detail:'Дай всё, на что способна. Удачи!',duration:90},
-    {day:'ВС',type:'rest',title:'Восстановление',detail:'Празднуй. Сон. Еда. Гордись собой.',duration:0},
-  ]},
-];
-
-const STATIONS=[
-  {name:'SkiErg',distance:'1000 м',weight:'—',tip:'Тяга из бёдер и кора, руки тянут в конце. Дыхание ритмичное.',mistake:'Тянуть только руками — забьются плечи к 3-й станции.',target:'4:30–5:30'},
-  {name:'Sled Push',distance:'50 м',weight:'102 кг',tip:'Низкая позиция, толкай ногами. Прямая линия от пятки до головы.',mistake:'Слишком высокая стойка — нет рычага.',target:'2:00–3:00'},
-  {name:'Sled Pull',distance:'50 м',weight:'78 кг',tip:'Тяни рывком + шаг назад. Кор напряжён.',mistake:'Игнорировать ноги — садись низко между рывками.',target:'2:30–3:30'},
-  {name:'Burpee Broad Jumps',distance:'80 м',weight:'—',tip:'Длинный прыжок важнее быстрого бёрпи.',mistake:'Прыгать вверх вместо в длину.',target:'4:00–5:30'},
-  {name:'Rower',distance:'1000 м',weight:'—',tip:'1-2-3: ноги→корпус→руки. Damper 5–6.',mistake:'Тянуть руками рано.',target:'4:00–4:45'},
-  {name:'Farmers Carry',distance:'200 м',weight:'16 кг × 2',tip:'Плечи назад, кор напряжён, мелкие шаги.',mistake:'Сгорбленная спина.',target:'1:30–2:30'},
-  {name:'Sandbag Lunges',distance:'100 м',weight:'10 кг',tip:'Колено мягко касается пола. Выпрямляйся полностью.',mistake:'Неполная амплитуда — судьи дисквалифицируют.',target:'3:30–5:00'},
-  {name:'Wall Balls',distance:'100 повт.',weight:'4 кг / 2.74 м',tip:'Используй ноги — это присед с броском. Лови на грудь.',mistake:'Бросать руками — забьёшь плечи.',target:'4:30–6:30'},
-];
-
-const TIPS=[
-  {icon:'Droplet',title:'Гидратация',text:'Минимум 2.5л в день. Электролиты перед тяжёлыми тренировками.'},
-  {icon:'Coffee',title:'Сон',text:'Меньше 7 часов = минус 10–20% результатов. Сон — самый дешёвый стероид.'},
-  {icon:'Heart',title:'Восстановление',text:'Один полный выходной в неделю обязателен. Тело адаптируется в отдыхе.'},
-  {icon:'Zap',title:'Питание',text:'Углеводы за 2–3 часа до тренировки. Белок + углеводы в течение 30 мин после.'},
-  {icon:'Target',title:'Wall balls — главный враг',text:'Последняя станция, к ней приходишь измотанной. Тренируй её в конце сессий.'},
-  {icon:'Flame',title:'Транзиции',text:'На гонке теряется 3–5 минут на переходах. Заходи в станцию уже двигаясь.'},
-  {icon:'TrendingUp',title:'Прогрессия',text:'Hyrox = выносливость + техника. 100 идеальных wall balls важнее большого веса.'},
-  {icon:'Activity',title:'Compromised running',text:'Бег после станции — другой бег. Тренируй его 2× в неделю.'},
-];
-
-const EXERCISES={
-  skierg:{name:'SkiErg',fields:['distance','time'],emoji:'🎿'},
-  sled_push:{name:'Sled Push',fields:['distance','weight','time'],emoji:'🛷'},
-  sled_pull:{name:'Sled Pull',fields:['distance','weight','time'],emoji:'🪢'},
-  burpees:{name:'Burpee Broad Jumps',fields:['distance','reps','time'],emoji:'🤸'},
-  rower:{name:'Гребля',fields:['distance','time'],emoji:'🚣'},
-  farmers:{name:'Farmers Carry',fields:['distance','weight','time'],emoji:'💪'},
-  sandbag:{name:'Sandbag Lunges',fields:['distance','weight','time'],emoji:'🎒'},
-  wallballs:{name:'Wall Balls',fields:['reps','weight','time'],emoji:'🏐'},
-  run:{name:'Бег',fields:['distance','time'],emoji:'🏃'},
-  squat:{name:'Приседания',fields:['reps','weight'],emoji:'🦵'},
-  deadlift:{name:'Тяга',fields:['reps','weight'],emoji:'🏋️'},
-  press:{name:'Жим',fields:['reps','weight'],emoji:'💥'},
-  pullup:{name:'Подтягивания',fields:['reps'],emoji:'🆙'},
-  plank:{name:'Планка',fields:['time'],emoji:'➖'},
-  custom:{name:'Своё',fields:['reps','distance','weight','time'],emoji:'✨'},
+var PROGRAM = [].concat(_toConsumableArray(Array.from({
+  length: 4
+}, function (_, i) {
+  return {
+    week: i + 1,
+    phase: 'Фундамент',
+    phaseNum: 1,
+    focus: 'База + техника станций',
+    days: [{
+      day: 'ПН',
+      type: 'hyrox',
+      title: 'Hyrox техника A',
+      detail: '3 станции × 3 раунда: SkiErg 250м • Wall balls 15 • Farmers 50м (12кг). Отдых 90с между.',
+      duration: 50
+    }, {
+      day: 'ВТ',
+      type: 'run',
+      title: 'Бег Zone 2',
+      detail: "".concat(30 + i * 5, " \u043C\u0438\u043D \u0432 \u0440\u0430\u0437\u0433\u043E\u0432\u043E\u0440\u043D\u043E\u043C \u0442\u0435\u043C\u043F\u0435. \u041F\u0443\u043B\u044C\u0441 130-145."),
+      duration: 30 + i * 5
+    }, {
+      day: 'СР',
+      type: 'strength',
+      title: 'Сила: нижняя + кор',
+      detail: 'Приседания 4×8 • Выпады 3×10/нога • Румынская тяга 3×10 • Планка 3×45с',
+      duration: 45
+    }, {
+      day: 'ЧТ',
+      type: 'pilates',
+      title: 'Пилатес / мобильность',
+      detail: 'Кор, ягодицы, гибкость. Фокус на ТВА и тазобедренные.',
+      duration: 45
+    }, {
+      day: 'ПТ',
+      type: 'hyrox',
+      title: 'Hyrox техника B',
+      detail: '3 станции × 3 раунда: Гребля 250м • Burpee broad jump 10 • Сэндбэг выпады 20м (8кг)',
+      duration: 50
+    }, {
+      day: 'СБ',
+      type: i % 2 === 0 ? 'tennis' : 'run',
+      title: i % 2 === 0 ? 'Теннис' : 'Длинный бег',
+      detail: i % 2 === 0 ? 'Игра 60-90 мин.' : "\u041B\u0451\u0433\u043A\u0438\u0439 \u0431\u0435\u0433 ".concat(40 + i * 5, " \u043C\u0438\u043D."),
+      duration: i % 2 === 0 ? 75 : 40 + i * 5
+    }, {
+      day: 'ВС',
+      type: 'rest',
+      title: 'Отдых',
+      detail: 'Сон, прогулка, растяжка.',
+      duration: 0
+    }]
+  };
+})), _toConsumableArray(Array.from({
+  length: 5
+}, function (_, i) {
+  return {
+    week: i + 5,
+    phase: 'Объём',
+    phaseNum: 2,
+    focus: 'Компромиссный бег + объём',
+    days: [{
+      day: 'ПН',
+      type: 'hyrox',
+      title: 'Compromised run',
+      detail: "4 \xD7 (400\u043C \u0431\u0435\u0433 + \u0441\u0442\u0430\u043D\u0446\u0438\u044F). Wall balls 20 / SkiErg 200\u043C / Burpees 10 / Farmers 50\u043C.",
+      duration: 55
+    }, {
+      day: 'ВТ',
+      type: 'run',
+      title: 'Интервалы',
+      detail: "".concat(6 + i, " \xD7 400\u043C \u0432 \u0431\u044B\u0441\u0442\u0440\u043E\u043C \u0442\u0435\u043C\u043F\u0435, \u043E\u0442\u0434\u044B\u0445 90\u0441."),
+      duration: 45
+    }, {
+      day: 'СР',
+      type: 'strength',
+      title: 'Сила фулбоди',
+      detail: 'Приседания 4×6 • Жим стоя 4×8 • Тяга 4×8 • Болгарские выпады 3×8',
+      duration: 55
+    }, {
+      day: 'ЧТ',
+      type: 'pilates',
+      title: 'Пилатес',
+      detail: 'Кор и стабильность таза.',
+      duration: 45
+    }, {
+      day: 'ПТ',
+      type: 'hyrox',
+      title: 'Hyrox 6 станций',
+      detail: '2 раунда: SkiErg 500м • Sled push • Sled pull • Burpees 10 • Гребля 500м • Wall balls 25',
+      duration: 60
+    }, {
+      day: 'СБ',
+      type: i % 2 === 0 ? 'run' : 'tennis',
+      title: i % 2 === 0 ? 'Длинный бег' : 'Теннис',
+      detail: i % 2 === 0 ? "".concat(50 + i * 5, " \u043C\u0438\u043D \u043B\u0451\u0433\u043A\u043E.") : 'Игра 60-90 мин.',
+      duration: i % 2 === 0 ? 50 + i * 5 : 75
+    }, {
+      day: 'ВС',
+      type: 'rest',
+      title: 'Отдых',
+      detail: 'Сон 8+ часов. Foam roller.',
+      duration: 0
+    }]
+  };
+})), _toConsumableArray(Array.from({
+  length: 5
+}, function (_, i) {
+  return {
+    week: i + 10,
+    phase: 'Специфика',
+    phaseNum: 3,
+    focus: 'Brick + соревновательный темп',
+    days: [{
+      day: 'ПН',
+      type: 'hyrox',
+      title: 'Brick workout',
+      detail: "4 \xD7 (800\u043C \u0431\u0435\u0433 + \u0441\u0442\u0430\u043D\u0446\u0438\u044F). Wall balls 30 / \u0413\u0440\u0435\u0431\u043B\u044F 400\u043C / SkiErg 400\u043C",
+      duration: 65
+    }, {
+      day: 'ВТ',
+      type: 'run',
+      title: 'Темповый бег',
+      detail: '10 мин разминка • 25-30 мин в темпе • 5 мин заминка',
+      duration: 45
+    }, {
+      day: 'СР',
+      type: 'strength',
+      title: 'Сила компаунд',
+      detail: 'Становая 4×5 • Жим 4×6 • Тяга 4×8',
+      duration: 60
+    }, {
+      day: 'ЧТ',
+      type: 'pilates',
+      title: 'Пилатес',
+      detail: 'Восстановительная сессия + кор.',
+      duration: 45
+    }, {
+      day: 'ПТ',
+      type: 'hyrox',
+      title: 'Mini Hyrox',
+      detail: '4 раунда × (400м + одна станция). Без отдыха.',
+      duration: 50
+    }, {
+      day: 'СБ',
+      type: i % 2 === 0 ? 'run' : 'tennis',
+      title: i % 2 === 0 ? 'Долгий лёгкий бег' : 'Теннис',
+      detail: i % 2 === 0 ? "".concat(55 + i * 3, " \u043C\u0438\u043D Zone 2.") : 'Игра в удовольствие.',
+      duration: i % 2 === 0 ? 55 + i * 3 : 75
+    }, {
+      day: 'ВС',
+      type: 'rest',
+      title: 'Отдых',
+      detail: 'Полное восстановление.',
+      duration: 0
+    }]
+  };
+})), _toConsumableArray(Array.from({
+  length: 4
+}, function (_, i) {
+  return {
+    week: i + 15,
+    phase: 'Пик',
+    phaseNum: 4,
+    focus: 'Half-Hyrox симуляции',
+    days: [{
+      day: 'ПН',
+      type: 'simulation',
+      title: 'Half Hyrox',
+      detail: '4 раунда: 1000м бег → станция в порядке гонки. Боевые веса.',
+      duration: 75
+    }, {
+      day: 'ВТ',
+      type: 'run',
+      title: 'Интервалы 800',
+      detail: '6 × 800м, отдых 2 мин.',
+      duration: 50
+    }, {
+      day: 'СР',
+      type: 'strength',
+      title: 'Сила (поддержка)',
+      detail: 'Приседания 3×5 • Тяга 3×5 • Жим 3×6.',
+      duration: 45
+    }, {
+      day: 'ЧТ',
+      type: 'pilates',
+      title: 'Восстановление',
+      detail: 'Лёгкий пилатес + foam roller.',
+      duration: 40
+    }, {
+      day: 'ПТ',
+      type: 'simulation',
+      title: 'Mini Hyrox боевой',
+      detail: '4 раунда: 1000м + станция с реальными весами.',
+      duration: 65
+    }, {
+      day: 'СБ',
+      type: 'run',
+      title: 'Long + ускорения',
+      detail: '40 мин лёгко + 6 × 100м ускорений.',
+      duration: 50
+    }, {
+      day: 'ВС',
+      type: 'rest',
+      title: 'Отдых',
+      detail: 'Полное восстановление.',
+      duration: 0
+    }]
+  };
+})), [{
+  week: 19,
+  phase: 'Подводка',
+  phaseNum: 5,
+  focus: 'Снижение объёма',
+  days: [{
+    day: 'ПН',
+    type: 'hyrox',
+    title: 'Лёгкий Hyrox',
+    detail: '2 раунда: 1000м + 4 станции (50% усилий).',
+    duration: 45
+  }, {
+    day: 'ВТ',
+    type: 'run',
+    title: 'Лёгкие интервалы',
+    detail: '4 × 400м в темпе цели.',
+    duration: 35
+  }, {
+    day: 'СР',
+    type: 'strength',
+    title: 'Лёгкая сила',
+    detail: 'Приседания 3×5 (60%) • Жим 3×5.',
+    duration: 30
+  }, {
+    day: 'ЧТ',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Полный день отдыха.',
+    duration: 0
+  }, {
+    day: 'ПТ',
+    type: 'hyrox',
+    title: 'Тест станций',
+    detail: 'Замерь личники: SkiErg 1000м • Wall balls 50.',
+    duration: 40
+  }, {
+    day: 'СБ',
+    type: 'run',
+    title: 'Лёгкий бег',
+    detail: '20 мин + 4 × 50м ускорений.',
+    duration: 25
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Сон и углеводы.',
+    duration: 0
+  }]
+}, {
+  week: 20,
+  phase: 'Подводка',
+  phaseNum: 5,
+  focus: 'Гоночная неделя',
+  days: [{
+    day: 'ПН',
+    type: 'run',
+    title: 'Активность',
+    detail: '30 мин лёгкого бега.',
+    duration: 30
+  }, {
+    day: 'ВТ',
+    type: 'pilates',
+    title: 'Мобильность',
+    detail: 'Растяжка, foam roller.',
+    duration: 30
+  }, {
+    day: 'СР',
+    type: 'hyrox',
+    title: 'Лёгкие станции',
+    detail: '3 станции по 1 раунду.',
+    duration: 30
+  }, {
+    day: 'ЧТ',
+    type: 'rest',
+    title: 'Отдых',
+    detail: 'Гидратация, сон, углеводы.',
+    duration: 0
+  }, {
+    day: 'ПТ',
+    type: 'run',
+    title: 'Активация',
+    detail: '15 мин + 4 × 100м ускорений.',
+    duration: 20
+  }, {
+    day: 'СБ',
+    type: 'simulation',
+    title: '🏁 Гонка Hyrox',
+    detail: 'Дай всё, на что способна. Удачи!',
+    duration: 90
+  }, {
+    day: 'ВС',
+    type: 'rest',
+    title: 'Восстановление',
+    detail: 'Празднуй. Гордись собой.',
+    duration: 0
+  }]
+}]);
+var STATIONS = [{
+  name: 'SkiErg',
+  distance: '1000 м',
+  weight: '—',
+  tip: 'Тяга из бёдер и кора, руки тянут в конце. Дыхание ритмичное.',
+  mistake: 'Тянуть только руками — забьются плечи к 3-й станции.',
+  target: '4:30–5:30'
+}, {
+  name: 'Sled Push',
+  distance: '50 м',
+  weight: '102 кг',
+  tip: 'Низкая позиция, толкай ногами. Прямая линия от пятки до головы.',
+  mistake: 'Слишком высокая стойка — нет рычага.',
+  target: '2:00–3:00'
+}, {
+  name: 'Sled Pull',
+  distance: '50 м',
+  weight: '78 кг',
+  tip: 'Тяни рывком + шаг назад. Кор напряжён.',
+  mistake: 'Игнорировать ноги.',
+  target: '2:30–3:30'
+}, {
+  name: 'Burpee Broad Jumps',
+  distance: '80 м',
+  weight: '—',
+  tip: 'Длинный прыжок важнее быстрого бёрпи.',
+  mistake: 'Прыгать вверх вместо в длину.',
+  target: '4:00–5:30'
+}, {
+  name: 'Rower',
+  distance: '1000 м',
+  weight: '—',
+  tip: '1-2-3: ноги→корпус→руки. Damper 5–6.',
+  mistake: 'Тянуть руками рано.',
+  target: '4:00–4:45'
+}, {
+  name: 'Farmers Carry',
+  distance: '200 м',
+  weight: '16 кг × 2',
+  tip: 'Плечи назад, кор напряжён, мелкие шаги.',
+  mistake: 'Сгорбленная спина.',
+  target: '1:30–2:30'
+}, {
+  name: 'Sandbag Lunges',
+  distance: '100 м',
+  weight: '10 кг',
+  tip: 'Колено мягко касается пола. Выпрямляйся полностью.',
+  mistake: 'Неполная амплитуда — судьи дисквалифицируют.',
+  target: '3:30–5:00'
+}, {
+  name: 'Wall Balls',
+  distance: '100 повт.',
+  weight: '4 кг / 2.74 м',
+  tip: 'Используй ноги — это присед с броском.',
+  mistake: 'Бросать руками — забьёшь плечи.',
+  target: '4:30–6:30'
+}];
+var TIPS = [{
+  icon: 'Droplet',
+  title: 'Гидратация',
+  text: 'Минимум 2.5л в день. Электролиты перед тяжёлыми тренировками.'
+}, {
+  icon: 'Coffee',
+  title: 'Сон',
+  text: 'Меньше 7 часов = минус 10–20% результатов. Сон — самый дешёвый стероид.'
+}, {
+  icon: 'Heart',
+  title: 'Восстановление',
+  text: 'Один полный выходной в неделю обязателен. Тело адаптируется в отдыхе.'
+}, {
+  icon: 'Zap',
+  title: 'Питание',
+  text: 'Углеводы за 2–3 часа до тренировки. Белок + углеводы в течение 30 мин после.'
+}, {
+  icon: 'Target',
+  title: 'Wall balls — главный враг',
+  text: 'Последняя станция. Тренируй её в конце сессий.'
+}, {
+  icon: 'Flame',
+  title: 'Транзиции',
+  text: 'На гонке теряется 3–5 мин на переходах. Заходи в станцию уже двигаясь.'
+}, {
+  icon: 'TrendingUp',
+  title: 'Прогрессия',
+  text: 'Hyrox = выносливость + техника. 100 идеальных wall balls важнее большого веса.'
+}, {
+  icon: 'Activity',
+  title: 'Compromised running',
+  text: 'Бег после станции — другой бег. Тренируй его 2× в неделю.'
+}];
+var EXERCISES = {
+  skierg: {
+    name: 'SkiErg',
+    fields: ['distance', 'time'],
+    emoji: '🎿'
+  },
+  sled_push: {
+    name: 'Sled Push',
+    fields: ['distance', 'weight', 'time'],
+    emoji: '🛷'
+  },
+  sled_pull: {
+    name: 'Sled Pull',
+    fields: ['distance', 'weight', 'time'],
+    emoji: '🪢'
+  },
+  burpees: {
+    name: 'Burpee Broad Jumps',
+    fields: ['distance', 'reps', 'time'],
+    emoji: '🤸'
+  },
+  rower: {
+    name: 'Гребля',
+    fields: ['distance', 'time'],
+    emoji: '🚣'
+  },
+  farmers: {
+    name: 'Farmers Carry',
+    fields: ['distance', 'weight', 'time'],
+    emoji: '💪'
+  },
+  sandbag: {
+    name: 'Sandbag Lunges',
+    fields: ['distance', 'weight', 'time'],
+    emoji: '🎒'
+  },
+  wallballs: {
+    name: 'Wall Balls',
+    fields: ['reps', 'weight', 'time'],
+    emoji: '🏐'
+  },
+  run: {
+    name: 'Бег',
+    fields: ['distance', 'time'],
+    emoji: '🏃'
+  },
+  squat: {
+    name: 'Приседания',
+    fields: ['reps', 'weight'],
+    emoji: '🦵'
+  },
+  deadlift: {
+    name: 'Тяга',
+    fields: ['reps', 'weight'],
+    emoji: '🏋️'
+  },
+  press: {
+    name: 'Жим',
+    fields: ['reps', 'weight'],
+    emoji: '💥'
+  },
+  pullup: {
+    name: 'Подтягивания',
+    fields: ['reps'],
+    emoji: '🆙'
+  },
+  plank: {
+    name: 'Планка',
+    fields: ['time'],
+    emoji: '➖'
+  },
+  custom: {
+    name: 'Своё',
+    fields: ['reps', 'distance', 'weight', 'time'],
+    emoji: '✨'
+  }
 };
-const FIELD_META={
-  distance:{label:'метры',placeholder:'250',type:'number',inputMode:'numeric'},
-  reps:{label:'повторения',placeholder:'30',type:'number',inputMode:'numeric'},
-  weight:{label:'вес, кг',placeholder:'4',type:'number',inputMode:'decimal'},
-  time:{label:'время',placeholder:'5:12',type:'text',inputMode:'text'},
+var FIELD_META = {
+  distance: {
+    label: 'метры',
+    placeholder: '250',
+    type: 'number',
+    inputMode: 'numeric'
+  },
+  reps: {
+    label: 'повторения',
+    placeholder: '30',
+    type: 'number',
+    inputMode: 'numeric'
+  },
+  weight: {
+    label: 'вес, кг',
+    placeholder: '4',
+    type: 'number',
+    inputMode: 'decimal'
+  },
+  time: {
+    label: 'время',
+    placeholder: '5:12',
+    type: 'text',
+    inputMode: 'text'
+  }
 };
-const TYPE_META={
-  hyrox:{label:'Hyrox',color:'#FF375F',soft:'#FFE5EC',icon:'Flame'},
-  run:{label:'Бег',color:'#FF6B9D',soft:'#FFE9F1',icon:'Activity'},
-  tennis:{label:'Теннис',color:'#FF9F7A',soft:'#FFEEE5',icon:'Target'},
-  pilates:{label:'Пилатес',color:'#C77DFF',soft:'#F5E5FF',icon:'Heart'},
-  strength:{label:'Сила',color:'#FF5C8A',soft:'#FFE3EC',icon:'Zap'},
-  simulation:{label:'Симуляция',color:'#FF375F',soft:'#FFE5EC',icon:'Trophy'},
-  rest:{label:'Отдых',color:'#A0A0A8',soft:'#F2F2F7',icon:'Coffee'},
+var TYPE_META = {
+  hyrox: {
+    label: 'Hyrox',
+    color: '#FF375F',
+    soft: '#FFE5EC',
+    icon: 'Flame'
+  },
+  run: {
+    label: 'Бег',
+    color: '#FF6B9D',
+    soft: '#FFE9F1',
+    icon: 'Activity'
+  },
+  tennis: {
+    label: 'Теннис',
+    color: '#FF9F7A',
+    soft: '#FFEEE5',
+    icon: 'Target'
+  },
+  pilates: {
+    label: 'Пилатес',
+    color: '#C77DFF',
+    soft: '#F5E5FF',
+    icon: 'Heart'
+  },
+  strength: {
+    label: 'Сила',
+    color: '#FF5C8A',
+    soft: '#FFE3EC',
+    icon: 'Zap'
+  },
+  simulation: {
+    label: 'Симуляция',
+    color: '#FF375F',
+    soft: '#FFE5EC',
+    icon: 'Trophy'
+  },
+  rest: {
+    label: 'Отдых',
+    color: '#A0A0A8',
+    soft: '#F2F2F7',
+    icon: 'Coffee'
+  }
 };
-
-const todayISO=()=>new Date().toISOString().split('T')[0];
-const fmtDate=iso=>new Date(iso).toLocaleDateString('ru-RU',{day:'numeric',month:'short'});
-const fmtLong=iso=>new Date(iso).toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'});
-const daysBetween=(d1,d2)=>Math.floor((new Date(d2)-new Date(d1))/86400000);
-const getCurWeekDay=start=>{
-  const days=daysBetween(start,todayISO());
-  return{week:Math.min(Math.floor(days/7)+1,20),dayIdx:((days%7)+7)%7};
+var S = function S(x) {
+  return x;
 };
-const getDay=(week,di,ov)=>{
-  const base=PROGRAM[week-1]?.days[di];
-  if(!base)return null;
-  const k=`${week}-${di}`;
-  return ov?.[k]?{...base,...ov[k],_ov:true}:base;
+var todayISO = function todayISO() {
+  return new Date().toISOString().split('T')[0];
 };
-const fmtEx=ex=>{
-  const p=[];
-  if(ex.distance)p.push(`${ex.distance} м`);
-  if(ex.reps)p.push(`${ex.reps} раз`);
-  if(ex.weight)p.push(`${ex.weight} кг`);
-  if(ex.time)p.push(ex.time);
+var fmtDate = function fmtDate(iso) {
+  return new Date(iso).toLocaleDateString('ru-RU', {
+    day: 'numeric',
+    month: 'short'
+  });
+};
+var fmtLong = function fmtLong(iso) {
+  return new Date(iso).toLocaleDateString('ru-RU', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long'
+  });
+};
+var daysBetween = function daysBetween(d1, d2) {
+  return Math.floor((new Date(d2) - new Date(d1)) / 86400000);
+};
+var getCWD = function getCWD(start) {
+  var days = daysBetween(start, todayISO());
+  return {
+    week: Math.min(Math.floor(days / 7) + 1, 20),
+    dayIdx: (days % 7 + 7) % 7
+  };
+};
+var getDay = function getDay(week, di, ov) {
+  var base = PROGRAM[week - 1] && PROGRAM[week - 1].days[di];
+  if (!base) return null;
+  var k = week + '-' + di;
+  return ov && ov[k] ? Object.assign({}, base, ov[k], {
+    _ov: true
+  }) : base;
+};
+var fmtEx = function fmtEx(ex) {
+  var p = [];
+  if (ex.distance) p.push(ex.distance + ' м');
+  if (ex.reps) p.push(ex.reps + ' раз');
+  if (ex.weight) p.push(ex.weight + ' кг');
+  if (ex.time) p.push(ex.time);
   return p.join(' · ');
 };
+var SK = 'hyrox-v3';
+var load = function load() {
+  try {
+    var r = localStorage.getItem(SK);
+    return r ? JSON.parse(r) : null;
+  } catch (e) {
+    return null;
+  }
+};
+var save = function save(d) {
+  try {
+    localStorage.setItem(SK, JSON.stringify(d));
+  } catch (e) {}
+};
 
-const SK='hyrox-v2';
-const load=()=>{try{const r=localStorage.getItem(SK);return r?JSON.parse(r):null;}catch{return null;}};
-const save=d=>{try{localStorage.setItem(SK,JSON.stringify(d));}catch(e){}};
+// ── SHARED UI ────────────────────────────────────────────────────
+var C = {
+  pink: '#FF375F',
+  bg: '#fff',
+  card: {
+    background: '#fff',
+    borderRadius: 24,
+    boxShadow: '0 1px 2px rgba(0,0,0,.04),0 4px 24px rgba(255,55,95,.04)',
+    border: '1px solid rgba(0,0,0,.04)'
+  },
+  cardPink: {
+    background: 'linear-gradient(135deg,#FFF5F8,#FFEEF4)',
+    borderRadius: 24,
+    border: '1px solid rgba(255,55,95,.08)'
+  },
+  btn: {
+    background: 'linear-gradient(135deg,#FF375F,#FF5C8A)',
+    color: '#fff',
+    fontWeight: 600,
+    padding: '14px 0',
+    borderRadius: 18,
+    fontSize: 15,
+    width: '100%',
+    border: 'none',
+    cursor: 'pointer',
+    boxShadow: '0 8px 32px rgba(255,55,95,.18)'
+  }
+};
+function TypePicker(_ref4) {
+  var value = _ref4.value,
+    onChange = _ref4.onChange,
+    _ref4$includeRest = _ref4.includeRest,
+    includeRest = _ref4$includeRest === void 0 ? false : _ref4$includeRest;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(3,1fr)',
+      gap: 8
+    }
+  }, Object.entries(TYPE_META).filter(function (_ref5) {
+    var _ref6 = _slicedToArray(_ref5, 1),
+      k = _ref6[0];
+    return includeRest || k !== 'rest';
+  }).map(function (_ref7) {
+    var _ref8 = _slicedToArray(_ref7, 2),
+      k = _ref8[0],
+      m = _ref8[1];
+    return /*#__PURE__*/React.createElement("button", {
+      key: k,
+      onClick: function onClick() {
+        return onChange(k);
+      },
+      style: {
+        padding: '10px 6px',
+        borderRadius: 14,
+        fontSize: 12,
+        fontWeight: 500,
+        border: 'none',
+        cursor: 'pointer',
+        background: value === k ? m.color : m.soft,
+        color: value === k ? '#fff' : m.color,
+        boxShadow: value === k ? '0 4px 12px ' + m.color + '40' : 'none'
+      }
+    }, m.label);
+  }));
+}
+function Fld(_ref9) {
+  var label = _ref9.label,
+    children = _ref9.children;
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      letterSpacing: '0.15em',
+      textTransform: 'uppercase',
+      color: '#86868B',
+      marginBottom: 6
+    }
+  }, label), children);
+}
+function Sheet(_ref0) {
+  var onClose = _ref0.onClose,
+    title = _ref0.title,
+    children = _ref0.children;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'fixed',
+      inset: 0,
+      zIndex: 50,
+      display: 'flex',
+      alignItems: 'flex-end',
+      background: 'rgba(0,0,0,.45)',
+      backdropFilter: 'blur(8px)'
+    },
+    onClick: onClose
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: '100%',
+      maxHeight: '92vh',
+      overflowY: 'auto',
+      background: '#fff',
+      borderTopLeftRadius: 32,
+      borderTopRightRadius: 32
+    },
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '0 24px 32px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'center',
+      padding: '12px 0 4px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 40,
+      height: 4,
+      borderRadius: 2,
+      background: '#e5e5ea'
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 20,
+      marginTop: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: 'Instrument Serif, serif',
+      fontSize: 28
+    }
+  }, title), /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    style: {
+      width: 32,
+      height: 32,
+      borderRadius: '50%',
+      background: '#f5f5f7',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: '#86868B',
+      border: 'none',
+      cursor: 'pointer'
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "X",
+    size: 18
+  }))), children)));
+}
 
 // ── APP ──────────────────────────────────────────────────────────
-export default function App(){
-  const [tab,setTab]=useState('today');
-  const [data,setData]=useState({startDate:todayISO(),workouts:[],ov:{}});
-  const [ready,setReady]=useState(false);
-  const [logOpen,setLogOpen]=useState(false);
-  const [prefill,setPrefill]=useState(null);
-  const [editDay,setEditDay]=useState(null);
-
-  useEffect(()=>{const d=load();if(d)setData({ov:{},...d});setReady(true);},[]);
-  useEffect(()=>{if(ready)save(data);},[data,ready]);
-
-  const addW=w=>{setData(p=>({...p,workouts:[{...w,id:Date.now()+''},...p.workouts]}));setLogOpen(false);setPrefill(null);};
-  const delW=id=>setData(p=>({...p,workouts:p.workouts.filter(w=>w.id!==id)}));
-  const saveOv=(wk,di,ch)=>{const k=`${wk}-${di}`;setData(p=>({...p,ov:{...p.ov,[k]:ch}}));setEditDay(null);};
-  const resetOv=(wk,di)=>{const k=`${wk}-${di}`;setData(p=>{const o={...p.ov};delete o[k];return{...p,ov:o}});setEditDay(null);};
-
-  const {week,dayIdx}=getCurWeekDay(data.startDate);
-  const curW=PROGRAM[week-1];
-  const todayPlan=getDay(week,dayIdx,data.ov);
-
-  const NAV=[
-    {id:'today',icon:'Sparkles',label:'Сегодня'},
-    {id:'plan',icon:'Calendar',label:'План'},
-    {id:'log',icon:'Activity',label:'Лог'},
-    {id:'stats',icon:'BarChart3',label:'Стата'},
-    {id:'guide',icon:'BookOpen',label:'Гайд'},
-  ];
-
-  return(
-    <div style={{minHeight:'100vh',paddingBottom:80,background:'radial-gradient(circle at 20% 0%,#FFF0F5,#fff 40%)',color:'#1D1D1F',position:'relative',overflow:'hidden'}}>
-      {/* blobs */}
-      <div style={{position:'absolute',top:0,right:0,width:280,height:280,borderRadius:'50%',background:'radial-gradient(circle,#FFB6CB,transparent 70%)',opacity:.3,filter:'blur(40px)',pointerEvents:'none'}}/>
-      <div style={{position:'absolute',top:160,left:0,width:240,height:240,borderRadius:'50%',background:'radial-gradient(circle,#FFD6E1,transparent 70%)',opacity:.2,filter:'blur(40px)',pointerEvents:'none'}}/>
-
-      {/* HEADER */}
-      <div style={{padding:'48px 24px 8px',position:'relative',zIndex:1}}>
-        <div style={{display:'flex',alignItems:'flex-end',justifyContent:'space-between'}}>
-          <div>
-            <div style={{fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#86868B',marginBottom:4}}>{curW?.phase}</div>
-            <div className="serif" style={{fontSize:44,lineHeight:1}}>hy<span className="si" style={{color:'#FF375F'}}>rox</span></div>
-          </div>
-          <div style={{textAlign:'right'}}>
-            <div style={{fontSize:10,letterSpacing:'0.2em',textTransform:'uppercase',color:'#86868B'}}>Неделя</div>
-            <div className="serif" style={{fontSize:28,lineHeight:1,marginTop:4}}>
-              <span style={{color:'#FF375F'}}>{week}</span>
-              <span style={{color:'#d1d1d6',fontSize:18}}> / 20</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div style={{position:'relative',zIndex:1}}>
-        {tab==='today'&&<TodayTab plan={todayPlan} week={week} di={dayIdx} workouts={data.workouts} onLog={p=>{setPrefill(p);setLogOpen(true);}} onEdit={()=>setEditDay({week,di:dayIdx})}/>}
-        {tab==='plan'&&<PlanTab curWeek={week} workouts={data.workouts} start={data.startDate} ov={data.ov} onEdit={(w,di)=>setEditDay({week:w,di})}/>}
-        {tab==='log'&&<LogTab workouts={data.workouts} onDel={delW} onAdd={()=>setLogOpen(true)}/>}
-        {tab==='stats'&&<StatsTab workouts={data.workouts} start={data.startDate}/>}
-        {tab==='guide'&&<GuideTab/>}
-      </div>
-
-      {logOpen&&<LogForm prefill={prefill} onSave={addW} onClose={()=>{setLogOpen(false);setPrefill(null);}}/>}
-      {editDay&&<EditModal week={editDay.week} di={editDay.di} cur={getDay(editDay.week,editDay.di,data.ov)} isOv={!!data.ov[`${editDay.week}-${editDay.di}`]} onSave={(ch)=>saveOv(editDay.week,editDay.di,ch)} onReset={()=>resetOv(editDay.week,editDay.di)} onClose={()=>setEditDay(null)}/>}
-
-      {/* NAV */}
-      <nav className="nav-blur" style={{position:'fixed',bottom:0,left:0,right:0,zIndex:20,background:'rgba(255,255,255,0.82)',borderTop:'1px solid rgba(0,0,0,.06)'}}>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',maxWidth:480,margin:'0 auto',paddingTop:8,paddingBottom:'max(12px,env(safe-area-inset-bottom))'}}>
-          {NAV.map(t=>(
-            <button key={t.id} onClick={()=>setTab(t.id)} style={{display:'flex',flexDirection:'column',alignItems:'center',gap:3,padding:'4px 0',background:'none',border:'none'}}>
-              <Icon name={t.icon} size={20} stroke={tab===t.id?'#FF375F':'#86868B'} sw={tab===t.id?2.2:1.8}/>
-              <span style={{fontSize:10,fontWeight:500,color:tab===t.id?'#FF375F':'#86868B',letterSpacing:'0.05em'}}>{t.label}</span>
-            </button>
-          ))}
-        </div>
-      </nav>
-    </div>
-  );
+function App() {
+  var _useState = useState('today'),
+    _useState2 = _slicedToArray(_useState, 2),
+    tab = _useState2[0],
+    setTab = _useState2[1];
+  var _useState3 = useState({
+      startDate: todayISO(),
+      workouts: [],
+      ov: {}
+    }),
+    _useState4 = _slicedToArray(_useState3, 2),
+    data = _useState4[0],
+    setData = _useState4[1];
+  var _useState5 = useState(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    ready = _useState6[0],
+    setReady = _useState6[1];
+  var _useState7 = useState(false),
+    _useState8 = _slicedToArray(_useState7, 2),
+    logOpen = _useState8[0],
+    setLogOpen = _useState8[1];
+  var _useState9 = useState(null),
+    _useState0 = _slicedToArray(_useState9, 2),
+    prefill = _useState0[0],
+    setPrefill = _useState0[1];
+  var _useState1 = useState(null),
+    _useState10 = _slicedToArray(_useState1, 2),
+    editDay = _useState10[0],
+    setEditDay = _useState10[1];
+  useEffect(function () {
+    var d = load();
+    if (d) setData(Object.assign({
+      ov: {}
+    }, d));
+    setReady(true);
+  }, []);
+  useEffect(function () {
+    if (ready) save(data);
+  }, [data, ready]);
+  var addW = function addW(w) {
+    setData(function (p) {
+      return Object.assign({}, p, {
+        workouts: [Object.assign({}, w, {
+          id: Date.now() + ''
+        })].concat(_toConsumableArray(p.workouts))
+      });
+    });
+    setLogOpen(false);
+    setPrefill(null);
+  };
+  var delW = function delW(id) {
+    return setData(function (p) {
+      return Object.assign({}, p, {
+        workouts: p.workouts.filter(function (w) {
+          return w.id !== id;
+        })
+      });
+    });
+  };
+  var saveOv = function saveOv(wk, di, ch) {
+    var k = wk + '-' + di;
+    setData(function (p) {
+      return Object.assign({}, p, {
+        ov: Object.assign({}, p.ov, _defineProperty({}, k, ch))
+      });
+    });
+    setEditDay(null);
+  };
+  var resetOv = function resetOv(wk, di) {
+    var k = wk + '-' + di;
+    setData(function (p) {
+      var o = Object.assign({}, p.ov);
+      delete o[k];
+      return Object.assign({}, p, {
+        ov: o
+      });
+    });
+    setEditDay(null);
+  };
+  var cwd = getCWD(data.startDate);
+  var week = cwd.week,
+    dayIdx = cwd.dayIdx;
+  var curW = PROGRAM[week - 1];
+  var todayPlan = getDay(week, dayIdx, data.ov);
+  var NAV = [{
+    id: 'today',
+    icon: 'Sparkles',
+    label: 'Сегодня'
+  }, {
+    id: 'plan',
+    icon: 'Calendar',
+    label: 'План'
+  }, {
+    id: 'log',
+    icon: 'Activity',
+    label: 'Лог'
+  }, {
+    id: 'stats',
+    icon: 'BarChart3',
+    label: 'Стата'
+  }, {
+    id: 'guide',
+    icon: 'BookOpen',
+    label: 'Гайд'
+  }];
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: '100vh',
+      paddingBottom: 80,
+      background: 'radial-gradient(circle at 20% 0%,#FFF0F5,#fff 40%)',
+      color: '#1D1D1F',
+      position: 'relative',
+      overflow: 'hidden'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      width: 280,
+      height: 280,
+      borderRadius: '50%',
+      background: 'radial-gradient(circle,#FFB6CB,transparent 70%)',
+      opacity: .3,
+      filter: 'blur(40px)',
+      pointerEvents: 'none'
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '48px 24px 8px',
+      position: 'relative',
+      zIndex: 1
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'flex-end',
+      justifyContent: 'space-between'
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      letterSpacing: '0.2em',
+      textTransform: 'uppercase',
+      color: '#86868B',
+      marginBottom: 4
+    }
+  }, curW && curW.phase), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: 'Instrument Serif, serif',
+      fontSize: 44,
+      lineHeight: 1
+    }
+  }, "hy", /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontStyle: 'italic',
+      color: '#FF375F'
+    }
+  }, "rox"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: 'right'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      letterSpacing: '0.2em',
+      textTransform: 'uppercase',
+      color: '#86868B'
+    }
+  }, "\u041D\u0435\u0434\u0435\u043B\u044F"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: 'Instrument Serif, serif',
+      fontSize: 28,
+      lineHeight: 1,
+      marginTop: 4
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: '#FF375F'
+    }
+  }, week), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: '#d1d1d6',
+      fontSize: 18
+    }
+  }, " / 20"))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'relative',
+      zIndex: 1
+    }
+  }, tab === 'today' && /*#__PURE__*/React.createElement(TodayTab, {
+    plan: todayPlan,
+    week: week,
+    di: dayIdx,
+    workouts: data.workouts,
+    onLog: function onLog(p) {
+      setPrefill(p);
+      setLogOpen(true);
+    },
+    onEdit: function onEdit() {
+      return setEditDay({
+        week: week,
+        di: dayIdx
+      });
+    }
+  }), tab === 'plan' && /*#__PURE__*/React.createElement(PlanTab, {
+    curWeek: week,
+    workouts: data.workouts,
+    start: data.startDate,
+    ov: data.ov,
+    onEdit: function onEdit(w, di) {
+      return setEditDay({
+        week: w,
+        di: di
+      });
+    }
+  }), tab === 'log' && /*#__PURE__*/React.createElement(LogTab, {
+    workouts: data.workouts,
+    onDel: delW,
+    onAdd: function onAdd() {
+      return setLogOpen(true);
+    }
+  }), tab === 'stats' && /*#__PURE__*/React.createElement(StatsTab, {
+    workouts: data.workouts,
+    start: data.startDate
+  }), tab === 'guide' && /*#__PURE__*/React.createElement(GuideTab, null)), logOpen && /*#__PURE__*/React.createElement(LogForm, {
+    prefill: prefill,
+    onSave: addW,
+    onClose: function onClose() {
+      setLogOpen(false);
+      setPrefill(null);
+    }
+  }), editDay && /*#__PURE__*/React.createElement(EditModal, {
+    week: editDay.week,
+    di: editDay.di,
+    cur: getDay(editDay.week, editDay.di, data.ov),
+    isOv: !!(data.ov && data.ov[editDay.week + '-' + editDay.di]),
+    onSave: function onSave(ch) {
+      return saveOv(editDay.week, editDay.di, ch);
+    },
+    onReset: function onReset() {
+      return resetOv(editDay.week, editDay.di);
+    },
+    onClose: function onClose() {
+      return setEditDay(null);
+    }
+  }), /*#__PURE__*/React.createElement("nav", {
+    style: {
+      position: 'fixed',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      zIndex: 20,
+      background: 'rgba(255,255,255,0.85)',
+      borderTop: '1px solid rgba(0,0,0,.06)',
+      backdropFilter: 'blur(20px)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(5,1fr)',
+      maxWidth: 480,
+      margin: '0 auto',
+      paddingTop: 8,
+      paddingBottom: 16
+    }
+  }, NAV.map(function (t) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: t.id,
+      onClick: function onClick() {
+        return setTab(t.id);
+      },
+      style: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 3,
+        padding: '4px 0',
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer'
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: t.icon,
+      size: 20,
+      stroke: tab === t.id ? '#FF375F' : '#86868B',
+      sw: tab === t.id ? 2.2 : 1.8
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 10,
+        fontWeight: 500,
+        color: tab === t.id ? '#FF375F' : '#86868B'
+      }
+    }, t.label));
+  }))));
 }
 
 // ── TODAY ────────────────────────────────────────────────────────
-function TodayTab({plan,week,di,workouts,onLog,onEdit}){
-  const today=todayISO();
-  const logged=workouts.find(w=>w.date===today);
-  const ws=new Date();ws.setDate(ws.getDate()-ws.getDay()+(ws.getDay()===0?-6:1));
-  const wsISO=ws.toISOString().split('T')[0];
-  const wkCnt=workouts.filter(w=>w.date>=wsISO).length;
-  const tip=useMemo(()=>TIPS[Math.floor(Math.random()*TIPS.length)],[]);
-  if(!plan)return<div style={{padding:'40px 24px',textAlign:'center',color:'#86868B'}}>Программа завершена ✨</div>;
-  const m=TYPE_META[plan.type];
-  return(
-    <div style={{padding:'4px 24px 0',display:'flex',flexDirection:'column',gap:16}} className="fu">
-      <div className="si" style={{fontSize:17,color:'#86868B',textTransform:'capitalize'}}>{fmtLong(today)}</div>
-
-      {/* hero */}
-      <div className="card-pink" style={{padding:24,position:'relative',overflow:'hidden'}}>
-        <div style={{position:'absolute',top:-60,right:-60,width:140,height:140,borderRadius:'50%',background:m.color,opacity:.35,filter:'blur(30px)'}}/>
-        <div style={{position:'relative'}}>
-          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:16}}>
-            <div style={{display:'inline-flex',alignItems:'center',gap:6,padding:'4px 12px',borderRadius:999,background:'rgba(255,255,255,.75)',border:`1px solid ${m.color}25`,fontSize:11,fontWeight:500,color:m.color}}>
-              <span style={{width:6,height:6,borderRadius:'50%',background:m.color,display:'inline-block'}}/>
-              {m.label}{plan._ov&&<span style={{opacity:.7}}> · изменено</span>}
-            </div>
-            <div style={{display:'flex',alignItems:'center',gap:10}}>
-              {logged&&<span style={{fontSize:12,fontWeight:500,color:'#34C759',display:'flex',alignItems:'center',gap:3}}><Icon name="Check" size={14} stroke="#34C759"/>сделано</span>}
-              <button onClick={onEdit} style={{width:28,height:28,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',color:'#FF375F'}}>
-                <Icon name="Pencil" size={14}/>
-              </button>
-            </div>
-          </div>
-          <div className="serif" style={{fontSize:32,lineHeight:1.05,marginBottom:4}}>{plan.title}</div>
-          <div style={{fontSize:14,color:'#6e6e73',lineHeight:1.6,marginTop:10}}>{plan.detail}</div>
-          {plan.duration>0&&<div style={{display:'flex',alignItems:'center',gap:6,marginTop:14,fontSize:12,color:'#86868B'}}><Icon name="Clock" size={14}/>~{plan.duration} мин</div>}
-          {plan.type!=='rest'&&!logged&&(
-            <button onClick={()=>onLog({type:plan.type,title:plan.title})} className="pglow"
-              style={{marginTop:20,width:'100%',background:'linear-gradient(135deg,#FF375F,#FF5C8A)',color:'#fff',fontWeight:600,padding:'14px 0',borderRadius:18,fontSize:15}}>
-              Залогировать тренировку
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* week strip */}
-      <div className="card" style={{padding:20}}>
-        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
-          <span className="si" style={{fontSize:17}}>эта неделя</span>
-          <span><span className="serif" style={{fontSize:22,color:'#FF375F'}}>{wkCnt}</span><span style={{color:'#86868B',fontSize:13}}> / 6</span></span>
-        </div>
-        <div style={{display:'flex',gap:6}}>
-          {[0,1,2,3,4,5,6].map(i=>{
-            const d=new Date(ws);d.setDate(d.getDate()+i);
-            const ds=d.toISOString().split('T')[0];
-            const has=workouts.some(w=>w.date===ds);
-            const isT=ds===today;
-            return(
-              <div key={i} style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:6}}>
-                <span style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.1em',color:'#86868B'}}>{'ПВСЧПСВ'[i]}</span>
-                <div style={{width:'100%',height:40,borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,fontWeight:500,
-                  background:has?'linear-gradient(135deg,#FF375F,#FF5C8A)':isT?'#fff':'#f5f5f7',
-                  color:has?'#fff':isT?'#FF375F':'#86868B',
-                  border:isT&&!has?'1.5px solid #FF375F':'1px solid rgba(0,0,0,.04)',
-                  boxShadow:has?'0 4px 12px rgba(255,55,95,.25)':'none'}}>
-                  {d.getDate()}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      <button onClick={()=>onLog(null)} className="card" style={{padding:16,display:'flex',alignItems:'center',justifyContent:'center',gap:8,color:'#86868B',fontSize:14}}>
-        <Icon name="Plus" size={16}/>Другая тренировка
-      </button>
-
-      {/* tip */}
-      <div className="card" style={{padding:20,display:'flex',gap:14}}>
-        <div style={{width:40,height:40,borderRadius:16,background:'linear-gradient(135deg,#FFE5EC,#FFF0F5)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
-          <Icon name={tip.icon} size={18} stroke="#FF375F"/>
-        </div>
-        <div>
-          <div className="si" style={{fontSize:14,color:'#FF375F',marginBottom:4}}>совет · {tip.title.toLowerCase()}</div>
-          <div style={{fontSize:13,color:'#6e6e73',lineHeight:1.55}}>{tip.text}</div>
-        </div>
-      </div>
-    </div>
-  );
+function TodayTab(_ref1) {
+  var plan = _ref1.plan,
+    week = _ref1.week,
+    di = _ref1.di,
+    workouts = _ref1.workouts,
+    onLog = _ref1.onLog,
+    onEdit = _ref1.onEdit;
+  var today = todayISO();
+  var logged = workouts.find(function (w) {
+    return w.date === today;
+  });
+  var ws = new Date();
+  ws.setDate(ws.getDate() - ws.getDay() + (ws.getDay() === 0 ? -6 : 1));
+  var wsISO = ws.toISOString().split('T')[0];
+  var wkCnt = workouts.filter(function (w) {
+    return w.date >= wsISO;
+  }).length;
+  var tip = useMemo(function () {
+    return TIPS[Math.floor(Math.random() * TIPS.length)];
+  }, []);
+  if (!plan) return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '40px 24px',
+      textAlign: 'center',
+      color: '#86868B'
+    }
+  }, "\u041F\u0440\u043E\u0433\u0440\u0430\u043C\u043C\u0430 \u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u0430 \u2728");
+  var m = TYPE_META[plan.type];
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '4px 24px 0',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: 'Instrument Serif, serif',
+      fontStyle: 'italic',
+      fontSize: 17,
+      color: '#86868B',
+      textTransform: 'capitalize'
+    }
+  }, fmtLong(today)), /*#__PURE__*/React.createElement("div", {
+    style: C.cardPink
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 24,
+      position: 'relative',
+      overflow: 'hidden'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      top: -60,
+      right: -60,
+      width: 140,
+      height: 140,
+      borderRadius: '50%',
+      background: m.color,
+      opacity: .35,
+      filter: 'blur(30px)'
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'relative'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 6,
+      padding: '4px 12px',
+      borderRadius: 999,
+      background: 'rgba(255,255,255,.75)',
+      border: '1px solid ' + m.color + '25',
+      fontSize: 11,
+      fontWeight: 500,
+      color: m.color
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 6,
+      height: 6,
+      borderRadius: '50%',
+      background: m.color,
+      display: 'inline-block'
+    }
+  }), m.label, plan._ov && /*#__PURE__*/React.createElement("span", {
+    style: {
+      opacity: .7
+    }
+  }, " \xB7 \u0438\u0437\u043C\u0435\u043D\u0435\u043D\u043E")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 10
+    }
+  }, logged && /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      fontWeight: 500,
+      color: '#34C759',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 3
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "Check",
+    size: 14,
+    stroke: "#34C759"
+  }), "\u0441\u0434\u0435\u043B\u0430\u043D\u043E"), /*#__PURE__*/React.createElement("button", {
+    onClick: onEdit,
+    style: {
+      width: 28,
+      height: 28,
+      borderRadius: '50%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: '#FF375F',
+      background: 'none',
+      border: 'none',
+      cursor: 'pointer'
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "Pencil",
+    size: 14
+  })))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: 'Instrument Serif, serif',
+      fontSize: 32,
+      lineHeight: 1.05
+    }
+  }, plan.title), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      color: '#6e6e73',
+      lineHeight: 1.6,
+      marginTop: 10
+    }
+  }, plan.detail), plan.duration > 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 6,
+      marginTop: 14,
+      fontSize: 12,
+      color: '#86868B'
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "Clock",
+    size: 14
+  }), "~", plan.duration, " \u043C\u0438\u043D"), plan.type !== 'rest' && !logged && /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return onLog({
+        type: plan.type,
+        title: plan.title
+      });
+    },
+    style: Object.assign({}, C.btn, {
+      marginTop: 20
+    })
+  }, "\u0417\u0430\u043B\u043E\u0433\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0443")))), /*#__PURE__*/React.createElement("div", {
+    style: Object.assign({}, C.card, {
+      padding: 20
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: 'Instrument Serif, serif',
+      fontStyle: 'italic',
+      fontSize: 17
+    }
+  }, "\u044D\u0442\u0430 \u043D\u0435\u0434\u0435\u043B\u044F"), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: 'Instrument Serif, serif',
+      fontSize: 22,
+      color: '#FF375F'
+    }
+  }, wkCnt), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: '#86868B',
+      fontSize: 13
+    }
+  }, " / 6"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 6
+    }
+  }, [0, 1, 2, 3, 4, 5, 6].map(function (i) {
+    var d = new Date(ws);
+    d.setDate(d.getDate() + i);
+    var ds = d.toISOString().split('T')[0];
+    var has = workouts.some(function (w) {
+      return w.date === ds;
+    });
+    var isT = ds === today;
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 6
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 9,
+        textTransform: 'uppercase',
+        color: '#86868B'
+      }
+    }, 'ПВСЧПСВ'[i]), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: '100%',
+        height: 40,
+        borderRadius: 12,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: 12,
+        fontWeight: 500,
+        background: has ? 'linear-gradient(135deg,#FF375F,#FF5C8A)' : isT ? '#fff' : '#f5f5f7',
+        color: has ? '#fff' : isT ? '#FF375F' : '#86868B',
+        border: isT && !has ? '1.5px solid #FF375F' : '1px solid rgba(0,0,0,.04)',
+        boxShadow: has ? '0 4px 12px rgba(255,55,95,.25)' : 'none'
+      }
+    }, d.getDate()));
+  }))), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return onLog(null);
+    },
+    style: Object.assign({}, C.card, {
+      padding: 16,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 8,
+      color: '#86868B',
+      fontSize: 14,
+      border: '1px solid rgba(0,0,0,.04)',
+      cursor: 'pointer'
+    })
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "Plus",
+    size: 16
+  }), "\u0414\u0440\u0443\u0433\u0430\u044F \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0430"), /*#__PURE__*/React.createElement("div", {
+    style: Object.assign({}, C.card, {
+      padding: 20,
+      display: 'flex',
+      gap: 14
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 40,
+      height: 40,
+      borderRadius: 16,
+      background: 'linear-gradient(135deg,#FFE5EC,#FFF0F5)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: tip.icon,
+    size: 18,
+    stroke: "#FF375F"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: 'Instrument Serif, serif',
+      fontStyle: 'italic',
+      fontSize: 14,
+      color: '#FF375F',
+      marginBottom: 4
+    }
+  }, "\u0441\u043E\u0432\u0435\u0442 \xB7 ", tip.title.toLowerCase()), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      color: '#6e6e73',
+      lineHeight: 1.55
+    }
+  }, tip.text))));
 }
 
 // ── PLAN ─────────────────────────────────────────────────────────
-function PlanTab({curWeek,workouts,start,ov,onEdit}){
-  const [exp,setExp]=useState(curWeek);
-  const phases=useMemo(()=>{
-    const o={};
-    PROGRAM.forEach(w=>{if(!o[w.phaseNum])o[w.phaseNum]={name:w.phase,focus:w.focus,weeks:[]};o[w.phaseNum].weeks.push(w);});
+function PlanTab(_ref10) {
+  var curWeek = _ref10.curWeek,
+    workouts = _ref10.workouts,
+    start = _ref10.start,
+    ov = _ref10.ov,
+    onEdit = _ref10.onEdit;
+  var _useState11 = useState(curWeek),
+    _useState12 = _slicedToArray(_useState11, 2),
+    exp = _useState12[0],
+    setExp = _useState12[1];
+  var phases = useMemo(function () {
+    var o = {};
+    PROGRAM.forEach(function (w) {
+      if (!o[w.phaseNum]) o[w.phaseNum] = {
+        name: w.phase,
+        focus: w.focus,
+        weeks: []
+      };
+      o[w.phaseNum].weeks.push(w);
+    });
     return o;
-  },[]);
-  const sd=new Date(start);
-  return(
-    <div style={{padding:'8px 24px 0',display:'flex',flexDirection:'column',gap:20}} className="fu">
-      {Object.entries(phases).map(([num,phase])=>(
-        <div key={num}>
-          <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-end',marginBottom:12,padding:'0 4px'}}>
-            <div>
-              <div style={{fontSize:10,letterSpacing:'0.2em',textTransform:'uppercase',color:'#FF375F',marginBottom:2}}>Фаза {num}</div>
-              <div className="serif" style={{fontSize:22}}>{phase.name}</div>
-              <div style={{fontSize:11,color:'#86868B',marginTop:2}}>{phase.focus}</div>
-            </div>
-            <div className="mono" style={{fontSize:11,color:'#86868B'}}>{phase.weeks.length} нед</div>
-          </div>
-          <div style={{display:'flex',flexDirection:'column',gap:8}}>
-            {phase.weeks.map(w=>{
-              const wk=new Date(sd);wk.setDate(wk.getDate()+(w.week-1)*7);
-              const we=new Date(wk);we.setDate(we.getDate()+6);
-              const isCur=w.week===curWeek,isPast=w.week<curWeek,isExp=exp===w.week;
-              return(
-                <div key={w.week} style={{borderRadius:24,overflow:'hidden',
-                  background:isCur?'linear-gradient(135deg,#FFF5F8,#FFEEF4)':'#fff',
-                  border:`1px solid ${isCur?'rgba(255,55,95,.15)':'rgba(0,0,0,.04)'}`,
-                  boxShadow:isCur?'0 4px 24px rgba(255,55,95,.06)':'0 1px 2px rgba(0,0,0,.02)'}}>
-                  <button onClick={()=>setExp(isExp?null:w.week)} style={{width:'100%',padding:'14px 20px',display:'flex',alignItems:'center',justifyContent:'space-between',background:'none'}}>
-                    <div style={{display:'flex',alignItems:'center',gap:12}}>
-                      <div className="mono" style={{fontSize:11,padding:'3px 10px',borderRadius:8,fontWeight:500,
-                        background:isCur?'#FF375F':isPast?'#f2f2f7':'#fafafa',
-                        color:isCur?'#fff':isPast?'#86868B':'#1d1d1f'}}>W{w.week}</div>
-                      <div>
-                        <div style={{fontSize:13,fontWeight:500}}>{fmtDate(wk.toISOString())} — {fmtDate(we.toISOString())}</div>
-                        {isCur&&<div className="si" style={{fontSize:11,color:'#FF375F'}}>текущая</div>}
-                      </div>
-                    </div>
-                    <Icon name="ChevronDown" size={16} stroke="#86868B" style={{transform:isExp?'rotate(180deg)':'none',transition:'transform .2s'}}/>
-                  </button>
-                  {isExp&&(
-                    <div style={{padding:'0 20px 16px',borderTop:'1px solid #f5f5f7',display:'flex',flexDirection:'column',gap:10,paddingTop:14}}>
-                      {w.days.map((_,i)=>{
-                        const d=getDay(w.week,i,ov);
-                        const m=TYPE_META[d.type];
-                        const dd=new Date(wk);dd.setDate(dd.getDate()+i);
-                        const lg=workouts.some(wo=>wo.date===dd.toISOString().split('T')[0]);
-                        return(
-                          <button key={i} onClick={()=>onEdit(w.week,i)} style={{display:'flex',gap:12,alignItems:'flex-start',textAlign:'left',background:'none',padding:'4px 6px',borderRadius:10,width:'100%'}}>
-                            <div style={{width:36,flexShrink:0,textAlign:'center'}}>
-                              <div style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.1em',color:'#86868B'}}>{d.day}</div>
-                              <div className="mono" style={{fontSize:13,color:lg?'#FF375F':'#86868B'}}>{dd.getDate()}</div>
-                            </div>
-                            <div style={{width:3,alignSelf:'stretch',borderRadius:2,background:m.color,opacity:.5,marginTop:3,flexShrink:0}}/>
-                            <div style={{flex:1,minWidth:0,paddingBottom:2}}>
-                              <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:2}}>
-                                <span style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.1em',fontWeight:500,color:m.color}}>{m.label}</span>
-                                {d._ov&&<span className="si" style={{fontSize:9,color:'#FF375F'}}>изменено</span>}
-                                {lg&&<Icon name="Check" size={11} stroke="#34C759"/>}
-                              </div>
-                              <div style={{fontSize:13,fontWeight:500}}>{d.title}</div>
-                              <div style={{fontSize:11,color:'#86868B',lineHeight:1.5,marginTop:2}}>{d.detail}</div>
-                            </div>
-                            <Icon name="Pencil" size={13} stroke="#d1d1d6" style={{marginTop:4,flexShrink:0}}/>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+  }, []);
+  var sd = new Date(start);
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '8px 24px 0',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 20
+    }
+  }, Object.entries(phases).map(function (_ref11) {
+    var _ref12 = _slicedToArray(_ref11, 2),
+      num = _ref12[0],
+      phase = _ref12[1];
+    return /*#__PURE__*/React.createElement("div", {
+      key: num
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+        marginBottom: 12,
+        padding: '0 4px'
+      }
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        letterSpacing: '0.2em',
+        textTransform: 'uppercase',
+        color: '#FF375F',
+        marginBottom: 2
+      }
+    }, "\u0424\u0430\u0437\u0430 ", num), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: 'Instrument Serif, serif',
+        fontSize: 22
+      }
+    }, phase.name), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: '#86868B',
+        marginTop: 2
+      }
+    }, phase.focus)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: '#86868B',
+        fontFamily: 'DM Mono, monospace'
+      }
+    }, phase.weeks.length, " \u043D\u0435\u0434")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 8
+      }
+    }, phase.weeks.map(function (w) {
+      var wk = new Date(sd);
+      wk.setDate(wk.getDate() + (w.week - 1) * 7);
+      var we = new Date(wk);
+      we.setDate(we.getDate() + 6);
+      var isCur = w.week === curWeek,
+        isPast = w.week < curWeek,
+        isExp = exp === w.week;
+      return /*#__PURE__*/React.createElement("div", {
+        key: w.week,
+        style: {
+          borderRadius: 24,
+          overflow: 'hidden',
+          background: isCur ? 'linear-gradient(135deg,#FFF5F8,#FFEEF4)' : '#fff',
+          border: '1px solid ' + (isCur ? 'rgba(255,55,95,.15)' : 'rgba(0,0,0,.04)')
+        }
+      }, /*#__PURE__*/React.createElement("button", {
+        onClick: function onClick() {
+          return setExp(isExp ? null : w.week);
+        },
+        style: {
+          width: '100%',
+          padding: '14px 20px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer'
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          display: 'flex',
+          alignItems: 'center',
+          gap: 12
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 11,
+          padding: '3px 10px',
+          borderRadius: 8,
+          fontWeight: 500,
+          fontFamily: 'DM Mono, monospace',
+          background: isCur ? '#FF375F' : isPast ? '#f2f2f7' : '#fafafa',
+          color: isCur ? '#fff' : isPast ? '#86868B' : '#1d1d1f'
+        }
+      }, "W", w.week), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 13,
+          fontWeight: 500
+        }
+      }, fmtDate(wk.toISOString()), " \u2014 ", fmtDate(we.toISOString())), isCur && /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontFamily: 'Instrument Serif, serif',
+          fontStyle: 'italic',
+          fontSize: 11,
+          color: '#FF375F'
+        }
+      }, "\u0442\u0435\u043A\u0443\u0449\u0430\u044F"))), /*#__PURE__*/React.createElement(Icon, {
+        name: "ChevronDown",
+        size: 16,
+        stroke: "#86868B"
+      })), isExp && /*#__PURE__*/React.createElement("div", {
+        style: {
+          padding: '0 20px 16px',
+          borderTop: '1px solid #f5f5f7',
+          paddingTop: 14,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 10
+        }
+      }, w.days.map(function (_, i) {
+        var d = getDay(w.week, i, ov);
+        var meta = TYPE_META[d.type];
+        var dd = new Date(wk);
+        dd.setDate(dd.getDate() + i);
+        var lg = workouts.some(function (wo) {
+          return wo.date === dd.toISOString().split('T')[0];
+        });
+        return /*#__PURE__*/React.createElement("button", {
+          key: i,
+          onClick: function onClick() {
+            return onEdit(w.week, i);
+          },
+          style: {
+            display: 'flex',
+            gap: 12,
+            alignItems: 'flex-start',
+            textAlign: 'left',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: '4px 6px',
+            borderRadius: 10,
+            width: '100%'
+          }
+        }, /*#__PURE__*/React.createElement("div", {
+          style: {
+            width: 36,
+            flexShrink: 0,
+            textAlign: 'center'
+          }
+        }, /*#__PURE__*/React.createElement("div", {
+          style: {
+            fontSize: 9,
+            textTransform: 'uppercase',
+            color: '#86868B'
+          }
+        }, d.day), /*#__PURE__*/React.createElement("div", {
+          style: {
+            fontSize: 13,
+            fontFamily: 'DM Mono, monospace',
+            color: lg ? '#FF375F' : '#86868B'
+          }
+        }, dd.getDate())), /*#__PURE__*/React.createElement("div", {
+          style: {
+            width: 3,
+            alignSelf: 'stretch',
+            borderRadius: 2,
+            background: meta.color,
+            opacity: .5,
+            marginTop: 3,
+            flexShrink: 0
+          }
+        }), /*#__PURE__*/React.createElement("div", {
+          style: {
+            flex: 1,
+            minWidth: 0,
+            paddingBottom: 2
+          }
+        }, /*#__PURE__*/React.createElement("div", {
+          style: {
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            marginBottom: 2
+          }
+        }, /*#__PURE__*/React.createElement("span", {
+          style: {
+            fontSize: 9,
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            fontWeight: 500,
+            color: meta.color
+          }
+        }, meta.label), d._ov && /*#__PURE__*/React.createElement("span", {
+          style: {
+            fontSize: 9,
+            color: '#FF375F',
+            fontStyle: 'italic'
+          }
+        }, "\u0438\u0437\u043C\u0435\u043D\u0435\u043D\u043E"), lg && /*#__PURE__*/React.createElement(Icon, {
+          name: "Check",
+          size: 11,
+          stroke: "#34C759"
+        })), /*#__PURE__*/React.createElement("div", {
+          style: {
+            fontSize: 13,
+            fontWeight: 500
+          }
+        }, d.title), /*#__PURE__*/React.createElement("div", {
+          style: {
+            fontSize: 11,
+            color: '#86868B',
+            lineHeight: 1.5,
+            marginTop: 2
+          }
+        }, d.detail)), /*#__PURE__*/React.createElement(Icon, {
+          name: "Pencil",
+          size: 13,
+          stroke: "#d1d1d6",
+          style: {
+            marginTop: 4,
+            flexShrink: 0
+          }
+        }));
+      })));
+    })));
+  }));
 }
 
 // ── LOG ──────────────────────────────────────────────────────────
-function LogTab({workouts,onDel,onAdd}){
-  const grouped=useMemo(()=>{
-    const g={};workouts.forEach(w=>{if(!g[w.date])g[w.date]=[];g[w.date].push(w);});
-    return Object.entries(g).sort((a,b)=>b[0].localeCompare(a[0]));
-  },[workouts]);
-  return(
-    <div style={{padding:'8px 24px 0',display:'flex',flexDirection:'column',gap:16}} className="fu">
-      <button onClick={onAdd} className="pglow" style={{width:'100%',background:'linear-gradient(135deg,#FF375F,#FF5C8A)',color:'#fff',fontWeight:600,padding:'14px 0',borderRadius:18,fontSize:15,display:'flex',alignItems:'center',justifyContent:'center',gap:8}}>
-        <Icon name="Plus" size={16} stroke="#fff"/>Добавить тренировку
-      </button>
-      {workouts.length===0?(
-        <div style={{textAlign:'center',padding:'60px 0'}}>
-          <div style={{width:64,height:64,borderRadius:20,background:'linear-gradient(135deg,#FFE5EC,#FFF0F5)',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 12px'}}>
-            <Icon name="Activity" size={28} stroke="#FF375F"/>
-          </div>
-          <div className="si" style={{fontSize:20,marginBottom:4}}>пока пусто</div>
-          <div style={{fontSize:13,color:'#86868B'}}>Начни сегодня — каждая тренировка считается</div>
-        </div>
-      ):grouped.map(([date,ws])=>(
-        <div key={date}>
-          <div className="si" style={{fontSize:15,color:'#86868B',marginBottom:8,textTransform:'capitalize'}}>{fmtLong(date)}</div>
-          {ws.map(w=>{
-            const m=TYPE_META[w.type];
-            return(
-              <div key={w.id} className="card" style={{padding:16,marginBottom:8}}>
-                <div style={{display:'flex',alignItems:'flex-start',gap:12}}>
-                  <div style={{flex:1,minWidth:0}}>
-                    <div style={{display:'inline-flex',alignItems:'center',gap:5,padding:'2px 8px',borderRadius:999,background:m.soft,marginBottom:6}}>
-                      <span style={{width:4,height:4,borderRadius:'50%',background:m.color,display:'inline-block'}}/>
-                      <span style={{fontSize:10,fontWeight:500,color:m.color}}>{m.label}</span>
-                    </div>
-                    <div style={{fontSize:15,fontWeight:500}}>{w.title}</div>
-                    <div className="mono" style={{fontSize:11,color:'#86868B',marginTop:6,display:'flex',gap:12}}>
-                      {w.duration&&<span>{w.duration} мин</span>}
-                      {w.rpe&&<span>RPE {w.rpe}/10</span>}
-                    </div>
-                    {w.exercises?.length>0&&(
-                      <div style={{marginTop:10,paddingTop:10,borderTop:'1px solid #f5f5f7',display:'flex',flexDirection:'column',gap:6}}>
-                        {w.exercises.map((ex,i)=>{
-                          const em=EXERCISES[ex.type];
-                          return(
-                            <div key={i} style={{display:'flex',alignItems:'center',justifyContent:'space-between',fontSize:12}}>
-                              <span>{em?.emoji} {em?.name||ex.type}</span>
-                              <span className="mono" style={{color:'#FF375F',fontWeight:500}}>{fmtEx(ex)}</span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )}
-                    {w.notes&&<div className="si" style={{fontSize:13,color:'#6e6e73',marginTop:8}}>"{w.notes}"</div>}
-                  </div>
-                  <button onClick={()=>{if(confirm('Удалить?'))onDel(w.id);}} style={{color:'#d1d1d6',padding:4}}>
-                    <Icon name="Trash2" size={16}/>
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-// ── MODALS ───────────────────────────────────────────────────────
-function Sheet({onClose,title,children}){
-  return(
-    <div style={{position:'fixed',inset:0,zIndex:50,display:'flex',alignItems:'flex-end',background:'rgba(0,0,0,.45)',backdropFilter:'blur(8px)'}} onClick={onClose}>
-      <div style={{width:'100%',maxHeight:'92vh',overflowY:'auto',background:'#fff',borderTopLeftRadius:32,borderTopRightRadius:32}} onClick={e=>e.stopPropagation()} className="fu">
-        <div style={{padding:'0 24px 24px'}}>
-          <div style={{display:'flex',justifyContent:'center',padding:'12px 0 4px'}}><div style={{width:40,height:4,borderRadius:2,background:'#e5e5ea'}}/></div>
-          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:20,marginTop:8}}>
-            <div className="serif" style={{fontSize:28}}>{title}</div>
-            <button onClick={onClose} style={{width:32,height:32,borderRadius:'50%',background:'#f5f5f7',display:'flex',alignItems:'center',justifyContent:'center',color:'#86868B'}}>
-              <Icon name="X" size={18}/>
-            </button>
-          </div>
-          {children}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Fld({label,children}){
-  return(
-    <div>
-      <div style={{fontSize:11,letterSpacing:'0.15em',textTransform:'uppercase',color:'#86868B',marginBottom:6}}>{label}</div>
-      {children}
-    </div>
-  );
-}
-
-function TypePicker({value,onChange,includeRest=false}){
-  return(
-    <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8}}>
-      {Object.entries(TYPE_META).filter(([k])=>includeRest||k!=='rest').map(([k,m])=>(
-        <button key={k} onClick={()=>onChange(k)} style={{
-          padding:'10px 6px',borderRadius:14,fontSize:12,fontWeight:500,
-          background:value===k?m.color:m.soft,color:value===k?'#fff':m.color,
-          boxShadow:value===k?`0 4px 12px ${m.color}40`:'none'}}>
-          {m.label}
-        </button>
-      ))}
-    </div>
-  );
-}
-
-function LogForm({prefill,onSave,onClose}){
-  const [form,setForm]=useState({date:todayISO(),type:prefill?.type||'hyrox',title:prefill?.title||'',duration:'',rpe:7,notes:'',exercises:[]});
-  const [addOpen,setAddOpen]=useState(false);
-  const [selEx,setSelEx]=useState(null);
-  const [vals,setVals]=useState({});
-
-  const handleAdd=()=>{
-    if(!selEx)return;
-    const ex={type:selEx};
-    EXERCISES[selEx].fields.forEach(f=>{if(vals[f])ex[f]=FIELD_META[f].type==='number'?Number(vals[f]):vals[f];});
-    setForm(p=>({...p,exercises:[...p.exercises,ex]}));
-    setSelEx(null);setVals({});setAddOpen(false);
-  };
-
-  const exOrder=useMemo(()=>{
-    const all=Object.keys(EXERCISES);
-    if(form.type==='hyrox'||form.type==='simulation'){
-      const h=['skierg','sled_push','sled_pull','burpees','rower','farmers','sandbag','wallballs','run'];
-      return[...h,...all.filter(k=>!h.includes(k))];
+function LogTab(_ref13) {
+  var workouts = _ref13.workouts,
+    onDel = _ref13.onDel,
+    onAdd = _ref13.onAdd;
+  var grouped = useMemo(function () {
+    var g = {};
+    workouts.forEach(function (w) {
+      if (!g[w.date]) g[w.date] = [];
+      g[w.date].push(w);
+    });
+    return Object.entries(g).sort(function (a, b) {
+      return b[0].localeCompare(a[0]);
+    });
+  }, [workouts]);
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '8px 24px 0',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 16
     }
-    if(form.type==='run')return['run',...all.filter(k=>k!=='run')];
-    if(form.type==='strength')return['squat','deadlift','press','pullup','plank',...all.filter(k=>!['squat','deadlift','press','pullup','plank'].includes(k))];
-    return all;
-  },[form.type]);
-
-  return(
-    <Sheet onClose={onClose} title={<>новая <span className="si" style={{color:'#FF375F'}}>тренировка</span></>}>
-      <div style={{display:'flex',flexDirection:'column',gap:16}}>
-        <Fld label="Тип"><TypePicker value={form.type} onChange={t=>setForm(p=>({...p,type:t}))}/></Fld>
-        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
-          <Fld label="Дата"><input type="date" value={form.date} onChange={e=>setForm(p=>({...p,date:e.target.value}))}/></Fld>
-          <Fld label="Длительность · мин"><input type="number" inputMode="numeric" value={form.duration} onChange={e=>setForm(p=>({...p,duration:e.target.value}))} className="mono"/></Fld>
-        </div>
-        <Fld label="Название"><input value={form.title} onChange={e=>setForm(p=>({...p,title:e.target.value}))} placeholder="напр. Hyrox техника A"/></Fld>
-
-        <Fld label="Упражнения">
-          <div style={{display:'flex',flexDirection:'column',gap:8}}>
-            {form.exercises.map((ex,i)=>{
-              const m=EXERCISES[ex.type];
-              return(
-                <div key={i} style={{display:'flex',alignItems:'center',gap:10,padding:'10px 14px',borderRadius:16,background:'#FFF5F8',border:'1px solid rgba(255,55,95,.1)'}}>
-                  <span style={{fontSize:18}}>{m?.emoji}</span>
-                  <div style={{flex:1}}>
-                    <div style={{fontSize:13,fontWeight:500}}>{m?.name}</div>
-                    <div className="mono" style={{fontSize:11,color:'#FF375F',marginTop:2}}>{fmtEx(ex)}</div>
-                  </div>
-                  <button onClick={()=>setForm(p=>({...p,exercises:p.exercises.filter((_,j)=>j!==i)}))} style={{color:'#86868B'}}>
-                    <Icon name="X" size={16}/>
-                  </button>
-                </div>
-              );
-            })}
-            {!addOpen?(
-              <button onClick={()=>setAddOpen(true)} style={{width:'100%',padding:'12px',borderRadius:16,background:'#FFE5EC',color:'#FF375F',fontSize:13,fontWeight:500,border:'1px dashed rgba(255,55,95,.3)',display:'flex',alignItems:'center',justifyContent:'center',gap:6}}>
-                <Icon name="Plus" size={15}/>Добавить упражнение
-              </button>
-            ):(
-              <div style={{padding:14,borderRadius:16,background:'#fafafa',border:'1px solid rgba(0,0,0,.06)',display:'flex',flexDirection:'column',gap:12}}>
-                <div style={{fontSize:10,letterSpacing:'0.15em',textTransform:'uppercase',color:'#86868B'}}>Что делаешь?</div>
-                <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
-                  {exOrder.map(k=>(
-                    <button key={k} onClick={()=>setSelEx(k)} style={{padding:'6px 12px',borderRadius:999,fontSize:12,fontWeight:500,display:'flex',alignItems:'center',gap:4,
-                      background:selEx===k?'#FF375F':'#fff',color:selEx===k?'#fff':'#1d1d1f',border:'1px solid rgba(0,0,0,.06)'}}>
-                      {EXERCISES[k].emoji} {EXERCISES[k].name}
-                    </button>
-                  ))}
-                </div>
-                {selEx&&(
-                  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8}}>
-                    {EXERCISES[selEx].fields.map(f=>(
-                      <Fld key={f} label={FIELD_META[f].label}>
-                        <input type={FIELD_META[f].type} inputMode={FIELD_META[f].inputMode} placeholder={FIELD_META[f].placeholder} value={vals[f]||''} onChange={e=>setVals(v=>({...v,[f]:e.target.value}))} className="mono"/>
-                      </Fld>
-                    ))}
-                  </div>
-                )}
-                <div style={{display:'flex',gap:8}}>
-                  <button onClick={()=>{setAddOpen(false);setSelEx(null);setVals({});}} style={{flex:1,padding:'10px',borderRadius:14,background:'#f5f5f7',color:'#86868B',fontSize:13,fontWeight:500}}>Отмена</button>
-                  <button onClick={handleAdd} disabled={!selEx} style={{flex:1,padding:'10px',borderRadius:14,background:'linear-gradient(135deg,#FF375F,#FF5C8A)',color:'#fff',fontSize:13,fontWeight:600,opacity:selEx?1:.4}}>Добавить</button>
-                </div>
-              </div>
-            )}
-          </div>
-        </Fld>
-
-        <Fld label={<>Усилие · RPE <span className="mono" style={{color:'#FF375F',marginLeft:4}}>{form.rpe}/10</span></>}>
-          <input type="range" min="1" max="10" value={form.rpe} onChange={e=>setForm(p=>({...p,rpe:+e.target.value}))} style={{accentColor:'#FF375F',width:'100%',marginTop:6,background:'none',border:'none',padding:0}}/>
-        </Fld>
-        <Fld label="Заметки"><textarea value={form.notes} onChange={e=>setForm(p=>({...p,notes:e.target.value}))} placeholder="как прошло?" style={{height:88}}/></Fld>
-        <button onClick={()=>onSave({...form,duration:form.duration?+form.duration:null})} disabled={!form.title} className="pglow"
-          style={{width:'100%',background:'linear-gradient(135deg,#FF375F,#FF5C8A)',color:'#fff',fontWeight:600,padding:'14px 0',borderRadius:18,fontSize:15,opacity:form.title?1:.35}}>
-          Сохранить
-        </button>
-      </div>
-    </Sheet>
-  );
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: onAdd,
+    style: C.btn
+  }, "+ \u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0443"), workouts.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: 'center',
+      padding: '60px 0'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 64,
+      height: 64,
+      borderRadius: 20,
+      background: 'linear-gradient(135deg,#FFE5EC,#FFF0F5)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      margin: '0 auto 12px'
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "Activity",
+    size: 28,
+    stroke: "#FF375F"
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: 'Instrument Serif, serif',
+      fontStyle: 'italic',
+      fontSize: 20,
+      marginBottom: 4
+    }
+  }, "\u043F\u043E\u043A\u0430 \u043F\u0443\u0441\u0442\u043E"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      color: '#86868B'
+    }
+  }, "\u041D\u0430\u0447\u043D\u0438 \u0441\u0435\u0433\u043E\u0434\u043D\u044F \u2014 \u043A\u0430\u0436\u0434\u0430\u044F \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0430 \u0441\u0447\u0438\u0442\u0430\u0435\u0442\u0441\u044F")) : grouped.map(function (_ref14) {
+    var _ref15 = _slicedToArray(_ref14, 2),
+      date = _ref15[0],
+      ws = _ref15[1];
+    return /*#__PURE__*/React.createElement("div", {
+      key: date
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: 'Instrument Serif, serif',
+        fontStyle: 'italic',
+        fontSize: 15,
+        color: '#86868B',
+        marginBottom: 8,
+        textTransform: 'capitalize'
+      }
+    }, fmtLong(date)), ws.map(function (w) {
+      var m = TYPE_META[w.type];
+      return /*#__PURE__*/React.createElement("div", {
+        key: w.id,
+        style: Object.assign({}, C.card, {
+          padding: 16,
+          marginBottom: 8
+        })
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: 12
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          flex: 1,
+          minWidth: 0
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 5,
+          padding: '2px 8px',
+          borderRadius: 999,
+          background: m.soft,
+          marginBottom: 6
+        }
+      }, /*#__PURE__*/React.createElement("span", {
+        style: {
+          width: 4,
+          height: 4,
+          borderRadius: '50%',
+          background: m.color,
+          display: 'inline-block'
+        }
+      }), /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontSize: 10,
+          fontWeight: 500,
+          color: m.color
+        }
+      }, m.label)), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 15,
+          fontWeight: 500
+        }
+      }, w.title), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 11,
+          color: '#86868B',
+          marginTop: 6,
+          display: 'flex',
+          gap: 12,
+          fontFamily: 'DM Mono, monospace'
+        }
+      }, w.duration && /*#__PURE__*/React.createElement("span", null, w.duration, " \u043C\u0438\u043D"), w.rpe && /*#__PURE__*/React.createElement("span", null, "RPE ", w.rpe, "/10")), w.exercises && w.exercises.length > 0 && /*#__PURE__*/React.createElement("div", {
+        style: {
+          marginTop: 10,
+          paddingTop: 10,
+          borderTop: '1px solid #f5f5f7',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 6
+        }
+      }, w.exercises.map(function (ex, i) {
+        var em = EXERCISES[ex.type];
+        return /*#__PURE__*/React.createElement("div", {
+          key: i,
+          style: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            fontSize: 12
+          }
+        }, /*#__PURE__*/React.createElement("span", null, em && em.emoji, " ", em && em.name || ex.type), /*#__PURE__*/React.createElement("span", {
+          style: {
+            color: '#FF375F',
+            fontWeight: 500,
+            fontFamily: 'DM Mono, monospace'
+          }
+        }, fmtEx(ex)));
+      })), w.notes && /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontFamily: 'Instrument Serif, serif',
+          fontStyle: 'italic',
+          fontSize: 13,
+          color: '#6e6e73',
+          marginTop: 8
+        }
+      }, "\"", w.notes, "\"")), /*#__PURE__*/React.createElement("button", {
+        onClick: function onClick() {
+          if (confirm('Удалить?')) onDel(w.id);
+        },
+        style: {
+          color: '#d1d1d6',
+          padding: 4,
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer'
+        }
+      }, /*#__PURE__*/React.createElement(Icon, {
+        name: "Trash2",
+        size: 16
+      }))));
+    }));
+  }));
 }
 
-function EditModal({week,di,cur,isOv,onSave,onReset,onClose}){
-  const days=['ПН','ВТ','СР','ЧТ','ПТ','СБ','ВС'];
-  const [form,setForm]=useState({type:cur?.type||'hyrox',title:cur?.title||'',detail:cur?.detail||'',duration:cur?.duration??''});
-  return(
-    <Sheet onClose={onClose} title={<>редактировать <span className="si" style={{color:'#FF375F'}}>день</span></>}>
-      <div style={{fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#86868B',marginBottom:16}}>Неделя {week} · {days[di]}</div>
-      <div style={{display:'flex',flexDirection:'column',gap:16}}>
-        <Fld label="Тип"><TypePicker value={form.type} onChange={t=>setForm(p=>({...p,type:t}))} includeRest/></Fld>
-        <Fld label="Название"><input value={form.title} onChange={e=>setForm(p=>({...p,title:e.target.value}))} placeholder="напр. Hyrox техника A"/></Fld>
-        <Fld label="Описание"><textarea value={form.detail} onChange={e=>setForm(p=>({...p,detail:e.target.value}))} placeholder="Что делать на этой тренировке…" style={{height:100}}/></Fld>
-        <Fld label="Длительность · мин"><input type="number" inputMode="numeric" value={form.duration} onChange={e=>setForm(p=>({...p,duration:e.target.value}))} className="mono"/></Fld>
-        <div style={{display:'flex',flexDirection:'column',gap:8,paddingTop:4}}>
-          <button onClick={()=>onSave({type:form.type,title:form.title,detail:form.detail,duration:form.duration===''?0:+form.duration})} disabled={!form.title} className="pglow"
-            style={{width:'100%',background:'linear-gradient(135deg,#FF375F,#FF5C8A)',color:'#fff',fontWeight:600,padding:'14px 0',borderRadius:18,fontSize:15,opacity:form.title?1:.35}}>
-            Сохранить
-          </button>
-          {isOv&&<button onClick={onReset} style={{width:'100%',padding:'12px',borderRadius:16,background:'#f5f5f7',color:'#86868B',fontSize:14,fontWeight:500,display:'flex',alignItems:'center',justifyContent:'center',gap:6}}>
-            <Icon name="RotateCcw" size={14}/>Вернуть оригинал
-          </button>}
-        </div>
-      </div>
-    </Sheet>
-  );
+// ── LOG FORM ─────────────────────────────────────────────────────
+function LogForm(_ref16) {
+  var prefill = _ref16.prefill,
+    onSave = _ref16.onSave,
+    onClose = _ref16.onClose;
+  var _useState13 = useState({
+      date: todayISO(),
+      type: prefill && prefill.type || 'hyrox',
+      title: prefill && prefill.title || '',
+      duration: '',
+      rpe: 7,
+      notes: '',
+      exercises: []
+    }),
+    _useState14 = _slicedToArray(_useState13, 2),
+    form = _useState14[0],
+    setForm = _useState14[1];
+  var _useState15 = useState(false),
+    _useState16 = _slicedToArray(_useState15, 2),
+    addOpen = _useState16[0],
+    setAddOpen = _useState16[1];
+  var _useState17 = useState(null),
+    _useState18 = _slicedToArray(_useState17, 2),
+    selEx = _useState18[0],
+    setSelEx = _useState18[1];
+  var _useState19 = useState({}),
+    _useState20 = _slicedToArray(_useState19, 2),
+    vals = _useState20[0],
+    setVals = _useState20[1];
+  var handleAdd = function handleAdd() {
+    if (!selEx) return;
+    var ex = {
+      type: selEx
+    };
+    EXERCISES[selEx].fields.forEach(function (f) {
+      if (vals[f]) ex[f] = FIELD_META[f].type === 'number' ? Number(vals[f]) : vals[f];
+    });
+    setForm(function (p) {
+      return Object.assign({}, p, {
+        exercises: p.exercises.concat([ex])
+      });
+    });
+    setSelEx(null);
+    setVals({});
+    setAddOpen(false);
+  };
+  var exOrder = useMemo(function () {
+    var all = Object.keys(EXERCISES);
+    if (form.type === 'hyrox' || form.type === 'simulation') {
+      var h = ['skierg', 'sled_push', 'sled_pull', 'burpees', 'rower', 'farmers', 'sandbag', 'wallballs', 'run'];
+      return h.concat(all.filter(function (k) {
+        return h.indexOf(k) === -1;
+      }));
+    }
+    if (form.type === 'run') return ['run'].concat(all.filter(function (k) {
+      return k !== 'run';
+    }));
+    if (form.type === 'strength') {
+      var s = ['squat', 'deadlift', 'press', 'pullup', 'plank'];
+      return s.concat(all.filter(function (k) {
+        return s.indexOf(k) === -1;
+      }));
+    }
+    return all;
+  }, [form.type]);
+  var inp = {
+    background: '#f5f5f7',
+    border: '1px solid #e5e5ea',
+    borderRadius: 12,
+    padding: '10px 12px',
+    fontSize: 14,
+    width: '100%',
+    fontFamily: 'inherit',
+    color: '#1d1d1f'
+  };
+  return /*#__PURE__*/React.createElement(Sheet, {
+    onClose: onClose,
+    title: /*#__PURE__*/React.createElement("span", null, "\u043D\u043E\u0432\u0430\u044F ", /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontStyle: 'italic',
+        color: '#FF375F'
+      }
+    }, "\u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0430"))
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 16
+    }
+  }, /*#__PURE__*/React.createElement(Fld, {
+    label: "\u0422\u0438\u043F"
+  }, /*#__PURE__*/React.createElement(TypePicker, {
+    value: form.type,
+    onChange: function onChange(t) {
+      return setForm(function (p) {
+        return Object.assign({}, p, {
+          type: t
+        });
+      });
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 12
+    }
+  }, /*#__PURE__*/React.createElement(Fld, {
+    label: "\u0414\u0430\u0442\u0430"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    value: form.date,
+    onChange: function onChange(e) {
+      return setForm(function (p) {
+        return Object.assign({}, p, {
+          date: e.target.value
+        });
+      });
+    },
+    style: inp
+  })), /*#__PURE__*/React.createElement(Fld, {
+    label: "\u041C\u0438\u043D"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    inputMode: "numeric",
+    value: form.duration,
+    onChange: function onChange(e) {
+      return setForm(function (p) {
+        return Object.assign({}, p, {
+          duration: e.target.value
+        });
+      });
+    },
+    style: Object.assign({}, inp, {
+      fontFamily: 'DM Mono, monospace'
+    })
+  }))), /*#__PURE__*/React.createElement(Fld, {
+    label: "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435"
+  }, /*#__PURE__*/React.createElement("input", {
+    value: form.title,
+    onChange: function onChange(e) {
+      return setForm(function (p) {
+        return Object.assign({}, p, {
+          title: e.target.value
+        });
+      });
+    },
+    placeholder: "\u043D\u0430\u043F\u0440. Hyrox \u0442\u0435\u0445\u043D\u0438\u043A\u0430 A",
+    style: inp
+  })), /*#__PURE__*/React.createElement(Fld, {
+    label: "\u0423\u043F\u0440\u0430\u0436\u043D\u0435\u043D\u0438\u044F"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 8
+    }
+  }, form.exercises.map(function (ex, i) {
+    var em = EXERCISES[ex.type];
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10,
+        padding: '10px 14px',
+        borderRadius: 16,
+        background: '#FFF5F8',
+        border: '1px solid rgba(255,55,95,.1)'
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 18
+      }
+    }, em && em.emoji), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        fontWeight: 500
+      }
+    }, em && em.name), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: '#FF375F',
+        marginTop: 2,
+        fontFamily: 'DM Mono, monospace'
+      }
+    }, fmtEx(ex))), /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return setForm(function (p) {
+          return Object.assign({}, p, {
+            exercises: p.exercises.filter(function (_, j) {
+              return j !== i;
+            })
+          });
+        });
+      },
+      style: {
+        color: '#86868B',
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer'
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "X",
+      size: 16
+    })));
+  }), !addOpen ? /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setAddOpen(true);
+    },
+    style: {
+      width: '100%',
+      padding: 12,
+      borderRadius: 16,
+      background: '#FFE5EC',
+      color: '#FF375F',
+      fontSize: 13,
+      fontWeight: 500,
+      border: '1px dashed rgba(255,55,95,.3)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 6,
+      cursor: 'pointer'
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "Plus",
+    size: 15
+  }), " \u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0443\u043F\u0440\u0430\u0436\u043D\u0435\u043D\u0438\u0435") : /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 14,
+      borderRadius: 16,
+      background: '#fafafa',
+      border: '1px solid rgba(0,0,0,.06)',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: 8
+    }
+  }, exOrder.map(function (k) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: k,
+      onClick: function onClick() {
+        return setSelEx(k);
+      },
+      style: {
+        padding: '6px 12px',
+        borderRadius: 999,
+        fontSize: 12,
+        fontWeight: 500,
+        display: 'flex',
+        alignItems: 'center',
+        gap: 4,
+        background: selEx === k ? '#FF375F' : '#fff',
+        color: selEx === k ? '#fff' : '#1d1d1f',
+        border: '1px solid rgba(0,0,0,.06)',
+        cursor: 'pointer'
+      }
+    }, EXERCISES[k].emoji, " ", EXERCISES[k].name);
+  })), selEx && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 8
+    }
+  }, EXERCISES[selEx].fields.map(function (f) {
+    return /*#__PURE__*/React.createElement(Fld, {
+      key: f,
+      label: FIELD_META[f].label
+    }, /*#__PURE__*/React.createElement("input", {
+      type: FIELD_META[f].type,
+      inputMode: FIELD_META[f].inputMode,
+      placeholder: FIELD_META[f].placeholder,
+      value: vals[f] || '',
+      onChange: function onChange(e) {
+        return setVals(function (v) {
+          return Object.assign({}, v, _defineProperty({}, f, e.target.value));
+        });
+      },
+      style: Object.assign({}, inp, {
+        fontFamily: 'DM Mono, monospace'
+      })
+    }));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      setAddOpen(false);
+      setSelEx(null);
+      setVals({});
+    },
+    style: {
+      flex: 1,
+      padding: 10,
+      borderRadius: 14,
+      background: '#f5f5f7',
+      color: '#86868B',
+      fontSize: 13,
+      fontWeight: 500,
+      border: 'none',
+      cursor: 'pointer'
+    }
+  }, "\u041E\u0442\u043C\u0435\u043D\u0430"), /*#__PURE__*/React.createElement("button", {
+    onClick: handleAdd,
+    disabled: !selEx,
+    style: {
+      flex: 1,
+      padding: 10,
+      borderRadius: 14,
+      background: 'linear-gradient(135deg,#FF375F,#FF5C8A)',
+      color: '#fff',
+      fontSize: 13,
+      fontWeight: 600,
+      border: 'none',
+      cursor: 'pointer',
+      opacity: selEx ? 1 : .4
+    }
+  }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C"))))), /*#__PURE__*/React.createElement(Fld, {
+    label: 'Усилие RPE ' + form.rpe + '/10'
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "range",
+    min: "1",
+    max: "10",
+    value: form.rpe,
+    onChange: function onChange(e) {
+      return setForm(function (p) {
+        return Object.assign({}, p, {
+          rpe: +e.target.value
+        });
+      });
+    },
+    style: {
+      accentColor: '#FF375F',
+      width: '100%',
+      marginTop: 6
+    }
+  })), /*#__PURE__*/React.createElement(Fld, {
+    label: "\u0417\u0430\u043C\u0435\u0442\u043A\u0438"
+  }, /*#__PURE__*/React.createElement("textarea", {
+    value: form.notes,
+    onChange: function onChange(e) {
+      return setForm(function (p) {
+        return Object.assign({}, p, {
+          notes: e.target.value
+        });
+      });
+    },
+    placeholder: "\u043A\u0430\u043A \u043F\u0440\u043E\u0448\u043B\u043E?",
+    style: Object.assign({}, inp, {
+      height: 88,
+      resize: 'none'
+    })
+  })), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return onSave(Object.assign({}, form, {
+        duration: form.duration ? +form.duration : null
+      }));
+    },
+    disabled: !form.title,
+    style: Object.assign({}, C.btn, {
+      opacity: form.title ? 1 : .35
+    })
+  }, "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C")));
+}
+
+// ── EDIT MODAL ───────────────────────────────────────────────────
+function EditModal(_ref17) {
+  var week = _ref17.week,
+    di = _ref17.di,
+    cur = _ref17.cur,
+    isOv = _ref17.isOv,
+    onSave = _ref17.onSave,
+    onReset = _ref17.onReset,
+    onClose = _ref17.onClose;
+  var days = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
+  var _useState21 = useState({
+      type: cur && cur.type || 'hyrox',
+      title: cur && cur.title || '',
+      detail: cur && cur.detail || '',
+      duration: cur ? cur.duration : ''
+    }),
+    _useState22 = _slicedToArray(_useState21, 2),
+    form = _useState22[0],
+    setForm = _useState22[1];
+  var inp = {
+    background: '#f5f5f7',
+    border: '1px solid #e5e5ea',
+    borderRadius: 12,
+    padding: '10px 12px',
+    fontSize: 14,
+    width: '100%',
+    fontFamily: 'inherit',
+    color: '#1d1d1f'
+  };
+  return /*#__PURE__*/React.createElement(Sheet, {
+    onClose: onClose,
+    title: /*#__PURE__*/React.createElement("span", null, "\u0440\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C ", /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontStyle: 'italic',
+        color: '#FF375F'
+      }
+    }, "\u0434\u0435\u043D\u044C"))
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      letterSpacing: '0.2em',
+      textTransform: 'uppercase',
+      color: '#86868B',
+      marginBottom: 16
+    }
+  }, "\u041D\u0435\u0434\u0435\u043B\u044F ", week, " \xB7 ", days[di]), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 16
+    }
+  }, /*#__PURE__*/React.createElement(Fld, {
+    label: "\u0422\u0438\u043F"
+  }, /*#__PURE__*/React.createElement(TypePicker, {
+    value: form.type,
+    onChange: function onChange(t) {
+      return setForm(function (p) {
+        return Object.assign({}, p, {
+          type: t
+        });
+      });
+    },
+    includeRest: true
+  })), /*#__PURE__*/React.createElement(Fld, {
+    label: "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435"
+  }, /*#__PURE__*/React.createElement("input", {
+    value: form.title,
+    onChange: function onChange(e) {
+      return setForm(function (p) {
+        return Object.assign({}, p, {
+          title: e.target.value
+        });
+      });
+    },
+    style: inp
+  })), /*#__PURE__*/React.createElement(Fld, {
+    label: "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435"
+  }, /*#__PURE__*/React.createElement("textarea", {
+    value: form.detail,
+    onChange: function onChange(e) {
+      return setForm(function (p) {
+        return Object.assign({}, p, {
+          detail: e.target.value
+        });
+      });
+    },
+    style: Object.assign({}, inp, {
+      height: 100,
+      resize: 'none'
+    })
+  })), /*#__PURE__*/React.createElement(Fld, {
+    label: "\u0414\u043B\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C \u043C\u0438\u043D"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    value: form.duration,
+    onChange: function onChange(e) {
+      return setForm(function (p) {
+        return Object.assign({}, p, {
+          duration: e.target.value
+        });
+      });
+    },
+    style: inp
+  })), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return onSave({
+        type: form.type,
+        title: form.title,
+        detail: form.detail,
+        duration: form.duration === '' ? 0 : +form.duration
+      });
+    },
+    disabled: !form.title,
+    style: Object.assign({}, C.btn, {
+      opacity: form.title ? 1 : .35
+    })
+  }, "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C"), isOv && /*#__PURE__*/React.createElement("button", {
+    onClick: onReset,
+    style: {
+      width: '100%',
+      padding: 12,
+      borderRadius: 16,
+      background: '#f5f5f7',
+      color: '#86868B',
+      fontSize: 14,
+      fontWeight: 500,
+      border: 'none',
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 6
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "RotateCcw",
+    size: 14
+  }), "\u0412\u0435\u0440\u043D\u0443\u0442\u044C \u043E\u0440\u0438\u0433\u0438\u043D\u0430\u043B")));
 }
 
 // ── STATS ────────────────────────────────────────────────────────
-function StatsTab({workouts,start}){
-  const totalMin=workouts.reduce((s,w)=>s+(w.duration||0),0);
-  const days=daysBetween(start,todayISO())+1;
-  const byType=useMemo(()=>{
-    const t={};workouts.forEach(w=>{t[w.type]=(t[w.type]||0)+1;});
-    return Object.entries(t).map(([k,v])=>({type:TYPE_META[k]?.label||k,count:v,color:TYPE_META[k]?.color||'#888'}));
-  },[workouts]);
-  const weekly=useMemo(()=>{
-    const wks={};workouts.forEach(w=>{
-      const d=new Date(w.date);d.setDate(d.getDate()-d.getDay()+(d.getDay()===0?-6:1));
-      const k=d.toISOString().split('T')[0];wks[k]=(wks[k]||0)+(w.duration||0);
+function StatsTab(_ref18) {
+  var workouts = _ref18.workouts,
+    start = _ref18.start;
+  var totalMin = workouts.reduce(function (s, w) {
+    return s + (w.duration || 0);
+  }, 0);
+  var days = daysBetween(start, todayISO()) + 1;
+  var byType = useMemo(function () {
+    var t = {};
+    workouts.forEach(function (w) {
+      t[w.type] = (t[w.type] || 0) + 1;
     });
-    return Object.entries(wks).sort().slice(-8).map(([d,v])=>({week:fmtDate(d),minutes:v}));
-  },[workouts]);
-  const prs=useMemo(()=>{
-    const m={};workouts.forEach(w=>{w.exercises?.forEach(ex=>{if(!m[ex.type])m[ex.type]=[];m[ex.type].push({...ex,date:w.date});});});
-    return Object.entries(m).map(([type,entries])=>{
-      const best={};['reps','distance','weight'].forEach(f=>{const vs=entries.map(e=>e[f]).filter(v=>v!=null);if(vs.length)best[f]=Math.max(...vs);});
-      const ts=entries.map(e=>e.time).filter(Boolean);if(ts.length)best.time=ts.sort()[0];
-      return{type,latest:entries[entries.length-1],best,count:entries.length};
+    return Object.entries(t).map(function (_ref19) {
+      var _ref20 = _slicedToArray(_ref19, 2),
+        k = _ref20[0],
+        v = _ref20[1];
+      return {
+        type: TYPE_META[k] && TYPE_META[k].label || k,
+        count: v,
+        color: TYPE_META[k] && TYPE_META[k].color || '#888'
+      };
     });
-  },[workouts]);
-
-  const sc=(v,l,acc)=>(
-    <div style={{borderRadius:24,padding:16,background:acc?'linear-gradient(135deg,#FFF5F8,#FFEEF4)':'#fff',border:`1px solid ${acc?'rgba(255,55,95,.12)':'rgba(0,0,0,.04)'}`,boxShadow:'0 1px 2px rgba(0,0,0,.02)'}}>
-      <div style={{fontSize:10,letterSpacing:'0.15em',textTransform:'uppercase',color:'#86868B'}}>{l}</div>
-      <div className="serif" style={{fontSize:40,marginTop:6,color:acc?'#FF375F':'#1d1d1f'}}>{v}</div>
-    </div>
-  );
-
-  return(
-    <div style={{padding:'8px 24px 0',display:'flex',flexDirection:'column',gap:16}} className="fu">
-      <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8}}>
-        {sc(workouts.length,'Тренировок',true)}
-        {sc(Math.round(totalMin/60),'Часов',false)}
-        {sc(days,'Дней',false)}
-      </div>
-      {weekly.length>0&&(
-        <div className="card" style={{padding:20}}>
-          <div className="si" style={{fontSize:17,marginBottom:12}}>объём по неделям</div>
-          <ResponsiveContainer width="100%" height={170}>
-            <BarChart data={weekly}>
-              <defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#FF375F"/><stop offset="100%" stopColor="#FF6B9D"/></linearGradient></defs>
-              <CartesianGrid strokeDasharray="2 4" stroke="#f2f2f7" vertical={false}/>
-              <XAxis dataKey="week" stroke="#a0a0a8" fontSize={10}/>
-              <YAxis stroke="#a0a0a8" fontSize={10}/>
-              <Tooltip contentStyle={{background:'#fff',border:'1px solid rgba(0,0,0,.06)',borderRadius:12,fontSize:12}} cursor={{fill:'#FFE5EC'}}/>
-              <Bar dataKey="minutes" fill="url(#pg)" radius={[8,8,0,0]}/>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      )}
-      {byType.length>0&&(
-        <div className="card" style={{padding:20}}>
-          <div className="si" style={{fontSize:17,marginBottom:14}}>по типам</div>
-          {byType.sort((a,b)=>b.count-a.count).map(t=>(
-            <div key={t.type} style={{marginBottom:12}}>
-              <div style={{display:'flex',justifyContent:'space-between',fontSize:13,marginBottom:6}}>
-                <span>{t.type}</span><span className="mono" style={{color:'#86868B'}}>{t.count}</span>
-              </div>
-              <div style={{height:6,background:'#f2f2f7',borderRadius:3,overflow:'hidden'}}>
-                <div style={{height:'100%',borderRadius:3,background:t.color,width:`${(t.count/workouts.length)*100}%`}}/>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-      {prs.length>0&&(
-        <div className="card" style={{padding:20}}>
-          <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:14}}>
-            <Icon name="Trophy" size={16} stroke="#FF375F"/>
-            <div className="si" style={{fontSize:17}}>личные рекорды</div>
-          </div>
-          {prs.map(p=>{
-            const m=EXERCISES[p.type];
-            return(
-              <div key={p.type} style={{paddingBottom:12,marginBottom:12,borderBottom:'1px solid #f5f5f7'}}>
-                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
-                  <div style={{display:'flex',alignItems:'center',gap:6,fontSize:14,fontWeight:500}}><span>{m?.emoji}</span>{m?.name}</div>
-                  <span style={{fontSize:10,color:'#86868B'}}>{p.count} замер{p.count===1?'':p.count<5?'а':'ов'}</span>
-                </div>
-                <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
-                  {p.best.distance!=null&&<PRBadge l="макс м" v={p.best.distance}/>}
-                  {p.best.reps!=null&&<PRBadge l="макс раз" v={p.best.reps}/>}
-                  {p.best.weight!=null&&<PRBadge l="макс кг" v={p.best.weight}/>}
-                  {p.best.time&&<PRBadge l="лучшее" v={p.best.time}/>}
-                </div>
-                <div style={{fontSize:10,color:'#86868B',marginTop:6}}>последний: {fmtEx(p.latest)} · {fmtDate(p.latest.date)}</div>
-              </div>
-            );
-          })}
-        </div>
-      )}
-      {workouts.length===0&&(
-        <div style={{textAlign:'center',padding:'48px 0'}}>
-          <div style={{width:64,height:64,borderRadius:20,background:'linear-gradient(135deg,#FFE5EC,#FFF0F5)',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 12px'}}>
-            <Icon name="BarChart3" size={28} stroke="#FF375F"/>
-          </div>
-          <div className="si" style={{fontSize:20,marginBottom:4}}>статистика появится</div>
-          <div style={{fontSize:13,color:'#86868B'}}>после первой залогированной тренировки</div>
-        </div>
-      )}
-    </div>
-  );
+  }, [workouts]);
+  var weekly = useMemo(function () {
+    var wks = {};
+    workouts.forEach(function (w) {
+      var d = new Date(w.date);
+      d.setDate(d.getDate() - d.getDay() + (d.getDay() === 0 ? -6 : 1));
+      var k = d.toISOString().split('T')[0];
+      wks[k] = (wks[k] || 0) + (w.duration || 0);
+    });
+    return Object.entries(wks).sort().slice(-8).map(function (_ref21) {
+      var _ref22 = _slicedToArray(_ref21, 2),
+        d = _ref22[0],
+        v = _ref22[1];
+      return {
+        week: fmtDate(d),
+        minutes: v
+      };
+    });
+  }, [workouts]);
+  var prs = useMemo(function () {
+    var m = {};
+    workouts.forEach(function (w) {
+      if (w.exercises) w.exercises.forEach(function (ex) {
+        if (!m[ex.type]) m[ex.type] = [];
+        m[ex.type].push(Object.assign({}, ex, {
+          date: w.date
+        }));
+      });
+    });
+    return Object.entries(m).map(function (_ref23) {
+      var _ref24 = _slicedToArray(_ref23, 2),
+        type = _ref24[0],
+        entries = _ref24[1];
+      var best = {};
+      ['reps', 'distance', 'weight'].forEach(function (f) {
+        var vs = entries.map(function (e) {
+          return e[f];
+        }).filter(function (v) {
+          return v != null;
+        });
+        if (vs.length) best[f] = Math.max.apply(null, vs);
+      });
+      var ts = entries.map(function (e) {
+        return e.time;
+      }).filter(Boolean);
+      if (ts.length) best.time = ts.sort()[0];
+      return {
+        type: type,
+        latest: entries[entries.length - 1],
+        best: best,
+        count: entries.length
+      };
+    });
+  }, [workouts]);
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '8px 24px 0',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(3,1fr)',
+      gap: 8
+    }
+  }, [{
+    l: 'Тренировок',
+    v: workouts.length,
+    a: true
+  }, {
+    l: 'Часов',
+    v: Math.round(totalMin / 60)
+  }, {
+    l: 'Дней',
+    v: days
+  }].map(function (s, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        borderRadius: 24,
+        padding: 16,
+        background: s.a ? 'linear-gradient(135deg,#FFF5F8,#FFEEF4)' : '#fff',
+        border: '1px solid ' + (s.a ? 'rgba(255,55,95,.12)' : 'rgba(0,0,0,.04)')
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        letterSpacing: '0.15em',
+        textTransform: 'uppercase',
+        color: '#86868B'
+      }
+    }, s.l), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: 'Instrument Serif, serif',
+        fontSize: 40,
+        marginTop: 6,
+        color: s.a ? '#FF375F' : '#1d1d1f'
+      }
+    }, s.v));
+  })), weekly.length > 0 && /*#__PURE__*/React.createElement("div", {
+    style: Object.assign({}, C.card, {
+      padding: 20
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: 'Instrument Serif, serif',
+      fontStyle: 'italic',
+      fontSize: 17,
+      marginBottom: 16
+    }
+  }, "\u043E\u0431\u044A\u0451\u043C \u043F\u043E \u043D\u0435\u0434\u0435\u043B\u044F\u043C \xB7 \u043C\u0438\u043D"), /*#__PURE__*/React.createElement(SimpleBarChart, {
+    data: weekly,
+    dataKey: "minutes",
+    xKey: "week"
+  })), byType.length > 0 && /*#__PURE__*/React.createElement("div", {
+    style: Object.assign({}, C.card, {
+      padding: 20
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: 'Instrument Serif, serif',
+      fontStyle: 'italic',
+      fontSize: 17,
+      marginBottom: 14
+    }
+  }, "\u043F\u043E \u0442\u0438\u043F\u0430\u043C"), byType.sort(function (a, b) {
+    return b.count - a.count;
+  }).map(function (t) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: t.type,
+      style: {
+        marginBottom: 12
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        fontSize: 13,
+        marginBottom: 6
+      }
+    }, /*#__PURE__*/React.createElement("span", null, t.type), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontFamily: 'DM Mono, monospace',
+        color: '#86868B'
+      }
+    }, t.count)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: 6,
+        background: '#f2f2f7',
+        borderRadius: 3,
+        overflow: 'hidden'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: '100%',
+        borderRadius: 3,
+        background: t.color,
+        width: t.count / workouts.length * 100 + '%'
+      }
+    })));
+  })), prs.length > 0 && /*#__PURE__*/React.createElement("div", {
+    style: Object.assign({}, C.card, {
+      padding: 20
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "Trophy",
+    size: 16,
+    stroke: "#FF375F"
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: 'Instrument Serif, serif',
+      fontStyle: 'italic',
+      fontSize: 17
+    }
+  }, "\u043B\u0438\u0447\u043D\u044B\u0435 \u0440\u0435\u043A\u043E\u0440\u0434\u044B")), prs.map(function (p) {
+    var em = EXERCISES[p.type];
+    return /*#__PURE__*/React.createElement("div", {
+      key: p.type,
+      style: {
+        paddingBottom: 12,
+        marginBottom: 12,
+        borderBottom: '1px solid #f5f5f7'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 8
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 6,
+        fontSize: 14,
+        fontWeight: 500
+      }
+    }, /*#__PURE__*/React.createElement("span", null, em && em.emoji), em && em.name), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 10,
+        color: '#86868B'
+      }
+    }, p.count, " \u0437\u0430\u043C\u0435\u0440", p.count === 1 ? '' : p.count < 5 ? 'а' : 'ов')), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 6
+      }
+    }, p.best.distance != null && /*#__PURE__*/React.createElement("span", {
+      style: {
+        padding: '3px 8px',
+        borderRadius: 8,
+        background: '#FFF5F8',
+        fontSize: 11,
+        color: '#FF375F',
+        fontFamily: 'DM Mono, monospace'
+      }
+    }, "\u043C\u0430\u043A\u0441 ", p.best.distance, "\u043C"), p.best.reps != null && /*#__PURE__*/React.createElement("span", {
+      style: {
+        padding: '3px 8px',
+        borderRadius: 8,
+        background: '#FFF5F8',
+        fontSize: 11,
+        color: '#FF375F',
+        fontFamily: 'DM Mono, monospace'
+      }
+    }, "\u043C\u0430\u043A\u0441 ", p.best.reps, "\u0440\u0430\u0437"), p.best.weight != null && /*#__PURE__*/React.createElement("span", {
+      style: {
+        padding: '3px 8px',
+        borderRadius: 8,
+        background: '#FFF5F8',
+        fontSize: 11,
+        color: '#FF375F',
+        fontFamily: 'DM Mono, monospace'
+      }
+    }, "\u043C\u0430\u043A\u0441 ", p.best.weight, "\u043A\u0433"), p.best.time && /*#__PURE__*/React.createElement("span", {
+      style: {
+        padding: '3px 8px',
+        borderRadius: 8,
+        background: '#FFF5F8',
+        fontSize: 11,
+        color: '#FF375F',
+        fontFamily: 'DM Mono, monospace'
+      }
+    }, "\u043B\u0443\u0447\u0448\u0435\u0435 ", p.best.time)));
+  })), workouts.length === 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: 'center',
+      padding: '48px 0',
+      color: '#86868B',
+      fontFamily: 'Instrument Serif, serif',
+      fontStyle: 'italic',
+      fontSize: 18
+    }
+  }, "\u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0430 \u043F\u043E\u044F\u0432\u0438\u0442\u0441\u044F \u043F\u043E\u0441\u043B\u0435 \u043F\u0435\u0440\u0432\u043E\u0439 \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0438"));
 }
-function PRBadge({l,v}){return<div style={{display:'inline-flex',alignItems:'center',gap:5,padding:'4px 10px',borderRadius:8,background:'#FFF5F8'}}><span style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.1em',color:'#86868B'}}>{l}</span><span className="mono" style={{fontSize:12,fontWeight:600,color:'#FF375F'}}>{v}</span></div>;}
 
 // ── GUIDE ────────────────────────────────────────────────────────
-function GuideTab(){
-  const [active,setActive]=useState('stations');
-  const tabs=[{id:'stations',label:'Станции'},{id:'tips',label:'Советы'},{id:'race',label:'Гонка'}];
-  return(
-    <div style={{padding:'8px 24px 0',display:'flex',flexDirection:'column',gap:16}} className="fu">
-      <div style={{display:'flex',gap:4,padding:6,borderRadius:18,background:'#f2f2f7'}}>
-        {tabs.map(t=>(
-          <button key={t.id} onClick={()=>setActive(t.id)} style={{flex:1,padding:'8px 0',borderRadius:12,fontSize:12,fontWeight:500,
-            background:active===t.id?'#fff':'transparent',color:active===t.id?'#FF375F':'#86868B',
-            boxShadow:active===t.id?'0 1px 4px rgba(0,0,0,.06)':'none'}}>
-            {t.label}
-          </button>
-        ))}
-      </div>
-      {active==='stations'&&(
-        <div style={{display:'flex',flexDirection:'column',gap:12}}>
-          <div className="si" style={{fontSize:14,color:'#86868B',padding:'0 4px'}}>все станции · women open</div>
-          {STATIONS.map((s,i)=>(
-            <div key={s.name} className="card" style={{padding:20}}>
-              <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:12}}>
-                <div style={{display:'flex',alignItems:'center',gap:10}}>
-                  <div className="mono" style={{fontSize:10,padding:'2px 8px',borderRadius:6,background:'#FFE5EC',color:'#FF375F',fontWeight:500}}>{String(i+1).padStart(2,'0')}</div>
-                  <div className="serif" style={{fontSize:22}}>{s.name}</div>
-                </div>
-                <div style={{textAlign:'right'}}><div style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.1em',color:'#86868B'}}>цель</div><div className="mono" style={{fontSize:11}}>{s.target}</div></div>
-              </div>
-              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:12}}>
-                {[['Дистанция',s.distance],['Вес',s.weight]].map(([l,v])=>(
-                  <div key={l} style={{padding:'8px 12px',borderRadius:12,background:'#fafafa'}}>
-                    <div style={{fontSize:9,textTransform:'uppercase',letterSpacing:'0.1em',color:'#86868B'}}>{l}</div>
-                    <div className="mono" style={{fontSize:12,marginTop:2}}>{v}</div>
-                  </div>
-                ))}
-              </div>
-              <div style={{display:'flex',flexDirection:'column',gap:8}}>
-                <div style={{display:'flex',gap:10}}>
-                  <div style={{width:20,height:20,borderRadius:'50%',background:'#FFE5EC',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,fontSize:11,color:'#FF375F'}}>✓</div>
-                  <div style={{fontSize:12,color:'#3c3c43',lineHeight:1.55}}><span style={{fontWeight:500,color:'#FF375F'}}>техника. </span>{s.tip}</div>
-                </div>
-                <div style={{display:'flex',gap:10}}>
-                  <div style={{width:20,height:20,borderRadius:'50%',background:'#FFF3F0',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,fontSize:11,color:'#FF9F7A'}}>×</div>
-                  <div style={{fontSize:12,color:'#6e6e73',lineHeight:1.55}}><span style={{fontWeight:500,color:'#FF9F7A'}}>ошибка. </span>{s.mistake}</div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-      {active==='tips'&&(
-        <div style={{display:'flex',flexDirection:'column',gap:12}}>
-          {TIPS.map((t,i)=>(
-            <div key={i} className="card" style={{padding:16,display:'flex',gap:14}}>
-              <div style={{width:40,height:40,borderRadius:16,background:'linear-gradient(135deg,#FFE5EC,#FFF0F5)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
-                <Icon name={t.icon} size={18} stroke="#FF375F"/>
-              </div>
-              <div>
-                <div className="serif" style={{fontSize:17,lineHeight:1.2}}>{t.title}</div>
-                <div style={{fontSize:12,color:'#6e6e73',lineHeight:1.55,marginTop:4}}>{t.text}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-      {active==='race'&&(
-        <div style={{display:'flex',flexDirection:'column',gap:12}}>
-          {[
-            {title:'за неделю до',items:['Снизь объём на 40–50%','Углеводы — добавь к рациону','Сон 8–9 часов','Никаких новых блюд','Прогон станций в лёгком темпе']},
-            {title:'за день до',items:['Минимальная активность','Carb load — паста, рис, картофель','Литр воды + электролиты','Сложи сумку: форма, обувь, гели','Спать в 22:00']},
-            {title:'утро гонки',items:['Завтрак за 2.5–3 часа до старта','Овсянка + банан + кофе','500мл воды за 1 час','Разминка 15 мин: бег + динамика','Дыхание: 4 сек вдох, 6 выдох']},
-            {title:'на гонке',items:['Первый км — НЕ быстро','Sled push: упор и шаги','Перед wall balls — глубокий вдох','Гели каждые 30–40 мин','Финиш — оставь силы на последние 200м']},
-          ].map(s=>(
-            <div key={s.title} className="card" style={{padding:20}}>
-              <div className="serif" style={{fontSize:22,marginBottom:12}}>{s.title}</div>
-              {s.items.map((it,i)=>(
-                <div key={i} style={{display:'flex',gap:10,marginBottom:8,fontSize:13,color:'#3c3c43',lineHeight:1.5}}>
-                  <div style={{width:6,height:6,borderRadius:'50%',background:'#FF375F',flexShrink:0,marginTop:6}}/>
-                  <div>{it}</div>
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+function GuideTab() {
+  var _useState23 = useState('stations'),
+    _useState24 = _slicedToArray(_useState23, 2),
+    active = _useState24[0],
+    setActive = _useState24[1];
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '8px 24px 0',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 4,
+      padding: 6,
+      borderRadius: 18,
+      background: '#f2f2f7'
+    }
+  }, [{
+    id: 'stations',
+    l: 'Станции'
+  }, {
+    id: 'tips',
+    l: 'Советы'
+  }, {
+    id: 'race',
+    l: 'Гонка'
+  }].map(function (t) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: t.id,
+      onClick: function onClick() {
+        return setActive(t.id);
+      },
+      style: {
+        flex: 1,
+        padding: '8px 0',
+        borderRadius: 12,
+        fontSize: 12,
+        fontWeight: 500,
+        background: active === t.id ? '#fff' : 'transparent',
+        color: active === t.id ? '#FF375F' : '#86868B',
+        border: 'none',
+        cursor: 'pointer',
+        boxShadow: active === t.id ? '0 1px 4px rgba(0,0,0,.06)' : 'none'
+      }
+    }, t.l);
+  })), active === 'stations' && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 12
+    }
+  }, STATIONS.map(function (s, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: s.name,
+      style: Object.assign({}, C.card, {
+        padding: 20
+      })
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        marginBottom: 12
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        padding: '2px 8px',
+        borderRadius: 6,
+        background: '#FFE5EC',
+        color: '#FF375F',
+        fontWeight: 500,
+        fontFamily: 'DM Mono, monospace'
+      }
+    }, String(i + 1).padStart(2, '0')), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: 'Instrument Serif, serif',
+        fontSize: 22
+      }
+    }, s.name)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: 'right',
+        fontSize: 11,
+        fontFamily: 'DM Mono, monospace'
+      }
+    }, s.target)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: 8,
+        marginBottom: 12
+      }
+    }, [['Дистанция', s.distance], ['Вес', s.weight]].map(function (_ref25) {
+      var _ref26 = _slicedToArray(_ref25, 2),
+        l = _ref26[0],
+        v = _ref26[1];
+      return /*#__PURE__*/React.createElement("div", {
+        key: l,
+        style: {
+          padding: '8px 12px',
+          borderRadius: 12,
+          background: '#fafafa'
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 9,
+          textTransform: 'uppercase',
+          color: '#86868B'
+        }
+      }, l), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontFamily: 'DM Mono, monospace',
+          fontSize: 12,
+          marginTop: 2
+        }
+      }, v));
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 8
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        gap: 10
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 20,
+        height: 20,
+        borderRadius: '50%',
+        background: '#FFE5EC',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0,
+        fontSize: 11,
+        color: '#FF375F'
+      }
+    }, "\u2713"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        color: '#3c3c43',
+        lineHeight: 1.55
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontWeight: 500,
+        color: '#FF375F'
+      }
+    }, "\u0442\u0435\u0445\u043D\u0438\u043A\u0430. "), s.tip)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        gap: 10
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 20,
+        height: 20,
+        borderRadius: '50%',
+        background: '#FFF3F0',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0,
+        fontSize: 11,
+        color: '#FF9F7A'
+      }
+    }, "\xD7"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        color: '#6e6e73',
+        lineHeight: 1.55
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontWeight: 500,
+        color: '#FF9F7A'
+      }
+    }, "\u043E\u0448\u0438\u0431\u043A\u0430. "), s.mistake))));
+  })), active === 'tips' && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 12
+    }
+  }, TIPS.map(function (t, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: Object.assign({}, C.card, {
+        padding: 16,
+        display: 'flex',
+        gap: 14
+      })
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 40,
+        height: 40,
+        borderRadius: 16,
+        background: 'linear-gradient(135deg,#FFE5EC,#FFF0F5)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: t.icon,
+      size: 18,
+      stroke: "#FF375F"
+    })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: 'Instrument Serif, serif',
+        fontSize: 17
+      }
+    }, t.title), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        color: '#6e6e73',
+        lineHeight: 1.55,
+        marginTop: 4
+      }
+    }, t.text)));
+  })), active === 'race' && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 12
+    }
+  }, [{
+    title: 'за неделю до',
+    items: ['Снизь объём на 40–50%', 'Углеводы — добавь к рациону', 'Сон 8–9 часов', 'Никаких новых блюд', 'Прогон станций в лёгком темпе']
+  }, {
+    title: 'за день до',
+    items: ['Минимальная активность', 'Carb load — паста, рис, картофель', 'Литр воды + электролиты', 'Сложи сумку: форма, обувь, гели', 'Спать в 22:00']
+  }, {
+    title: 'утро гонки',
+    items: ['Завтрак за 2.5–3 часа', 'Овсянка + банан + кофе', '500мл воды за 1 час', 'Разминка 15 мин: бег + динамика', 'Дыхание: 4 сек вдох, 6 выдох']
+  }, {
+    title: 'на гонке',
+    items: ['Первый км — НЕ быстро', 'Sled push: упор и шаги', 'Перед wall balls — глубокий вдох', 'Гели каждые 30–40 мин', 'Финиш — оставь силы на последние 200м']
+  }].map(function (s) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: s.title,
+      style: Object.assign({}, C.card, {
+        padding: 20
+      })
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: 'Instrument Serif, serif',
+        fontSize: 22,
+        marginBottom: 12
+      }
+    }, s.title), s.items.map(function (it, i) {
+      return /*#__PURE__*/React.createElement("div", {
+        key: i,
+        style: {
+          display: 'flex',
+          gap: 10,
+          marginBottom: 8,
+          fontSize: 13,
+          color: '#3c3c43',
+          lineHeight: 1.5
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          width: 6,
+          height: 6,
+          borderRadius: '50%',
+          background: '#FF375F',
+          flexShrink: 0,
+          marginTop: 6
+        }
+      }), /*#__PURE__*/React.createElement("div", null, it));
+    }));
+  })));
 }
 
 // ── INIT ─────────────────────────────────────────────────────────
-if(window.Telegram?.WebApp){
-  const tg=window.Telegram.WebApp;
-  tg.ready();tg.expand();
-  tg.setHeaderColor?.('#FFFFFF');
-  tg.setBackgroundColor?.('#FFFFFF');
-}
-const root=ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App/>);
+try {
+  if (window.Telegram && window.Telegram.WebApp) {
+    var tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
+    if (tg.setHeaderColor) tg.setHeaderColor('#FFFFFF');
+    if (tg.setBackgroundColor) tg.setBackgroundColor('#FFFFFF');
+  }
+} catch (e) {}
+var container = document.getElementById('root');
+var root = ReactDOM.createRoot(container);
+root.render(React.createElement(App));
+
 </script>
 </body>
 </html>
