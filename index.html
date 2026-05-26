@@ -20,39 +20,90 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js" crossorigin></script>
 <script>
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-var _excluded = ["name"];
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
-function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 var _React = React,
   useState = _React.useState,
   useEffect = _React.useEffect,
   useMemo = _React.useMemo,
-  useRef = _React.useRef;
+  useRef = _React.useRef,
+  useCallback = _React.useCallback;
+
+// ── CONFIG ───────────────────────────────────────────────────────
+var SB_URL = 'https://laljixicigqgckadgzfu.supabase.co';
+var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxhbGppeGljaWdxZ2NrYWRnemZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk3Nzg0NzcsImV4cCI6MjA5NTM1NDQ3N30.iG-zzyf4ydgdpl4zTa6HWqc4qvEQ6sngcO-zCy6OTGg';
+var getUserId = function getUserId() {
+  try {
+    return window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user && window.Telegram.WebApp.initDataUnsafe.user.id || 1;
+  } catch (e) {
+    return 1;
+  }
+};
+var SB_HEADERS = {
+  'apikey': SB_KEY,
+  'Authorization': 'Bearer ' + SB_KEY,
+  'Content-Type': 'application/json'
+};
+var sb = {
+  get: function get(table, query) {
+    var qs = Object.entries(query).map(function (e) {
+      return e[0] + '=' + e[1];
+    }).join('&');
+    return fetch(SB_URL + '/rest/v1/' + table + '?' + qs, {
+      headers: SB_HEADERS
+    }).then(function (r) {
+      return r.json();
+    });
+  },
+  upsert: function upsert(table, data) {
+    return fetch(SB_URL + '/rest/v1/' + table, {
+      method: 'POST',
+      headers: Object.assign({}, SB_HEADERS, {
+        'Prefer': 'resolution=merge-duplicates,return=minimal'
+      }),
+      body: JSON.stringify(data)
+    });
+  },
+  insert: function insert(table, data) {
+    return fetch(SB_URL + '/rest/v1/' + table, {
+      method: 'POST',
+      headers: Object.assign({}, SB_HEADERS, {
+        'Prefer': 'return=representation'
+      }),
+      body: JSON.stringify(data)
+    }).then(function (r) {
+      return r.json();
+    });
+  },
+  del: function del(table, query) {
+    var qs = Object.entries(query).map(function (e) {
+      return e[0] + '=' + e[1];
+    }).join('&');
+    return fetch(SB_URL + '/rest/v1/' + table + '?' + qs, {
+      method: 'DELETE',
+      headers: SB_HEADERS
+    });
+  }
+};
 
 // ── ICONS ────────────────────────────────────────────────────────
 function Ic(_ref) {
   var paths = _ref.paths,
-    _ref$size = _ref.size,
-    size = _ref$size === void 0 ? 20 : _ref$size,
-    _ref$stroke = _ref.stroke,
-    stroke = _ref$stroke === void 0 ? 'currentColor' : _ref$stroke,
-    _ref$sw = _ref.sw,
-    sw = _ref$sw === void 0 ? 1.8 : _ref$sw,
+    size = _ref.size,
+    stroke = _ref.stroke,
+    sw = _ref.sw,
     style = _ref.style;
+  size = size || 20;
+  stroke = stroke || 'currentColor';
+  sw = sw || 1.8;
   return /*#__PURE__*/React.createElement("svg", {
     width: size,
     height: size,
@@ -93,7 +144,7 @@ var ICONS = {
   },
   AI: function AI(p) {
     return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
-      paths: ["m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z", "M5 3v4", "M19 17v4", "M3 5h4", "M17 19h4"]
+      paths: ["m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"]
     }));
   },
   Check: function Check(p) {
@@ -141,9 +192,9 @@ var ICONS = {
       paths: ["M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z", "M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0-6 0"]
     }));
   },
-  Clock: function Clock(p) {
+  Cloud: function Cloud(p) {
     return /*#__PURE__*/React.createElement(Ic, _extends({}, p, {
-      paths: ["M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z", "M12 6v6l4 2"]
+      paths: ["M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"]
     }));
   },
   Sparkles: function Sparkles(p) {
@@ -152,11 +203,12 @@ var ICONS = {
     }));
   }
 };
-function Icon(_ref2) {
-  var name = _ref2.name,
-    p = _objectWithoutProperties(_ref2, _excluded);
+function Icon(props) {
+  var name = props.name;
+  var rest = Object.assign({}, props);
+  delete rest.name;
   var C = ICONS[name];
-  return C ? React.createElement(C, p) : null;
+  return C ? C(rest) : null;
 }
 
 // ── CONSTANTS ────────────────────────────────────────────────────
@@ -189,37 +241,144 @@ var addDays = function addDays(isoDate, n) {
 var daysBetween = function daysBetween(d1, d2) {
   return Math.floor((new Date(d2) - new Date(d1)) / 86400000);
 };
-var WHOOP_FIELDS = [{
-  key: 'recovery',
-  label: 'Recovery',
-  unit: '%',
-  color: '#34C759'
-}, {
-  key: 'hrv',
-  label: 'HRV',
-  unit: 'ms',
-  color: '#007AFF'
-}, {
-  key: 'rhr',
-  label: 'Rest HR',
-  unit: 'bpm',
-  color: P
-}, {
-  key: 'sleepScore',
-  label: 'Sleep %',
-  unit: '%',
-  color: '#AF52DE'
-}, {
-  key: 'sleepDuration',
-  label: 'Сон ч',
-  unit: 'h',
-  color: '#5856D6'
-}, {
-  key: 'strain',
-  label: 'Strain',
-  unit: '/21',
-  color: '#FF9500'
-}];
+var DEVICE_FIELDS = {
+  whoop: [{
+    key: 'recovery',
+    label: 'Recovery',
+    unit: '%',
+    color: '#34C759'
+  }, {
+    key: 'hrv',
+    label: 'HRV',
+    unit: 'ms',
+    color: '#007AFF'
+  }, {
+    key: 'rhr',
+    label: 'Rest HR',
+    unit: 'bpm',
+    color: P
+  }, {
+    key: 'sleepScore',
+    label: 'Sleep Score',
+    unit: '%',
+    color: '#AF52DE'
+  }, {
+    key: 'sleepDuration',
+    label: 'Сон ч',
+    unit: 'h',
+    color: '#5856D6'
+  }, {
+    key: 'strain',
+    label: 'Strain',
+    unit: '/21',
+    color: '#FF9500'
+  }],
+  oura: [{
+    key: 'readiness',
+    label: 'Readiness',
+    unit: '%',
+    color: '#34C759'
+  }, {
+    key: 'hrv',
+    label: 'HRV',
+    unit: 'ms',
+    color: '#007AFF'
+  }, {
+    key: 'rhr',
+    label: 'Rest HR',
+    unit: 'bpm',
+    color: P
+  }, {
+    key: 'sleepScore',
+    label: 'Sleep Score',
+    unit: '%',
+    color: '#AF52DE'
+  }, {
+    key: 'sleepDuration',
+    label: 'Сон ч',
+    unit: 'h',
+    color: '#5856D6'
+  }, {
+    key: 'deepSleep',
+    label: 'Deep Sleep',
+    unit: 'h',
+    color: '#5856D6'
+  }, {
+    key: 'tempDev',
+    label: 'Темп. откл.',
+    unit: '°C',
+    color: '#FF9500'
+  }, {
+    key: 'activityScore',
+    label: 'Activity',
+    unit: 'pts',
+    color: '#FF6B9D'
+  }],
+  manual: [{
+    key: 'hrv',
+    label: 'HRV',
+    unit: 'ms',
+    color: '#007AFF'
+  }, {
+    key: 'rhr',
+    label: 'Rest HR',
+    unit: 'bpm',
+    color: P
+  }, {
+    key: 'sleepDuration',
+    label: 'Сон ч',
+    unit: 'h',
+    color: '#5856D6'
+  }, {
+    key: 'deepSleep',
+    label: 'Deep Sleep',
+    unit: 'h',
+    color: '#5856D6'
+  }, {
+    key: 'energy',
+    label: 'Энергия',
+    unit: '/10',
+    color: '#34C759'
+  }, {
+    key: 'stress',
+    label: 'Стресс',
+    unit: '/10',
+    color: '#FF9500'
+  }, {
+    key: 'mood',
+    label: 'Настроение',
+    unit: '/10',
+    color: '#FF6B9D'
+  }, {
+    key: 'soreness',
+    label: 'Крепатура',
+    unit: '/10',
+    color: '#FF375F'
+  }]
+};
+var DEVICE_META = {
+  whoop: {
+    label: 'WHOOP',
+    emoji: '⌚',
+    recKey: 'recovery',
+    recLabel: 'Recovery'
+  },
+  oura: {
+    label: 'Oura',
+    emoji: '💍',
+    recKey: 'readiness',
+    recLabel: 'Readiness'
+  },
+  manual: {
+    label: 'Вручную',
+    emoji: '✍️',
+    recKey: 'energy',
+    recLabel: 'Энергия'
+  }
+};
+
+// Keep WHOOP_FIELDS for backward compat in stats
+var WHOOP_FIELDS = DEVICE_FIELDS.whoop;
 var PROTOCOLS = [{
   key: 'sauna',
   label: 'Сауна',
@@ -387,7 +546,7 @@ var HYROX_EXERCISES = [{
   }]
 }, {
   key: 'burpees',
-  name: 'Burpee B.Jumps',
+  name: 'Burpee Jumps',
   emoji: '🤸',
   fields: [{
     k: 'distance',
@@ -430,7 +589,7 @@ var HYROX_EXERCISES = [{
   }]
 }, {
   key: 'sandbag',
-  name: 'Sandbag Lunges',
+  name: 'Sandbag',
   emoji: '🎒',
   fields: [{
     k: 'distance',
@@ -463,7 +622,7 @@ var HYROX_EXERCISES = [{
     ph: '5:30'
   }]
 }, {
-  key: 'run',
+  key: 'run_1k',
   name: 'Бег 1000м',
   emoji: '🏃',
   fields: [{
@@ -500,7 +659,7 @@ var NUT_FIELDS = [{
   color: '#34C759'
 }];
 
-// Program
+// 20-week program (full)
 var PROGRAM = [{
   week: 1,
   phase: 'Фундамент',
@@ -533,7 +692,7 @@ var PROGRAM = [{
     day: 'ПТ',
     type: 'hyrox',
     title: 'Hyrox техника B',
-    detail: '3 станции × 3 раунда: Гребля 250м • Burpees 10 • Sandbag 20м',
+    detail: '3 × 3: Гребля 250м • Burpees 10 • Sandbag 20м',
     duration: 50
   }, {
     day: 'СБ',
@@ -556,7 +715,7 @@ var PROGRAM = [{
     day: 'ПН',
     type: 'hyrox',
     title: 'Hyrox техника A',
-    detail: '3 станции × 3 раунда: SkiErg 300м • Wall balls 18 • Farmers 50м',
+    detail: '3 × 3: SkiErg 300м • Wall balls 18 • Farmers 50м',
     duration: 50
   }, {
     day: 'ВТ',
@@ -567,7 +726,7 @@ var PROGRAM = [{
   }, {
     day: 'СР',
     type: 'strength',
-    title: 'Сила: нижняя + кор',
+    title: 'Сила нижняя + кор',
     detail: 'Приседания 4×8 • Выпады 3×12 • Румынская тяга 3×10',
     duration: 45
   }, {
@@ -603,19 +762,19 @@ var PROGRAM = [{
     day: 'ПН',
     type: 'hyrox',
     title: 'Hyrox 4 станции',
-    detail: '4 станции × 2 раунда: SkiErg 300м • Sled push 25м • Wall balls 15 • Гребля 300м',
+    detail: '4 × 2: SkiErg 300м • Sled push 25м • Wall balls 15 • Гребля 300м',
     duration: 55
   }, {
     day: 'ВТ',
     type: 'run',
     title: 'Бег Zone 2',
-    detail: '35 мин, пульс 130-145.',
+    detail: '35 мин.',
     duration: 35
   }, {
     day: 'СР',
     type: 'strength',
     title: 'Сила фулбоди',
-    detail: 'Приседания 4×8 • Жим стоя 3×10 • Тяга 3×10 • Планка',
+    detail: 'Приседания 4×8 • Жим стоя 3×10 • Тяга 3×10',
     duration: 50
   }, {
     day: 'ЧТ',
@@ -656,12 +815,12 @@ var PROGRAM = [{
     day: 'ВТ',
     type: 'run',
     title: 'Бег Zone 2',
-    detail: '40 мин, пульс 130-145.',
+    detail: '40 мин.',
     duration: 40
   }, {
     day: 'СР',
     type: 'strength',
-    title: 'Сила: нижняя + кор',
+    title: 'Сила нижняя + кор',
     detail: 'Приседания 4×8 • Выпады 3×10 • Планка',
     duration: 45
   }, {
@@ -697,7 +856,7 @@ var PROGRAM = [{
     day: 'ПН',
     type: 'hyrox',
     title: 'Compromised run',
-    detail: '4 × (400м бег + станция). Wall balls 20 / SkiErg 200м / Burpees 10.',
+    detail: '4 × (400м + станция). Wall balls 20 / SkiErg 200м / Burpees 10.',
     duration: 55
   }, {
     day: 'ВТ',
@@ -709,7 +868,7 @@ var PROGRAM = [{
     day: 'СР',
     type: 'strength',
     title: 'Сила фулбоди',
-    detail: 'Приседания 4×6 • Жим 4×8 • Тяга 4×8 • Подтягивания',
+    detail: 'Приседания 4×6 • Жим 4×8 • Тяга 4×8',
     duration: 55
   }, {
     day: 'ЧТ',
@@ -721,7 +880,7 @@ var PROGRAM = [{
     day: 'ПТ',
     type: 'hyrox',
     title: 'Hyrox 6 станций',
-    detail: '2 раунда: SkiErg 500м • Sled push • Sled pull • Burpees • Гребля 500м • Wall balls 25',
+    detail: '2 раунда полных станций.',
     duration: 60
   }, {
     day: 'СБ',
@@ -744,7 +903,7 @@ var PROGRAM = [{
     day: 'ПН',
     type: 'hyrox',
     title: 'Compromised run',
-    detail: '4 × (400м + станция). Чередуй упражнения.',
+    detail: '4 × (400м + станция).',
     duration: 55
   }, {
     day: 'ВТ',
@@ -797,13 +956,13 @@ var PROGRAM = [{
     day: 'ВТ',
     type: 'run',
     title: 'Интервалы',
-    detail: '7 × 400м, отдых 90с.',
+    detail: '7 × 400м.',
     duration: 45
   }, {
     day: 'СР',
     type: 'strength',
     title: 'Сила фулбоди',
-    detail: 'Увеличь веса. 4×6 основные движения.',
+    detail: '4×6 основные движения.',
     duration: 55
   }, {
     day: 'ЧТ',
@@ -844,13 +1003,13 @@ var PROGRAM = [{
     day: 'ВТ',
     type: 'run',
     title: 'Интервалы',
-    detail: '8 × 400м, отдых 90с.',
+    detail: '8 × 400м.',
     duration: 48
   }, {
     day: 'СР',
     type: 'strength',
     title: 'Сила фулбоди',
-    detail: '4×6 компаунд + подтягивания 4×макс.',
+    detail: '4×6 компаунд + подтягивания.',
     duration: 55
   }, {
     day: 'ЧТ',
@@ -891,7 +1050,7 @@ var PROGRAM = [{
     day: 'ВТ',
     type: 'run',
     title: 'Интервалы',
-    detail: '8 × 400м, отдых 90с.',
+    detail: '8 × 400м.',
     duration: 48
   }, {
     day: 'СР',
@@ -938,7 +1097,7 @@ var PROGRAM = [{
     day: 'ВТ',
     type: 'run',
     title: 'Темповый бег',
-    detail: '10 мин разминка • 25 мин темп • 5 мин заминка',
+    detail: '10+25+5 мин.',
     duration: 45
   }, {
     day: 'СР',
@@ -956,7 +1115,7 @@ var PROGRAM = [{
     day: 'ПТ',
     type: 'hyrox',
     title: 'Mini Hyrox',
-    detail: '4 раунда × (400м + станция). Без отдыха.',
+    detail: '4 × (400м + станция). Без отдыха.',
     duration: 50
   }, {
     day: 'СБ',
@@ -1003,12 +1162,12 @@ var PROGRAM = [{
     day: 'ПТ',
     type: 'hyrox',
     title: 'Mini Hyrox +',
-    detail: '5 раундов × (400м + станция).',
+    detail: '5 × (400м + станция).',
     duration: 60
   }, {
     day: 'СБ',
     type: 'run',
-    title: 'Долгий лёгкий бег',
+    title: 'Долгий бег',
     detail: '58 мин Zone 2.',
     duration: 58
   }, {
@@ -1102,7 +1261,7 @@ var PROGRAM = [{
   }, {
     day: 'СБ',
     type: 'run',
-    title: 'Долгий лёгкий бег',
+    title: 'Долгий бег',
     detail: '61 мин Zone 2.',
     duration: 61
   }, {
@@ -1143,7 +1302,7 @@ var PROGRAM = [{
   }, {
     day: 'ПТ',
     type: 'hyrox',
-    title: 'Станции — слабые места',
+    title: 'Слабые станции',
     detail: 'Прокачай то, что хуже всего.',
     duration: 55
   }, {
@@ -1197,7 +1356,7 @@ var PROGRAM = [{
     day: 'СБ',
     type: 'run',
     title: 'Long + ускорения',
-    detail: '40 мин лёгко + 6 × 100м.',
+    detail: '40 мин + 6 × 100м.',
     duration: 50
   }, {
     day: 'ВС',
@@ -1284,7 +1443,7 @@ var PROGRAM = [{
   }, {
     day: 'ПТ',
     type: 'hyrox',
-    title: 'Тест персональных рекордов',
+    title: 'Тест PR',
     detail: 'Замерь время каждой станции.',
     duration: 65
   }, {
@@ -1355,7 +1514,7 @@ var PROGRAM = [{
     day: 'ПН',
     type: 'hyrox',
     title: 'Лёгкий Hyrox',
-    detail: '2 раунда: 1000м + 4 станции (50% усилий).',
+    detail: '2 раунда: 1000м + 4 станции (50%).',
     duration: 45
   }, {
     day: 'ВТ',
@@ -1458,39 +1617,6 @@ var getCWD = function getCWD(start) {
   };
 };
 
-// Storage
-var SK_HYROX = 'hyrox-v4';
-var SK_HEALTH = function SK_HEALTH(d) {
-  return 'bh:' + d;
-};
-var SK_NUT = function SK_NUT(d) {
-  return 'nut:' + d;
-};
-var SK_GOALS = 'nut-goals';
-var ls = {
-  get: function get(k) {
-    try {
-      var r = localStorage.getItem(k);
-      return r ? JSON.parse(r) : null;
-    } catch (e) {
-      return null;
-    }
-  },
-  set: function set(k, v) {
-    try {
-      localStorage.setItem(k, JSON.stringify(v));
-    } catch (e) {}
-  }
-};
-var getAllHealthDates = function getAllHealthDates() {
-  var dates = [];
-  for (var i = 0; i < localStorage.length; i++) {
-    var k = localStorage.key(i);
-    if (k && k.startsWith('bh:')) dates.push(k.replace('bh:', ''));
-  }
-  return dates.sort();
-};
-
 // Shared styles
 var card = {
   background: '#fff',
@@ -1513,7 +1639,6 @@ var pinkBtn = {
   width: '100%',
   border: 'none',
   cursor: 'pointer',
-  boxShadow: '0 6px 20px rgba(255,55,95,.2)',
   fontFamily: 'inherit'
 };
 var inp = {
@@ -1524,28 +1649,13 @@ var inp = {
   fontSize: 14,
   fontFamily: 'inherit',
   color: '#1d1d1f',
-  width: '100%',
-  WebkitAppearance: 'none'
+  width: '100%'
 };
-function Serif(_ref3) {
-  var children = _ref3.children,
-    size = _ref3.size,
-    italic = _ref3.italic,
-    color = _ref3.color;
-  return React.createElement('span', {
-    style: {
-      fontFamily: 'Instrument Serif, serif',
-      fontStyle: italic ? 'italic' : 'normal',
-      fontSize: size || 22,
-      color: color
-    }
-  }, children);
-}
-function Section(_ref4) {
-  var title = _ref4.title,
-    emoji = _ref4.emoji,
-    children = _ref4.children,
-    action = _ref4.action;
+function Section(_ref2) {
+  var title = _ref2.title,
+    emoji = _ref2.emoji,
+    children = _ref2.children,
+    action = _ref2.action;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: 20
@@ -1571,10 +1681,10 @@ function Section(_ref4) {
     }
   }, emoji), title), action), children);
 }
-function MiniBar(_ref5) {
-  var value = _ref5.value,
-    max = _ref5.max,
-    color = _ref5.color;
+function MiniBar(_ref3) {
+  var value = _ref3.value,
+    max = _ref3.max,
+    color = _ref3.color;
   var pct = Math.min(100, Math.max(0, value / max * 100));
   return /*#__PURE__*/React.createElement("div", {
     style: {
@@ -1593,10 +1703,44 @@ function MiniBar(_ref5) {
     }
   }));
 }
-function SimpleLineChart(_ref6) {
-  var data = _ref6.data,
-    color = _ref6.color,
-    height = _ref6.height;
+function Spinner() {
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'center',
+      padding: '40px 0'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 28,
+      height: 28,
+      border: '3px solid #FFE5EC',
+      borderTopColor: P,
+      borderRadius: '50%',
+      animation: 'spin 0.8s linear infinite'
+    }
+  }), /*#__PURE__*/React.createElement("style", null, '@keyframes spin{to{transform:rotate(360deg)}}'));
+}
+function SyncBadge(_ref4) {
+  var syncing = _ref4.syncing;
+  return syncing ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 4,
+      fontSize: 10,
+      color: '#86868B'
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "Cloud",
+    size: 12,
+    stroke: "#86868B"
+  }), "\u0441\u0438\u043D\u0445\u0440...") : null;
+}
+function SimpleLineChart(_ref5) {
+  var data = _ref5.data,
+    color = _ref5.color,
+    height = _ref5.height;
   color = color || P;
   height = height || 120;
   if (!data || data.length < 2) return /*#__PURE__*/React.createElement("div", {
@@ -1621,14 +1765,14 @@ function SimpleLineChart(_ref6) {
     }
   }, "\u041C\u0430\u043B\u043E \u0434\u0430\u043D\u043D\u044B\u0445");
   var min = Math.min.apply(null, vals),
-    max = Math.max.apply(null, vals);
-  var range = max - min || 1;
+    max = Math.max.apply(null, vals),
+    range = max - min || 1;
   var W = 300,
     H = height;
   var pts = data.filter(function (d) {
     return d.v != null && !isNaN(d.v);
   });
-  var xS = W / (pts.length - 1);
+  var xS = W / Math.max(pts.length - 1, 1);
   var yFor = function yFor(v) {
     return H - 18 - (v - min) / range * (H - 28);
   };
@@ -1643,7 +1787,7 @@ function SimpleLineChart(_ref6) {
       overflow: 'visible'
     }
   }, /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("linearGradient", {
-    id: "lg2",
+    id: "lg3",
     x1: "0",
     y1: "0",
     x2: "0",
@@ -1658,7 +1802,7 @@ function SimpleLineChart(_ref6) {
     stopOpacity: "0"
   }))), /*#__PURE__*/React.createElement("path", {
     d: pathD + ' L' + (pts.length - 1) * xS + ',' + H + ' L0,' + H + ' Z',
-    fill: "url(#lg2)"
+    fill: "url(#lg3)"
   }), /*#__PURE__*/React.createElement("path", {
     d: pathD,
     fill: "none",
@@ -1685,11 +1829,10 @@ function SimpleLineChart(_ref6) {
 }
 
 // ── WORKOUT LOG FORM ─────────────────────────────────────────────
-function WorkoutLogForm(_ref7) {
-  var prefill = _ref7.prefill,
-    onSave = _ref7.onSave,
-    onClose = _ref7.onClose;
-  var _useState = useState(prefill && prefill.type || 'hyrox'),
+function WorkoutLogForm(_ref6) {
+  var onSave = _ref6.onSave,
+    onClose = _ref6.onClose;
+  var _useState = useState('hyrox'),
     _useState2 = _slicedToArray(_useState, 2),
     type = _useState2[0],
     setType = _useState2[1];
@@ -1721,7 +1864,6 @@ function WorkoutLogForm(_ref7) {
     _useState14 = _slicedToArray(_useState13, 2),
     exVals = _useState14[0],
     setExVals = _useState14[1];
-  // For run
   var _useState15 = useState(''),
     _useState16 = _slicedToArray(_useState15, 2),
     runKm = _useState16[0],
@@ -1750,14 +1892,14 @@ function WorkoutLogForm(_ref7) {
   var save = function save() {
     var w = {
       type: type,
-      title: title || TYPE_META[type].label,
+      title: title || null,
       duration: duration ? +duration : null,
-      notes: notes
+      notes: notes || null,
+      exercises: exercises
     };
-    if (type === 'hyrox' || type === 'strength') w.exercises = exercises;
     if (type === 'run') {
       w.km = runKm ? +runKm : null;
-      w.pace = runPace;
+      w.pace = runPace || null;
     }
     onSave(w);
   };
@@ -1808,8 +1950,11 @@ function WorkoutLogForm(_ref7) {
       alignItems: 'center',
       marginBottom: 20
     }
-  }, /*#__PURE__*/React.createElement(Serif, {
-    size: 26
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: 'Instrument Serif, serif',
+      fontSize: 26
+    }
   }, "\u0437\u0430\u043B\u043E\u0433\u0438\u0440\u043E\u0432\u0430\u0442\u044C ", /*#__PURE__*/React.createElement("span", {
     style: {
       fontStyle: 'italic',
@@ -1834,21 +1979,10 @@ function WorkoutLogForm(_ref7) {
     stroke: "#86868B"
   }))), /*#__PURE__*/React.createElement("div", {
     style: {
-      marginBottom: 16
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      color: '#86868B',
-      textTransform: 'uppercase',
-      letterSpacing: '0.15em',
-      marginBottom: 8
-    }
-  }, "\u0422\u0438\u043F"), /*#__PURE__*/React.createElement("div", {
-    style: {
       display: 'grid',
       gridTemplateColumns: 'repeat(3,1fr)',
-      gap: 6
+      gap: 6,
+      marginBottom: 16
     }
   }, Object.entries(TYPE_META).filter(function (e) {
     return e[0] !== 'rest';
@@ -1871,7 +2005,7 @@ function WorkoutLogForm(_ref7) {
         color: type === k ? '#fff' : m.color
       }
     }, m.label);
-  }))), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: 12
     }
@@ -2025,8 +2159,7 @@ function WorkoutLogForm(_ref7) {
         color: '#C7C7CC',
         background: 'none',
         border: 'none',
-        cursor: 'pointer',
-        padding: 4
+        cursor: 'pointer'
       }
     }, /*#__PURE__*/React.createElement(Icon, {
       name: "X",
@@ -2168,19 +2301,21 @@ function App() {
     _useState20 = _slicedToArray(_useState19, 2),
     tab = _useState20[0],
     setTab = _useState20[1];
-  var _useState21 = useState({
-      startDate: todayISO(),
-      workouts: [],
-      ov: {}
-    }),
+  var _useState21 = useState(null),
     _useState22 = _slicedToArray(_useState21, 2),
-    hyrox = _useState22[0],
-    setHyrox = _useState22[1];
+    userId = _useState22[0],
+    setUserId = _useState22[1];
   var _useState23 = useState(todayISO()),
     _useState24 = _slicedToArray(_useState23, 2),
     date = _useState24[0],
     setDate = _useState24[1];
-  var _useState25 = useState({}),
+  var _useState25 = useState({
+      whoop: {},
+      protocols: {},
+      water: '',
+      notes: '',
+      weight: ''
+    }),
     _useState26 = _slicedToArray(_useState25, 2),
     health = _useState26[0],
     setHealth = _useState26[1];
@@ -2192,95 +2327,271 @@ function App() {
     _useState30 = _slicedToArray(_useState29, 2),
     goals = _useState30[0],
     setGoals = _useState30[1];
-  var _useState31 = useState(false),
+  var _useState31 = useState(todayISO()),
     _useState32 = _slicedToArray(_useState31, 2),
-    ready = _useState32[0],
-    setReady = _useState32[1];
-  var _useState33 = useState(false),
+    startDate = _useState32[0],
+    setStartDate = _useState32[1];
+  var _useState33 = useState({}),
     _useState34 = _slicedToArray(_useState33, 2),
-    logOpen = _useState34[0],
-    setLogOpen = _useState34[1];
-  var _useState35 = useState(null),
+    planOv = _useState34[0],
+    setPlanOv = _useState34[1];
+  var _useState35 = useState([]),
     _useState36 = _slicedToArray(_useState35, 2),
-    logPrefill = _useState36[0],
-    setLogPrefill = _useState36[1];
+    workouts = _useState36[0],
+    setWorkouts = _useState36[1];
+  var _useState37 = useState(true),
+    _useState38 = _slicedToArray(_useState37, 2),
+    loading = _useState38[0],
+    setLoading = _useState38[1];
+  var _useState39 = useState(false),
+    _useState40 = _slicedToArray(_useState39, 2),
+    syncing = _useState40[0],
+    setSyncing = _useState40[1];
+  var _useState41 = useState(false),
+    _useState42 = _slicedToArray(_useState41, 2),
+    logOpen = _useState42[0],
+    setLogOpen = _useState42[1];
+  var _useState43 = useState(function () {
+      return localStorage.getItem('device') || 'whoop';
+    }),
+    _useState44 = _slicedToArray(_useState43, 2),
+    device = _useState44[0],
+    setDevice = _useState44[1];
+  var _useState45 = useState(function () {
+      return !localStorage.getItem('device');
+    }),
+    _useState46 = _slicedToArray(_useState45, 2),
+    editingDevice = _useState46[0],
+    setEditingDevice = _useState46[1];
+  var saveDevice = function saveDevice(d) {
+    setDevice(d);
+    localStorage.setItem('device', d);
+    setEditingDevice(false);
+  };
+  function DeviceBadge() {
+    var dmeta = DEVICE_META[device] || DEVICE_META.whoop;
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 5
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 4,
+        padding: '4px 9px',
+        borderRadius: 999,
+        background: '#FFF0F5',
+        border: '1px solid rgba(255,55,95,.15)'
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 11
+      }
+    }, dmeta.emoji), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 11,
+        fontWeight: 600,
+        color: P
+      }
+    }, dmeta.label)), /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        setEditingDevice(true);
+      },
+      style: {
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer',
+        padding: 2,
+        display: 'flex'
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: "Pencil",
+      size: 12,
+      stroke: "#C7C7CC"
+    })));
+  }
+  var saveTimers = useRef({});
+
+  // Init
   useEffect(function () {
-    var h = ls.get(SK_HYROX);
-    if (h) setHyrox(Object.assign({
-      ov: {}
-    }, h));
-    var g = ls.get(SK_GOALS);
-    if (g) setGoals(Object.assign({}, DEFAULT_GOALS, g));
-    setReady(true);
+    var uid = getUserId();
+    setUserId(uid);
+    // Load settings + workouts
+    Promise.all([sb.get('user_settings', {
+      'user_id': 'eq.' + uid,
+      'select': '*'
+    }), sb.get('workouts', {
+      'user_id': 'eq.' + uid,
+      'select': '*',
+      'order': 'created_at.desc'
+    })]).then(function (results) {
+      var settings = results[0];
+      var wkts = results[1];
+      if (Array.isArray(settings) && settings[0]) {
+        var s = settings[0];
+        if (s.start_date) setStartDate(s.start_date);
+        if (s.nut_goals) setGoals(Object.assign({}, DEFAULT_GOALS, s.nut_goals));
+        if (s.plan_overrides) setPlanOv(s.plan_overrides);
+      } else {
+        // Create default settings
+        sb.upsert('user_settings', {
+          user_id: uid,
+          start_date: todayISO(),
+          nut_goals: DEFAULT_GOALS,
+          plan_overrides: {}
+        });
+      }
+      if (Array.isArray(wkts)) setWorkouts(wkts);
+      setLoading(false);
+    }).catch(function () {
+      setLoading(false);
+    });
   }, []);
+
+  // Load day data when date or userId changes
   useEffect(function () {
-    var h = ls.get(SK_HEALTH(date));
-    setHealth(h || {
-      whoop: {},
-      protocols: {},
-      water: '',
-      notes: '',
-      weight: ''
+    if (!userId) return;
+    Promise.all([sb.get('health_days', {
+      'user_id': 'eq.' + userId,
+      'date': 'eq.' + date,
+      'select': '*'
+    }), sb.get('nutrition_days', {
+      'user_id': 'eq.' + userId,
+      'date': 'eq.' + date,
+      'select': '*'
+    })]).then(function (results) {
+      var hd = results[0];
+      var nd = results[1];
+      if (Array.isArray(hd) && hd[0]) {
+        var h = hd[0];
+        setHealth({
+          whoop: h.whoop || {},
+          protocols: h.protocols || {},
+          weight: h.weight || '',
+          water: h.water || '',
+          notes: h.notes || ''
+        });
+      } else {
+        setHealth({
+          whoop: {},
+          protocols: {},
+          water: '',
+          notes: '',
+          weight: ''
+        });
+      }
+      if (Array.isArray(nd) && nd[0]) {
+        var n = nd[0];
+        setNut({
+          calories: n.calories || '',
+          protein: n.protein || '',
+          carbs: n.carbs || '',
+          fat: n.fat || ''
+        });
+      } else {
+        setNut({});
+      }
     });
-    var n = ls.get(SK_NUT(date));
-    setNut(n || {});
-  }, [date]);
-  useEffect(function () {
-    if (ready) ls.set(SK_HYROX, hyrox);
-  }, [hyrox, ready]);
-  var saveHealthDay = function saveHealthDay(h) {
-    setHealth(h);
-    ls.set(SK_HEALTH(date), h);
+  }, [date, userId]);
+  var debounce = function debounce(key, fn, delay) {
+    if (saveTimers.current[key]) clearTimeout(saveTimers.current[key]);
+    saveTimers.current[key] = setTimeout(function () {
+      setSyncing(true);
+      fn().then(function () {
+        setSyncing(false);
+      });
+    }, delay || 1200);
   };
-  var saveNutDay = function saveNutDay(n) {
-    setNut(n);
-    ls.set(SK_NUT(date), n);
+  var updateHealth = function updateHealth(newH) {
+    setHealth(newH);
+    debounce('health:' + date, function () {
+      return sb.upsert('health_days', {
+        user_id: userId,
+        date: date,
+        whoop: newH.whoop || {},
+        protocols: newH.protocols || {},
+        weight: newH.weight ? +newH.weight : null,
+        water: newH.water ? +newH.water : null,
+        notes: newH.notes || null
+      });
+    });
   };
-  var saveGoals = function saveGoals(g) {
+  var updateNut = function updateNut(newN) {
+    setNut(newN);
+    debounce('nut:' + date, function () {
+      return sb.upsert('nutrition_days', {
+        user_id: userId,
+        date: date,
+        calories: newN.calories ? +newN.calories : null,
+        protein: newN.protein ? +newN.protein : null,
+        carbs: newN.carbs ? +newN.carbs : null,
+        fat: newN.fat ? +newN.fat : null
+      });
+    });
+  };
+  var updateGoals = function updateGoals(g) {
     setGoals(g);
-    ls.set(SK_GOALS, g);
-  };
-  var addWorkout = function addWorkout(w) {
-    setHyrox(function (p) {
-      return Object.assign({}, p, {
-        workouts: [Object.assign({}, w, {
-          id: Date.now() + '',
-          date: date
-        })].concat(_toConsumableArray(p.workouts))
-      });
-    });
-  };
-  var delWorkout = function delWorkout(id) {
-    setHyrox(function (p) {
-      return Object.assign({}, p, {
-        workouts: p.workouts.filter(function (w) {
-          return w.id !== id;
-        })
-      });
+    sb.upsert('user_settings', {
+      user_id: userId,
+      start_date: startDate,
+      nut_goals: g,
+      plan_overrides: planOv
     });
   };
   var saveOv = function saveOv(wk, di, ch) {
     var k = wk + '-' + di;
-    setHyrox(function (p) {
-      return Object.assign({}, p, {
-        ov: Object.assign({}, p.ov, _defineProperty({}, k, ch))
-      });
+    var newOv = Object.assign({}, planOv, _defineProperty({}, k, ch));
+    setPlanOv(newOv);
+    sb.upsert('user_settings', {
+      user_id: userId,
+      start_date: startDate,
+      nut_goals: goals,
+      plan_overrides: newOv
     });
   };
   var resetOv = function resetOv(wk, di) {
     var k = wk + '-' + di;
-    setHyrox(function (p) {
-      var o = Object.assign({}, p.ov);
-      delete o[k];
-      return Object.assign({}, p, {
-        ov: o
+    var newOv = Object.assign({}, planOv);
+    delete newOv[k];
+    setPlanOv(newOv);
+    sb.upsert('user_settings', {
+      user_id: userId,
+      start_date: startDate,
+      nut_goals: goals,
+      plan_overrides: newOv
+    });
+  };
+  var addWorkout = function addWorkout(w) {
+    setSyncing(true);
+    sb.insert('workouts', Object.assign({}, w, {
+      user_id: userId,
+      date: date
+    })).then(function (rows) {
+      setSyncing(false);
+      if (Array.isArray(rows) && rows[0]) setWorkouts(function (p) {
+        return [rows[0]].concat(p);
       });
     });
   };
-  var cwd = getCWD(hyrox.startDate);
+  var delWorkout = function delWorkout(id) {
+    setWorkouts(function (p) {
+      return p.filter(function (w) {
+        return w.id !== id;
+      });
+    });
+    sb.del('workouts', {
+      'id': 'eq.' + id
+    });
+  };
+  var cwd = getCWD(startDate);
   var week = cwd.week,
     dayIdx = cwd.dayIdx;
-  var todayPlan = getDay(week, dayIdx, hyrox.ov);
+  var todayWorkouts = workouts.filter(function (w) {
+    return w.date === date;
+  });
   var NAV = [{
     id: 'today',
     icon: 'Today',
@@ -2302,6 +2613,34 @@ function App() {
     icon: 'AI',
     label: 'AI'
   }];
+  if (loading) {
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'radial-gradient(circle at 20% 0%,#FFF0F5,#fff 40%)'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: 'Instrument Serif, serif',
+        fontSize: 38
+      }
+    }, "bio", /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontStyle: 'italic',
+        color: P
+      }
+    }, "hack")), /*#__PURE__*/React.createElement(Spinner, null), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        color: '#86868B',
+        marginTop: 8
+      }
+    }, "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430 \u0434\u0430\u043D\u043D\u044B\u0445..."));
+  }
   return /*#__PURE__*/React.createElement("div", {
     style: {
       minHeight: '100vh',
@@ -2341,9 +2680,14 @@ function App() {
       color: '#86868B',
       letterSpacing: '0.15em',
       textTransform: 'uppercase',
-      marginBottom: 2
+      marginBottom: 2,
+      display: 'flex',
+      alignItems: 'center',
+      gap: 6
     }
-  }, tab === 'today' ? fmtLong(date) : tab === 'plan' ? 'Неделя ' + week + ' / 20' : tab === 'food' ? 'Питание · ' + fmtDate(date) : tab === 'stats' ? 'Статистика' : 'AI коуч'), /*#__PURE__*/React.createElement("div", {
+  }, tab === 'today' ? fmtLong(date) : tab === 'plan' ? 'Неделя ' + week + ' / 20' : tab === 'food' ? 'Питание · ' + fmtDate(date) : tab === 'stats' ? 'Статистика' : 'AI коуч', /*#__PURE__*/React.createElement(SyncBadge, {
+    syncing: syncing
+  })), /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: 'Instrument Serif, serif',
       fontSize: 38,
@@ -2354,7 +2698,14 @@ function App() {
       fontStyle: 'italic',
       color: P
     }
-  }, "hack"))), tab === 'today' && /*#__PURE__*/React.createElement("input", {
+  }, "hack"))), (tab === 'today' || tab === 'food') && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-end',
+      gap: 5
+    }
+  }, /*#__PURE__*/React.createElement("input", {
     type: "date",
     value: date,
     onChange: function onChange(e) {
@@ -2369,22 +2720,7 @@ function App() {
       fontFamily: 'inherit',
       color: '#1d1d1f'
     }
-  }), tab === 'food' && /*#__PURE__*/React.createElement("input", {
-    type: "date",
-    value: date,
-    onChange: function onChange(e) {
-      setDate(e.target.value);
-    },
-    style: {
-      border: 'none',
-      background: '#f5f5f7',
-      borderRadius: 10,
-      padding: '7px 12px',
-      fontSize: 13,
-      fontFamily: 'inherit',
-      color: '#1d1d1f'
-    }
-  }), (tab === 'plan' || tab === 'stats') && /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement(DeviceBadge, null)), (tab === 'plan' || tab === 'stats') && /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: 'Instrument Serif, serif',
       fontSize: 24,
@@ -2404,51 +2740,50 @@ function App() {
   }, tab === 'today' && /*#__PURE__*/React.createElement(TodayTab, {
     date: date,
     health: health,
-    onHealth: saveHealthDay,
-    todayPlan: todayPlan,
-    week: week,
-    dayIdx: dayIdx,
-    workouts: hyrox.workouts,
-    onAddWorkout: addWorkout,
+    onHealth: updateHealth,
+    workouts: todayWorkouts,
     onDelWorkout: delWorkout,
-    onOpenLog: function onOpenLog(p) {
-      setLogPrefill(p);
+    onOpenLog: function onOpenLog() {
       setLogOpen(true);
+    },
+    device: device,
+    editingDevice: editingDevice,
+    onSaveDevice: saveDevice,
+    onCancelDevice: function onCancelDevice() {
+      setEditingDevice(false);
     }
   }), tab === 'plan' && /*#__PURE__*/React.createElement(PlanTab, {
     curWeek: week,
-    workouts: hyrox.workouts,
-    start: hyrox.startDate,
-    ov: hyrox.ov,
+    workouts: workouts,
+    start: startDate,
+    ov: planOv,
     onSaveOv: saveOv,
     onResetOv: resetOv
   }), tab === 'food' && /*#__PURE__*/React.createElement(FoodTab, {
-    date: date,
     nut: nut,
     health: health,
-    onNut: saveNutDay,
-    onHealth: saveHealthDay,
+    onNut: updateNut,
+    onHealth: updateHealth,
     goals: goals,
-    onSaveGoals: saveGoals
+    onSaveGoals: updateGoals
   }), tab === 'stats' && /*#__PURE__*/React.createElement(StatsTab, {
-    workouts: hyrox.workouts,
-    start: hyrox.startDate
+    userId: userId,
+    workouts: workouts,
+    start: startDate
   }), tab === 'ai' && /*#__PURE__*/React.createElement(AITab, {
     date: date,
     health: health,
     nut: nut,
     goals: goals,
-    workouts: hyrox.workouts
+    workouts: workouts,
+    userId: userId
   })), logOpen && /*#__PURE__*/React.createElement(WorkoutLogForm, {
-    prefill: logPrefill,
     onSave: function onSave(w) {
       addWorkout(w);
       setLogOpen(false);
-      setLogPrefill(null);
     },
     onClose: function onClose() {
       setLogOpen(false);
-      setLogPrefill(null);
     }
   }), /*#__PURE__*/React.createElement("nav", {
     style: {
@@ -2501,21 +2836,20 @@ function App() {
   }))));
 }
 
-// ── TODAY TAB ────────────────────────────────────────────────────
-function TodayTab(_ref8) {
-  var date = _ref8.date,
-    health = _ref8.health,
-    onHealth = _ref8.onHealth,
-    todayPlan = _ref8.todayPlan,
-    week = _ref8.week,
-    dayIdx = _ref8.dayIdx,
-    workouts = _ref8.workouts,
-    onAddWorkout = _ref8.onAddWorkout,
-    onDelWorkout = _ref8.onDelWorkout,
-    onOpenLog = _ref8.onOpenLog;
-  var todayWorkouts = workouts.filter(function (w) {
-    return w.date === date;
-  });
+// ── TODAY ────────────────────────────────────────────────────────
+function TodayTab(_ref7) {
+  var date = _ref7.date,
+    health = _ref7.health,
+    onHealth = _ref7.onHealth,
+    workouts = _ref7.workouts,
+    onDelWorkout = _ref7.onDelWorkout,
+    onOpenLog = _ref7.onOpenLog,
+    device = _ref7.device,
+    editingDevice = _ref7.editingDevice,
+    onSaveDevice = _ref7.onSaveDevice,
+    onCancelDevice = _ref7.onCancelDevice;
+  var fields = DEVICE_FIELDS[device] || DEVICE_FIELDS.whoop;
+  var dmeta = DEVICE_META[device] || DEVICE_META.whoop;
   var updW = function updW(k, v) {
     onHealth(Object.assign({}, health, {
       whoop: Object.assign({}, health.whoop, _defineProperty({}, k, v))
@@ -2526,9 +2860,55 @@ function TodayTab(_ref8) {
       protocols: Object.assign({}, health.protocols, _defineProperty({}, key, !(health.protocols && health.protocols[key])))
     }));
   };
-  var rec = parseFloat(health.whoop && health.whoop.recovery || 0);
-  var recColor = rec >= 67 ? '#34C759' : rec >= 34 ? '#FF9500' : rec > 0 ? P : '#C7C7CC';
-  return /*#__PURE__*/React.createElement("div", null, health.whoop && health.whoop.recovery && /*#__PURE__*/React.createElement("div", {
+  var recVal = health.whoop && health.whoop[dmeta.recKey];
+  var rec = parseFloat(recVal || 0);
+  var recColor = device === 'manual' ? rec >= 8 ? '#34C759' : rec >= 5 ? '#FF9500' : rec > 0 ? P : '#C7C7CC' : rec >= 67 ? '#34C759' : rec >= 34 ? '#FF9500' : rec > 0 ? P : '#C7C7CC';
+  return /*#__PURE__*/React.createElement("div", null, editingDevice && /*#__PURE__*/React.createElement("div", {
+    style: Object.assign({}, card, {
+      padding: 14,
+      marginBottom: 16
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: '#86868B',
+      marginBottom: 10,
+      fontWeight: 500
+    }
+  }, "\u041A\u0430\u043A\u043E\u0435 \u0443\u0441\u0442\u0440\u043E\u0439\u0441\u0442\u0432\u043E \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0435\u0448\u044C?"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8
+    }
+  }, Object.entries(DEVICE_META).map(function (entry) {
+    var k = entry[0],
+      m = entry[1];
+    return /*#__PURE__*/React.createElement("button", {
+      key: k,
+      onClick: function onClick() {
+        onSaveDevice(k);
+      },
+      style: {
+        flex: 1,
+        padding: '8px 4px',
+        borderRadius: 12,
+        fontSize: 11,
+        fontWeight: 600,
+        border: 'none',
+        cursor: 'pointer',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 3,
+        background: device === k ? 'linear-gradient(135deg,#FF375F,#FF5C8A)' : '#f5f5f7',
+        color: device === k ? '#fff' : '#86868B'
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 16
+      }
+    }, m.emoji), /*#__PURE__*/React.createElement("span", null, m.label));
+  }))), recVal && /*#__PURE__*/React.createElement("div", {
     style: Object.assign({}, cardPink, {
       padding: 20,
       marginBottom: 20,
@@ -2561,23 +2941,23 @@ function TodayTab(_ref8) {
       letterSpacing: '0.15em',
       marginBottom: 4
     }
-  }, "Recovery"), /*#__PURE__*/React.createElement("div", {
+  }, dmeta.recLabel), /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: 'Instrument Serif, serif',
       fontSize: 56,
       lineHeight: 1,
       color: recColor
     }
-  }, health.whoop.recovery, /*#__PURE__*/React.createElement("span", {
+  }, recVal, /*#__PURE__*/React.createElement("span", {
     style: {
       fontSize: 22,
       color: '#86868B'
     }
-  }, "%"))), /*#__PURE__*/React.createElement("div", {
+  }, device === 'manual' ? '/10' : '%'))), /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: 'right'
     }
-  }, health.whoop.hrv && /*#__PURE__*/React.createElement("div", {
+  }, health.whoop && health.whoop.hrv && /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: 8
     }
@@ -2598,7 +2978,7 @@ function TodayTab(_ref8) {
       fontSize: 11,
       color: '#86868B'
     }
-  }, "ms"))), health.whoop.rhr && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, "ms"))), health.whoop && health.whoop.rhr && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 9,
       color: '#86868B',
@@ -2616,8 +2996,8 @@ function TodayTab(_ref8) {
       color: '#86868B'
     }
   }, "bpm")))))), /*#__PURE__*/React.createElement(Section, {
-    title: "WHOOP",
-    emoji: "\u231A"
+    title: dmeta.label + ' · метрики',
+    emoji: dmeta.emoji
   }, /*#__PURE__*/React.createElement("div", {
     style: Object.assign({}, card, {
       overflow: 'hidden'
@@ -2629,7 +3009,7 @@ function TodayTab(_ref8) {
       gap: 1,
       background: '#f5f5f7'
     }
-  }, WHOOP_FIELDS.map(function (f) {
+  }, fields.map(function (f) {
     return /*#__PURE__*/React.createElement("div", {
       key: f.key,
       style: {
@@ -2643,7 +3023,7 @@ function TodayTab(_ref8) {
         marginBottom: 4,
         fontWeight: 500,
         textTransform: 'uppercase',
-        letterSpacing: '0.1em'
+        letterSpacing: '0.05em'
       }
     }, f.label), /*#__PURE__*/React.createElement("div", {
       style: {
@@ -2770,12 +3150,7 @@ function TodayTab(_ref8) {
     title: "\u0422\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0438",
     emoji: "\uD83C\uDFCB\uFE0F",
     action: /*#__PURE__*/React.createElement("button", {
-      onClick: function onClick() {
-        onOpenLog(todayPlan ? {
-          type: todayPlan.type,
-          title: todayPlan.title
-        } : null);
-      },
+      onClick: onOpenLog,
       style: {
         padding: '5px 14px',
         borderRadius: 20,
@@ -2784,31 +3159,28 @@ function TodayTab(_ref8) {
         background: 'linear-gradient(135deg,#FF375F,#FF5C8A)',
         color: '#fff',
         border: 'none',
-        cursor: 'pointer',
-        boxShadow: '0 4px 12px rgba(255,55,95,.2)'
+        cursor: 'pointer'
       }
     }, "+ \u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C")
   }, /*#__PURE__*/React.createElement("div", {
     style: Object.assign({}, card, {
       overflow: 'hidden'
     })
-  }, todayWorkouts.length === 0 ? /*#__PURE__*/React.createElement("div", {
+  }, workouts.length === 0 ? /*#__PURE__*/React.createElement("div", {
     style: {
       padding: 20,
       textAlign: 'center',
       color: '#C7C7CC',
       fontSize: 13
     }
-  }, "\u041D\u0435\u0442 \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043E\u043A \u2014 \u043D\u0430\u0436\u043C\u0438 + \u0447\u0442\u043E\u0431\u044B \u0434\u043E\u0431\u0430\u0432\u0438\u0442\u044C") : todayWorkouts.map(function (w, i) {
+  }, "\u041D\u0430\u0436\u043C\u0438 + \u0447\u0442\u043E\u0431\u044B \u0437\u0430\u043B\u043E\u0433\u0438\u0440\u043E\u0432\u0430\u0442\u044C") : workouts.map(function (w, i) {
     var m = TYPE_META[w.type] || TYPE_META.hyrox;
-    var exVals = [];
-    if (w.km) exVals.push(w.km + ' км');
-    if (w.pace) exVals.push(w.pace + ' мин/км');
+    var exs = Array.isArray(w.exercises) ? w.exercises : typeof w.exercises === 'string' ? JSON.parse(w.exercises || '[]') : [];
     return /*#__PURE__*/React.createElement("div", {
       key: w.id,
       style: {
         padding: '12px 16px',
-        borderBottom: i < todayWorkouts.length - 1 ? '1px solid #f5f5f7' : 'none'
+        borderBottom: i < workouts.length - 1 ? '1px solid #f5f5f7' : 'none'
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
@@ -2840,14 +3212,11 @@ function TodayTab(_ref8) {
         color: '#86868B',
         marginTop: 2
       }
-    }, w.duration && w.duration + ' мин', exVals.length > 0 ? ' · ' + exVals.join(' · ') : '', w.notes ? ' · ' + w.notes : ''), w.exercises && w.exercises.length > 0 && /*#__PURE__*/React.createElement("div", {
+    }, w.duration && w.duration + ' мин', w.km ? ' · ' + w.km + ' км' : '', w.pace ? ' · ' + w.pace + ' мин/км' : '', w.notes ? ' · ' + w.notes : ''), exs.length > 0 && /*#__PURE__*/React.createElement("div", {
       style: {
-        marginTop: 8,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 3
+        marginTop: 6
       }
-    }, w.exercises.map(function (ex, j) {
+    }, exs.map(function (ex, j) {
       var vals = [];
       if (ex.distance) vals.push(ex.distance + ' м');
       if (ex.reps) vals.push(ex.reps + ' раз');
@@ -2947,7 +3316,7 @@ function TodayTab(_ref8) {
         notes: e.target.value
       }));
     },
-    placeholder: "\u041A\u0430\u043A \u0441\u0435\u0431\u044F \u0447\u0443\u0432\u0441\u0442\u0432\u0443\u0435\u0448\u044C? \u0427\u0442\u043E \u043E\u0441\u043E\u0431\u0435\u043D\u043D\u043E\u0433\u043E?",
+    placeholder: "\u041A\u0430\u043A \u0441\u0435\u0431\u044F \u0447\u0443\u0432\u0441\u0442\u0432\u0443\u0435\u0448\u044C?",
     rows: 3,
     style: Object.assign({}, inp, {
       resize: 'none',
@@ -2956,26 +3325,22 @@ function TodayTab(_ref8) {
   })));
 }
 
-// ── FOOD TAB ─────────────────────────────────────────────────────
-function FoodTab(_ref9) {
-  var date = _ref9.date,
-    nut = _ref9.nut,
-    health = _ref9.health,
-    onNut = _ref9.onNut,
-    onHealth = _ref9.onHealth,
-    goals = _ref9.goals,
-    onSaveGoals = _ref9.onSaveGoals;
-  var _useState37 = useState(false),
-    _useState38 = _slicedToArray(_useState37, 2),
-    editGoals = _useState38[0],
-    setEditGoals = _useState38[1];
-  var _useState39 = useState(goals),
-    _useState40 = _slicedToArray(_useState39, 2),
-    tempGoals = _useState40[0],
-    setTempGoals = _useState40[1];
-  var updN = function updN(k, v) {
-    onNut(Object.assign({}, nut, _defineProperty({}, k, v)));
-  };
+// ── FOOD ─────────────────────────────────────────────────────────
+function FoodTab(_ref8) {
+  var nut = _ref8.nut,
+    health = _ref8.health,
+    onNut = _ref8.onNut,
+    onHealth = _ref8.onHealth,
+    goals = _ref8.goals,
+    onSaveGoals = _ref8.onSaveGoals;
+  var _useState47 = useState(false),
+    _useState48 = _slicedToArray(_useState47, 2),
+    editGoals = _useState48[0],
+    setEditGoals = _useState48[1];
+  var _useState49 = useState(goals),
+    _useState50 = _slicedToArray(_useState49, 2),
+    tempGoals = _useState50[0],
+    setTempGoals = _useState50[1];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Section, {
     title: "\u041C\u0430\u043A\u0440\u043E\u0441\u044B \xB7 \u0444\u0430\u043A\u0442",
     emoji: "\uD83E\uDD57",
@@ -3084,9 +3449,9 @@ function FoodTab(_ref9) {
       overflow: 'hidden'
     })
   }, NUT_FIELDS.map(function (f, i) {
-    var v = parseFloat(nut[f.key]) || 0;
-    var goal = goals[f.key] || DEFAULT_GOALS[f.key];
-    var pct = Math.min(100, v / goal * 100);
+    var v = parseFloat(nut[f.key]) || 0,
+      goal = goals[f.key] || DEFAULT_GOALS[f.key],
+      pct = Math.min(100, v / goal * 100);
     return /*#__PURE__*/React.createElement("div", {
       key: f.key,
       style: {
@@ -3116,7 +3481,7 @@ function FoodTab(_ref9) {
       inputMode: "numeric",
       value: nut[f.key] || '',
       onChange: function onChange(e) {
-        updN(f.key, e.target.value);
+        onNut(Object.assign({}, nut, _defineProperty({}, f.key, e.target.value)));
       },
       placeholder: goal + '',
       style: {
@@ -3273,22 +3638,22 @@ function FoodTab(_ref9) {
   })))));
 }
 
-// ── PLAN TAB ─────────────────────────────────────────────────────
-function PlanTab(_ref0) {
-  var curWeek = _ref0.curWeek,
-    workouts = _ref0.workouts,
-    start = _ref0.start,
-    ov = _ref0.ov,
-    onSaveOv = _ref0.onSaveOv,
-    onResetOv = _ref0.onResetOv;
-  var _useState41 = useState(curWeek),
-    _useState42 = _slicedToArray(_useState41, 2),
-    exp = _useState42[0],
-    setExp = _useState42[1];
-  var _useState43 = useState(null),
-    _useState44 = _slicedToArray(_useState43, 2),
-    editDay = _useState44[0],
-    setEditDay = _useState44[1];
+// ── PLAN ─────────────────────────────────────────────────────────
+function PlanTab(_ref9) {
+  var curWeek = _ref9.curWeek,
+    workouts = _ref9.workouts,
+    start = _ref9.start,
+    ov = _ref9.ov,
+    onSaveOv = _ref9.onSaveOv,
+    onResetOv = _ref9.onResetOv;
+  var _useState51 = useState(curWeek),
+    _useState52 = _slicedToArray(_useState51, 2),
+    exp = _useState52[0],
+    setExp = _useState52[1];
+  var _useState53 = useState(null),
+    _useState54 = _slicedToArray(_useState53, 2),
+    editDay = _useState54[0],
+    setEditDay = _useState54[1];
   var phases = useMemo(function () {
     var o = {};
     PROGRAM.forEach(function (w) {
@@ -3356,9 +3721,8 @@ function PlanTab(_ref0) {
         gap: 8
       }
     }, phase.weeks.map(function (w) {
-      // Fix: compute dates correctly
-      var wkDateISO = addDays(start, (w.week - 1) * 7);
-      var weDateISO = addDays(start, (w.week - 1) * 7 + 6);
+      var wkISO = addDays(start, (w.week - 1) * 7),
+        weISO = addDays(start, (w.week - 1) * 7 + 6);
       var isCur = w.week === curWeek,
         isPast = w.week < curWeek,
         isExp2 = exp === w.week;
@@ -3405,7 +3769,7 @@ function PlanTab(_ref0) {
           fontSize: 13,
           fontWeight: 500
         }
-      }, fmtDate(wkDateISO), " \u2014 ", fmtDate(weDateISO)), isCur && /*#__PURE__*/React.createElement("div", {
+      }, fmtDate(wkISO), " \u2014 ", fmtDate(weISO)), isCur && /*#__PURE__*/React.createElement("div", {
         style: {
           fontFamily: 'Instrument Serif, serif',
           fontStyle: 'italic',
@@ -3426,11 +3790,11 @@ function PlanTab(_ref0) {
           gap: 10
         }
       }, w.days.map(function (_, i) {
-        var d = getDay(w.week, i, ov);
-        var m = TYPE_META[d.type] || TYPE_META.rest;
-        var dayDateISO = addDays(start, (w.week - 1) * 7 + i);
+        var d = getDay(w.week, i, ov),
+          m = TYPE_META[d.type] || TYPE_META.rest;
+        var dayISO = addDays(start, (w.week - 1) * 7 + i);
         var lg = workouts.some(function (wo) {
-          return wo.date === dayDateISO;
+          return wo.date === dayISO;
         });
         return /*#__PURE__*/React.createElement("button", {
           key: i,
@@ -3448,7 +3812,7 @@ function PlanTab(_ref0) {
             background: 'none',
             border: 'none',
             cursor: 'pointer',
-            padding: '4px 4px',
+            padding: '4px',
             borderRadius: 10,
             width: '100%'
           }
@@ -3470,7 +3834,7 @@ function PlanTab(_ref0) {
             fontFamily: 'DM Mono, monospace',
             color: lg ? P : '#86868B'
           }
-        }, new Date(dayDateISO + 'T12:00:00').getDate())), /*#__PURE__*/React.createElement("div", {
+        }, new Date(dayISO + 'T12:00:00').getDate())), /*#__PURE__*/React.createElement("div", {
           style: {
             width: 3,
             alignSelf: 'stretch',
@@ -3534,24 +3898,24 @@ function PlanTab(_ref0) {
     })));
   }));
 }
-function EditDayModal(_ref1) {
-  var week = _ref1.week,
-    di = _ref1.di,
-    cur = _ref1.cur,
-    isOv = _ref1.isOv,
-    onSave = _ref1.onSave,
-    onReset = _ref1.onReset,
-    onClose = _ref1.onClose;
+function EditDayModal(_ref0) {
+  var week = _ref0.week,
+    di = _ref0.di,
+    cur = _ref0.cur,
+    isOv = _ref0.isOv,
+    onSave = _ref0.onSave,
+    onReset = _ref0.onReset,
+    onClose = _ref0.onClose;
   var days = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
-  var _useState45 = useState({
+  var _useState55 = useState({
       type: cur && cur.type || 'hyrox',
       title: cur && cur.title || '',
       detail: cur && cur.detail || '',
       duration: cur ? cur.duration : ''
     }),
-    _useState46 = _slicedToArray(_useState45, 2),
-    form = _useState46[0],
-    setForm = _useState46[1];
+    _useState56 = _slicedToArray(_useState55, 2),
+    form = _useState56[0],
+    setForm = _useState56[1];
   return /*#__PURE__*/React.createElement("div", {
     style: {
       position: 'fixed',
@@ -3689,7 +4053,7 @@ function EditDayModal(_ref1) {
         });
       });
     },
-    placeholder: "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435 \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0438\u2026",
+    placeholder: "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435\u2026",
     style: Object.assign({}, inp, {
       height: 90,
       resize: 'none'
@@ -3704,7 +4068,7 @@ function EditDayModal(_ref1) {
         });
       });
     },
-    placeholder: "\u0414\u043B\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C (\u043C\u0438\u043D)",
+    placeholder: "\u0414\u043B\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C \u043C\u0438\u043D",
     style: inp
   }), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
@@ -3743,78 +4107,126 @@ function EditDayModal(_ref1) {
   }), "\u0412\u0435\u0440\u043D\u0443\u0442\u044C \u043E\u0440\u0438\u0433\u0438\u043D\u0430\u043B")))));
 }
 
-// ── STATS TAB ────────────────────────────────────────────────────
-function StatsTab(_ref10) {
-  var workouts = _ref10.workouts,
-    start = _ref10.start;
-  var _useState47 = useState('recovery'),
-    _useState48 = _slicedToArray(_useState47, 2),
-    metric = _useState48[0],
-    setMetric = _useState48[1];
+// ── STATS ─────────────────────────────────────────────────────────
+function StatsTab(_ref1) {
+  var userId = _ref1.userId,
+    workouts = _ref1.workouts,
+    start = _ref1.start;
+  var _useState57 = useState('recovery'),
+    _useState58 = _slicedToArray(_useState57, 2),
+    metric = _useState58[0],
+    setMetric = _useState58[1];
+  var _useState59 = useState([]),
+    _useState60 = _slicedToArray(_useState59, 2),
+    allHealth = _useState60[0],
+    setAllHealth = _useState60[1];
+  var _useState61 = useState(true),
+    _useState62 = _slicedToArray(_useState61, 2),
+    loadingStats = _useState62[0],
+    setLoadingStats = _useState62[1];
+  useEffect(function () {
+    if (!userId) return;
+    setLoadingStats(true);
+    Promise.all([sb.get('health_days', {
+      'user_id': 'eq.' + userId,
+      'select': '*',
+      'order': 'date.asc',
+      'limit': 60
+    }), sb.get('nutrition_days', {
+      'user_id': 'eq.' + userId,
+      'select': '*',
+      'order': 'date.asc',
+      'limit': 60
+    })]).then(function (res) {
+      var hdays = Array.isArray(res[0]) ? res[0] : [];
+      var ndays = Array.isArray(res[1]) ? res[1] : [];
+      // Merge by date
+      var merged = hdays.map(function (h) {
+        var n = ndays.find(function (nd) {
+          return nd.date === h.date;
+        }) || {};
+        return Object.assign({}, h, {
+          nutrition: n
+        });
+      });
+      setAllHealth(merged);
+      setLoadingStats(false);
+    });
+  }, [userId]);
   var METRICS = [{
     key: 'recovery',
     label: 'Recovery',
-    color: '#34C759'
+    color: '#34C759',
+    get: function get(d) {
+      return d.whoop && d.whoop.recovery;
+    }
   }, {
     key: 'hrv',
     label: 'HRV',
-    color: '#007AFF'
+    color: '#007AFF',
+    get: function get(d) {
+      return d.whoop && d.whoop.hrv;
+    }
   }, {
     key: 'rhr',
     label: 'Пульс',
-    color: P
+    color: P,
+    get: function get(d) {
+      return d.whoop && d.whoop.rhr;
+    }
   }, {
-    key: 'sleepDuration',
+    key: 'sleep',
     label: 'Сон',
-    color: '#5856D6'
+    color: '#5856D6',
+    get: function get(d) {
+      return d.whoop && d.whoop.sleepDuration;
+    }
   }, {
     key: 'weight',
     label: 'Вес',
-    color: '#FF9500'
+    color: '#FF9500',
+    get: function get(d) {
+      return d.weight;
+    }
   }, {
     key: 'calories',
     label: 'Калории',
-    color: '#FF3B30'
+    color: '#FF3B30',
+    get: function get(d) {
+      return d.nutrition && d.nutrition.calories;
+    }
   }];
   var sel = METRICS.find(function (m) {
     return m.key === metric;
   }) || METRICS[0];
-  var chartData = useMemo(function () {
-    var dates = getAllHealthDates().slice(-14);
-    return dates.map(function (date) {
-      var h = ls.get(SK_HEALTH(date));
-      var n = ls.get(SK_NUT(date));
-      var v = null;
-      if (metric === 'weight') v = h && h.weight ? parseFloat(h.weight) : null;else if (metric === 'calories') v = n && n.calories ? parseFloat(n.calories) : null;else v = h && h.whoop && h.whoop[metric] ? parseFloat(h.whoop[metric]) : null;
-      return {
-        label: fmtDate(date),
-        v: v
-      };
-    }).filter(function (d) {
-      return d.v != null;
-    });
-  }, [metric]);
+  var chartData = allHealth.slice(-14).map(function (d) {
+    return {
+      label: fmtDate(d.date),
+      v: parseFloat(sel.get(d)) || null
+    };
+  }).filter(function (d) {
+    return d.v;
+  });
   var protoStats = useMemo(function () {
-    var dates = getAllHealthDates();
     var counts = {};
     PROTOCOLS.forEach(function (p) {
       counts[p.key] = 0;
     });
-    dates.forEach(function (date) {
-      var h = ls.get(SK_HEALTH(date));
-      if (h && h.protocols) PROTOCOLS.forEach(function (p) {
-        if (h.protocols[p.key]) counts[p.key]++;
+    allHealth.forEach(function (d) {
+      if (d.protocols) PROTOCOLS.forEach(function (p) {
+        if (d.protocols[p.key]) counts[p.key]++;
       });
     });
+    var total = allHealth.length || 1;
     return PROTOCOLS.map(function (p) {
       return Object.assign({}, p, {
         count: counts[p.key],
-        pct: dates.length > 0 ? Math.round(counts[p.key] / dates.length * 100) : 0
+        pct: Math.round(counts[p.key] / total * 100)
       });
     }).sort(function (a, b) {
       return b.count - a.count;
     });
-  }, []);
+  }, [allHealth]);
   var totalMin = workouts.reduce(function (s, w) {
     return s + (+w.duration || 0);
   }, 0);
@@ -3894,7 +4306,7 @@ function StatsTab(_ref10) {
     style: Object.assign({}, card, {
       padding: '14px 10px'
     })
-  }, /*#__PURE__*/React.createElement(SimpleLineChart, {
+  }, loadingStats ? /*#__PURE__*/React.createElement(Spinner, null) : /*#__PURE__*/React.createElement(SimpleLineChart, {
     data: chartData,
     color: sel.color,
     height: 130
@@ -3905,12 +4317,12 @@ function StatsTab(_ref10) {
     style: Object.assign({}, card, {
       overflow: 'hidden'
     })
-  }, protoStats.slice(0, 8).map(function (p, i) {
+  }, loadingStats ? /*#__PURE__*/React.createElement(Spinner, null) : protoStats.slice(0, 10).map(function (p, i) {
     return /*#__PURE__*/React.createElement("div", {
       key: p.key,
       style: {
         padding: '11px 16px',
-        borderBottom: i < 7 ? '1px solid #f5f5f7' : 'none'
+        borderBottom: i < 9 ? '1px solid #f5f5f7' : 'none'
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
@@ -3937,31 +4349,32 @@ function StatsTab(_ref10) {
   }))));
 }
 
-// ── AI TAB ───────────────────────────────────────────────────────
-function AITab(_ref11) {
-  var date = _ref11.date,
-    health = _ref11.health,
-    nut = _ref11.nut,
-    goals = _ref11.goals,
-    workouts = _ref11.workouts;
-  var _useState49 = useState([{
+// ── AI ─────────────────────────────────────────────────────────
+function AITab(_ref10) {
+  var date = _ref10.date,
+    health = _ref10.health,
+    nut = _ref10.nut,
+    goals = _ref10.goals,
+    workouts = _ref10.workouts,
+    userId = _ref10.userId;
+  var _useState63 = useState([{
       role: 'assistant',
-      text: 'Привет! 👋 Я твой AI-коуч по здоровью и Hyrox. Спроси что угодно — анализ данных WHOOP, советы по питанию, оценку готовности к тренировке или биохакинг-стратегии.'
+      text: 'Привет! 👋 Я твой AI-коуч. Данные WHOOP, протоколы, питание — всё уже загружено. Что хочешь проанализировать?'
     }]),
-    _useState50 = _slicedToArray(_useState49, 2),
-    messages = _useState50[0],
-    setMessages = _useState50[1];
-  var _useState51 = useState(''),
-    _useState52 = _slicedToArray(_useState51, 2),
-    input = _useState52[0],
-    setInput = _useState52[1];
-  var _useState53 = useState(false),
-    _useState54 = _slicedToArray(_useState53, 2),
-    loading = _useState54[0],
-    setLoading = _useState54[1];
-  var messagesEnd = useRef(null);
+    _useState64 = _slicedToArray(_useState63, 2),
+    messages = _useState64[0],
+    setMessages = _useState64[1];
+  var _useState65 = useState(''),
+    _useState66 = _slicedToArray(_useState65, 2),
+    input = _useState66[0],
+    setInput = _useState66[1];
+  var _useState67 = useState(false),
+    _useState68 = _slicedToArray(_useState67, 2),
+    loading = _useState68[0],
+    setLoading = _useState68[1];
+  var endRef = useRef(null);
   useEffect(function () {
-    if (messagesEnd.current) messagesEnd.current.scrollIntoView({
+    if (endRef.current) endRef.current.scrollIntoView({
       behavior: 'smooth'
     });
   }, [messages]);
@@ -3969,36 +4382,17 @@ function AITab(_ref11) {
     label: '📊 Анализ недели',
     prompt: 'Проанализируй мои данные за последние 7 дней и дай конкретные рекомендации'
   }, {
-    label: '💪 Готовность к тренировке',
-    prompt: 'Исходя из сегодняшних данных WHOOP, какую тренировку мне сегодня делать?'
+    label: '💪 Готовность',
+    prompt: 'Исходя из сегодняшних данных WHOOP, какую тренировку мне делать?'
   }, {
-    label: '😴 Улучшить сон и HRV',
-    prompt: 'Как улучшить качество сна и повысить HRV? Что из моих протоколов помогает?'
+    label: '😴 Улучшить HRV',
+    prompt: 'Как улучшить HRV и качество сна? Что из моих протоколов помогает?'
   }, {
-    label: '🥗 Питание для Hyrox',
-    prompt: 'Дай рекомендации по питанию для улучшения результатов в Hyrox'
+    label: '🥗 Питание',
+    prompt: 'Дай рекомендации по питанию для Hyrox и восстановления'
   }];
-  var buildCtx = function buildCtx() {
-    var dates = getAllHealthDates().slice(-7);
-    var lines = dates.map(function (d) {
-      var h = ls.get(SK_HEALTH(d)) || {};
-      var n = ls.get(SK_NUT(d)) || {};
-      var proto = PROTOCOLS.filter(function (p) {
-        return h.protocols && h.protocols[p.key];
-      }).map(function (p) {
-        return p.label;
-      }).join(', ') || '—';
-      return d + ': Recovery=' + (h.whoop && h.whoop.recovery || '—') + '% HRV=' + (h.whoop && h.whoop.hrv || '—') + 'ms RHR=' + (h.whoop && h.whoop.rhr || '—') + 'bpm Сон=' + (h.whoop && h.whoop.sleepDuration || '—') + 'ч Вес=' + (h.weight || '—') + 'кг | ' + (n.calories || '—') + 'ккал белок=' + (n.protein || '—') + 'г | ' + proto;
-    }).join('\n');
-    var todayW = workouts.filter(function (w) {
-      return w.date === date;
-    }).map(function (w) {
-      return (w.title || w.type) + ' ' + (w.duration || '') + 'мин';
-    }).join(', ') || 'нет';
-    return 'Данные за 7 дней:\n' + lines + '\n\nСегодня: Recovery=' + (health && health.whoop && health.whoop.recovery || '—') + '% HRV=' + (health && health.whoop && health.whoop.hrv || '—') + 'ms. Тренировки: ' + todayW + '. Цели питания: ' + goals.calories + 'ккал, ' + goals.protein + 'г белка.';
-  };
   var send = function send(text) {
-    if (!text.trim()) return;
+    if (!text.trim() || loading) return;
     var userMsg = text.trim();
     setMessages(function (p) {
       return p.concat([{
@@ -4008,7 +4402,13 @@ function AITab(_ref11) {
     });
     setInput('');
     setLoading(true);
-    var ctx = buildCtx();
+    var ctx = 'Сегодня ' + date + ': Recovery=' + (health.whoop && health.whoop.recovery || '—') + '% HRV=' + (health.whoop && health.whoop.hrv || '—') + 'ms RHR=' + (health.whoop && health.whoop.rhr || '—') + 'bpm Сон=' + (health.whoop && health.whoop.sleepDuration || '—') + 'ч Вес=' + (health.weight || '—') + 'кг. Питание: ' + (nut.calories || '—') + 'ккал белок=' + (nut.protein || '—') + 'г. Цели: ' + goals.calories + 'ккал ' + goals.protein + 'г белка. Протоколы сегодня: ' + PROTOCOLS.filter(function (p) {
+      return health.protocols && health.protocols[p.key];
+    }).map(function (p) {
+      return p.label;
+    }).join(', ') + '. Тренировок сегодня: ' + workouts.filter(function (w) {
+      return w.date === date;
+    }).length + '.';
     var apiMsgs = messages.concat([{
       role: 'user',
       text: userMsg
@@ -4026,17 +4426,16 @@ function AITab(_ref11) {
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
-        system: 'Ты персональный AI-коуч по здоровью и спорту. Пользовательница: молодая женщина, тренируется к Hyrox, занимается теннисом, пилатесом, бегом. Отслеживает WHOOP, биохакинг-протоколы, питание. Отвечай на русском языке. Давай конкретные персонализированные советы. Будь поддерживающей. Используй данные.\n\n' + ctx,
+        system: 'Ты персональный AI-коуч по здоровью и Hyrox. Пользовательница в Дубае, тренируется к Hyrox, занимается теннисом, пилатесом, бегом. Отслеживает WHOOP, биохакинг-протоколы, питание. Отвечай на русском, давай конкретные советы.\n\nТекущие данные: ' + ctx,
         messages: apiMsgs
       })
     }).then(function (r) {
       return r.json();
     }).then(function (data) {
-      var reply = data.content && data.content[0] && data.content[0].text || 'Ошибка';
       setMessages(function (p) {
         return p.concat([{
           role: 'assistant',
-          text: reply
+          text: data.content && data.content[0] && data.content[0].text || 'Ошибка'
         }]);
       });
       setLoading(false);
@@ -4166,13 +4565,13 @@ function AITab(_ref11) {
       }
     });
   }))), /*#__PURE__*/React.createElement("div", {
-    ref: messagesEnd
+    ref: endRef
   })), /*#__PURE__*/React.createElement("div", {
     style: {
       position: 'sticky',
       bottom: 90,
       paddingTop: 10,
-      background: 'linear-gradient(to top, rgba(250,245,248,1) 70%, transparent)'
+      background: 'linear-gradient(to top,rgba(250,245,248,1) 70%,transparent)'
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
